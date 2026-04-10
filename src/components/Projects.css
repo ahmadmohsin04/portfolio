@@ -1,0 +1,60 @@
+.projects__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 52px;
+}
+
+.project-card {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  cursor: default;
+}
+
+.project-card__body {
+  flex: 1;
+}
+
+.project-card__title {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+.project-card__desc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.project-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 100px;
+  background: rgba(139, 92, 246, 0.12);
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  color: var(--accent-purple);
+  font-family: var(--font-body);
+}
+
+.projects__cta {
+  margin-top: 48px;
+  text-align: center;
+}
+
+.projects__linkedin-btn {
+  font-size: 0.95rem;
+  padding: 14px 28px;
+  gap: 10px;
+}

@@ -1,0 +1,166 @@
+:root {
+  --bg-primary: #030308;
+  --bg-secondary: #07070f;
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-bg-hover: rgba(255, 255, 255, 0.07);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-hover: rgba(255, 255, 255, 0.16);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #475569;
+
+  --accent-purple: #8b5cf6;
+  --accent-blue: #3b82f6;
+  --accent-cyan: #06b6d4;
+  --accent-gradient: linear-gradient(135deg, #8b5cf6, #3b82f6, #06b6d4);
+  --accent-gradient-hover: linear-gradient(135deg, #7c3aed, #2563eb, #0891b2);
+
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 28px;
+
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.4);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.7);
+}
+
+/* Utility: glass card */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--glass-shadow), var(--glass-highlight);
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  pointer-events: none;
+}
+
+.glass-card:hover {
+  background: var(--glass-bg-hover);
+  border-color: var(--glass-border-hover);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.7), var(--glass-highlight);
+  transform: translateY(-3px);
+}
+
+/* Utility: gradient text */
+.gradient-text {
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Utility: section */
+.section {
+  padding: 100px 0;
+  position: relative;
+}
+
+.section-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section-tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent-purple);
+  margin-bottom: 12px;
+  font-family: var(--font-body);
+}
+
+.section-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 16px;
+  color: var(--text-primary);
+}
+
+.section-subtitle {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  max-width: 560px;
+  line-height: 1.7;
+}
+
+/* Scroll animation */
+.fade-up {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered children */
+.stagger > * {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.stagger.visible > *:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.05s; }
+.stagger.visible > *:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.15s; }
+.stagger.visible > *:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.25s; }
+.stagger.visible > *:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.35s; }
+.stagger.visible > *:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 0.45s; }
+.stagger.visible > *:nth-child(6) { opacity: 1; transform: translateY(0); transition-delay: 0.55s; }

@@ -1,0 +1,67 @@
+.contact__wrapper {
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.contact__header {
+  margin-bottom: 48px;
+}
+
+.contact__links {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contact-link {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 24px 28px;
+  text-decoration: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.contact-link__icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.contact-link:hover .contact-link__icon {
+  transform: scale(1.1);
+}
+
+.contact-link__icon--email {
+  background: rgba(139, 92, 246, 0.15);
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  color: var(--accent-purple);
+}
+
+.contact-link__icon--linkedin {
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  color: var(--accent-blue);
+}
+
+.contact-link__label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.contact-link__value {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
