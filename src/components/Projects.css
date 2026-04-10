@@ -48,13 +48,47 @@
   font-family: var(--font-body);
 }
 
+.project-card--featured {
+  border-color: rgba(139, 92, 246, 0.2);
+}
+.project-card--featured:hover {
+  border-color: rgba(139, 92, 246, 0.4);
+}
+
+.project-card__badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-purple);
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: 100px;
+  padding: 4px 12px;
+  display: inline-block;
+  margin-bottom: 16px;
+}
+
+.project-card__actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+.project-card__view-btn,
+.project-card__live-btn {
+  font-size: 0.85rem;
+  padding: 10px 18px;
+}
+
 .projects__cta {
-  margin-top: 48px;
+  margin-top: 40px;
   text-align: center;
 }
 
 .projects__linkedin-btn {
-  font-size: 0.95rem;
-  padding: 14px 28px;
-  gap: 10px;
+  font-size: 0.9rem;
+  padding: 12px 24px;
+  gap: 8px;
 }

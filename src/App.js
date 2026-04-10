@@ -1,38 +1,16 @@
 import React from 'react';
-import './App.css';
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import About from './components/About';
-import Skills from './components/Skills';
-import Projects from './components/Projects';
-import Interests from './components/Interests';
-import Contact from './components/Contact';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import HomePage from './pages/HomePage';
+import AlmushtarakaDetail from './pages/AlmushtarakaDetail';
 
 function App() {
   return (
-    <div className="app">
-      {/* Animated background orbs */}
-      <div className="bg-orbs" aria-hidden="true">
-        <div className="orb orb-1" />
-        <div className="orb orb-2" />
-        <div className="orb orb-3" />
-        <div className="orb orb-4" />
-      </div>
-
-      <Navbar />
-      <main>
-        <Hero />
-        <About />
-        <Skills />
-        <Projects />
-        <Interests />
-        <Contact />
-      </main>
-
-      <footer className="footer">
-        <p>Crafted with care by <span className="gradient-text">Ahmad Mohsin</span></p>
-      </footer>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/projects/almushtaraka" element={<AlmushtarakaDetail />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

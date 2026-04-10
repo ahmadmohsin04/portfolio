@@ -1,11 +1,18 @@
 import React from 'react';
-import { FaLinkedin, FaExternalLinkAlt } from 'react-icons/fa';
+import { FaLinkedin, FaExternalLinkAlt, FaArrowRight } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import useScrollAnimation from '../hooks/useScrollAnimation';
 import './Projects.css';
 
-const placeholders = [
-  { title: 'Al-Mushtaraka', tech: ['React', 'Supabase', 'Node.js'], desc: 'A large-scale web platform built for real-world use — featuring authentication, dashboards, and PDF generation.' },
-  { title: 'More on LinkedIn', tech: ['Flutter', 'Dart', 'Java'], desc: 'Several other projects across mobile and web — explore the full list on my LinkedIn profile.' },
+const projects = [
+  {
+    title: 'Al-Mushtaraka',
+    tech: ['React', 'Supabase', 'jsPDF', 'React Router'],
+    desc: 'A production-grade trading operations platform — multi-module system with agreements, remote signing, customer management, admin panel, and PDF generation.',
+    link: '/projects/almushtaraka',
+    live: 'https://www.almushtaraka.com',
+    featured: true,
+  },
 ];
 
 const Projects = () => {
@@ -22,13 +29,13 @@ const Projects = () => {
           </h2>
           <p className="section-subtitle">
             I focus on web development, working on production-scale applications.
-            Check my LinkedIn for the complete project list.
           </p>
         </div>
 
         <div className="projects__grid stagger" ref={gridRef}>
-          {placeholders.map((p) => (
-            <div key={p.title} className="project-card glass-card">
+          {projects.map((p) => (
+            <div key={p.title} className={`project-card glass-card ${p.featured ? 'project-card--featured' : ''}`}>
+              {p.featured && <div className="project-card__badge">Featured Project</div>}
               <div className="project-card__body">
                 <h3 className="project-card__title">{p.title}</h3>
                 <p className="project-card__desc">{p.desc}</p>
@@ -37,6 +44,21 @@ const Projects = () => {
                     <span key={t} className="tag">{t}</span>
                   ))}
                 </div>
+              </div>
+              <div className="project-card__actions">
+                <Link to={p.link} className="btn btn--primary project-card__view-btn">
+                  View Project
+                  <FaArrowRight size={13} />
+                </Link>
+                <a
+                  href={p.live}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn--ghost project-card__live-btn"
+                >
+                  Live Site
+                  <FaExternalLinkAlt size={11} />
+                </a>
               </div>
             </div>
           ))}
@@ -47,11 +69,11 @@ const Projects = () => {
             href="https://www.linkedin.com/in/ahmad-mohsin01"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn--primary projects__linkedin-btn"
+            className="btn btn--ghost projects__linkedin-btn"
           >
             <FaLinkedin size={18} />
-            See All Projects on LinkedIn
-            <FaExternalLinkAlt size={12} />
+            More on LinkedIn
+            <FaExternalLinkAlt size={11} />
           </a>
         </div>
       </div>
