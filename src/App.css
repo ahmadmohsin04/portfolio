@@ -75,6 +75,15 @@
   70%       { transform: translate(30px, -30px) scale(0.9); }
 }
 
+/* ─── Light mode ─── */
+[data-theme="light"] .orb {
+  opacity: 0.18;
+}
+
+[data-theme="light"] .footer {
+  border-top-color: rgba(15, 23, 42, 0.08);
+}
+
 /* ─── Responsive orbs ─── */
 @media (max-width: 768px) {
   .orb-1 { width: 300px; height: 300px; }

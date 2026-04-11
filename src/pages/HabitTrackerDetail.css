@@ -223,6 +223,11 @@
   font-size: 0.82rem;
 }
 
+/* ─── Light mode ─── */
+[data-theme="light"] .ht-btn--primary {
+  box-shadow: 0 0 24px rgba(34, 197, 94, 0.2);
+}
+
 /* ─── Responsive ─── */
 @media (max-width: 900px) {
   .ht-features {

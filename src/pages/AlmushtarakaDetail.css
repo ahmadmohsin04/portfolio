@@ -178,6 +178,12 @@
   margin-top: 1px;
 }
 
+/* ─── Light mode ─── */
+[data-theme="light"] .detail__topbar {
+  background: rgba(242, 244, 249, 0.88);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+}
+
 /* ─── Responsive ─── */
 @media (max-width: 768px) {
   .detail__hero { padding: 56px 0 44px; }

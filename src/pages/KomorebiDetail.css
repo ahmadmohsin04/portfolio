@@ -237,6 +237,11 @@
 .kom-lightbox__nav--prev { left: 24px; }
 .kom-lightbox__nav--next { right: 24px; }
 
+/* ─── Light mode ─── */
+[data-theme="light"] .kom-lightbox {
+  background: rgba(0, 0, 0, 0.88);
+}
+
 /* ─── Responsive ─── */
 @media (max-width: 900px) {
   .kom-gallery { grid-template-columns: repeat(2, 1fr); }

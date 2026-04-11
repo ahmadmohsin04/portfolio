@@ -28,6 +28,21 @@
   --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* ─── Light mode variables ─── */
+[data-theme="light"] {
+  --bg-primary: #f2f4f9;
+  --bg-secondary: #e8ecf4;
+  --glass-bg: rgba(255, 255, 255, 0.68);
+  --glass-bg-hover: rgba(255, 255, 255, 0.88);
+  --glass-border: rgba(15, 23, 42, 0.08);
+  --glass-border-hover: rgba(15, 23, 42, 0.18);
+  --glass-shadow: 0 8px 32px rgba(15, 23, 42, 0.08);
+  --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -47,6 +62,7 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 ::-webkit-scrollbar {
@@ -178,6 +194,19 @@ body {
 @keyframes pulse-dot {
   0%, 100% { opacity: 1; transform: scale(1); }
   50%       { opacity: 0.4; transform: scale(0.7); }
+}
+
+/* ─── Light mode global overrides ─── */
+[data-theme="light"] .glass-card::before {
+  background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.12), transparent);
+}
+
+[data-theme="light"] .glass-card:hover {
+  box-shadow: 0 16px 48px rgba(15, 23, 42, 0.12), var(--glass-highlight);
+}
+
+[data-theme="light"] ::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
 }
 
 /* ─── Responsive section spacing ─── */
