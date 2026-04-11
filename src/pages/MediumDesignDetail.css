@@ -137,10 +137,12 @@
 }
 
 @media (max-width: 600px) {
-  .md-figma-wrapper {
-    height: 400px;
-  }
-  .md-highlights {
-    grid-template-columns: 1fr;
-  }
+  .md-figma-wrapper { height: 420px; }
+  .md-highlights { grid-template-columns: 1fr; }
+  .md-tabs { width: 100%; }
+  .md-tab { flex: 1; justify-content: center; font-size: 0.8rem; padding: 8px 12px; }
+}
+@media (max-width: 480px) {
+  .md-figma-wrapper { height: 340px; }
+  .md-preview { min-height: 280px; }
 }

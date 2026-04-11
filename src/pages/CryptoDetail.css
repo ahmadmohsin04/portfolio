@@ -211,20 +211,13 @@
 
 /* ─── Responsive ─── */
 @media (max-width: 768px) {
-  .crypto-highlights {
-    grid-template-columns: 1fr;
-  }
-  .crypto-labels {
-    grid-template-columns: 1fr;
-  }
-  .crypto-cta {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-  }
-  .crypto-cta__btn {
-    margin-left: 0;
-    width: 100%;
-    justify-content: center;
-  }
+  .crypto-labels { grid-template-columns: repeat(3, 1fr); }
+  .crypto-highlights { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .crypto-labels { grid-template-columns: 1fr; gap: 10px; }
+  .crypto-highlights { grid-template-columns: 1fr; }
+  .crypto-highlight { padding: 20px; gap: 14px; }
+  .crypto-cta { flex-direction: column; align-items: flex-start; gap: 16px; padding: 24px 20px; }
+  .crypto-cta__btn { margin-left: 0; width: 100%; justify-content: center; }
 }

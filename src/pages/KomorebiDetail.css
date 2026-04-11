@@ -239,21 +239,14 @@
 
 /* ─── Responsive ─── */
 @media (max-width: 900px) {
-  .kom-gallery {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .kom-modules {
-    grid-template-columns: repeat(3, 1fr);
-  }
+  .kom-gallery { grid-template-columns: repeat(2, 1fr); }
+  .kom-modules { grid-template-columns: repeat(2, 1fr); }
 }
-
 @media (max-width: 600px) {
-  .kom-gallery {
-    grid-template-columns: 1fr;
-  }
-  .kom-modules {
-    grid-template-columns: 1fr;
-  }
+  .kom-gallery { grid-template-columns: 1fr; gap: 12px; }
+  .kom-modules { grid-template-columns: 1fr; }
   .kom-lightbox__nav--prev { left: 8px; }
   .kom-lightbox__nav--next { right: 8px; }
+  .kom-gallery__meta { padding: 14px 16px; }
+  .kom-module { padding: 20px 16px; }
 }

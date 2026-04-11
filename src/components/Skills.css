@@ -48,3 +48,17 @@
 .skill-card:hover .skill-card__glow {
   opacity: 1;
 }
+
+/* ─── Responsive ─── */
+@media (max-width: 768px) {
+  .skills__grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .skill-card { padding: 24px 16px; }
+}
+@media (max-width: 480px) {
+  .skills__grid { grid-template-columns: repeat(2, 1fr); }
+  .skill-card { padding: 20px 12px; }
+  .skill-card__name { font-size: 1rem; }
+}

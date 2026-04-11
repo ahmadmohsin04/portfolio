@@ -179,11 +179,17 @@
 }
 
 /* ─── Responsive ─── */
-@media (max-width: 600px) {
-  .detail__hero {
-    padding: 48px 0 40px;
-  }
-  .detail__modules {
-    grid-template-columns: 1fr;
-  }
+@media (max-width: 768px) {
+  .detail__hero { padding: 56px 0 44px; }
+  .detail__section { padding: 48px 0; }
+  .detail__modules { grid-template-columns: repeat(2, 1fr); }
+  .detail__tagline { font-size: 1rem; }
+}
+@media (max-width: 480px) {
+  .detail__content { padding: 0 16px; }
+  .detail__topbar-inner { padding: 0 16px; }
+  .detail__hero { padding: 36px 0 32px; }
+  .detail__section { padding: 36px 0; }
+  .detail__modules { grid-template-columns: 1fr; }
+  .detail__section-sub { margin-bottom: 28px; }
 }

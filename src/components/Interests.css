@@ -141,3 +141,17 @@
   color: var(--text-secondary);
   line-height: 1.5;
 }
+
+/* ─── Responsive ─── */
+@media (max-width: 768px) {
+  .interests__grid {
+    grid-template-columns: 1fr;
+    margin-top: 36px;
+    gap: 16px;
+  }
+  .interest-card { padding: 28px 24px; }
+}
+@media (max-width: 480px) {
+  .interest-card { padding: 24px 20px; }
+  .interest-card__emoji { font-size: 2rem; }
+}

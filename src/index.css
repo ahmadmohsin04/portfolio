@@ -180,6 +180,16 @@ body {
   50%       { opacity: 0.4; transform: scale(0.7); }
 }
 
+/* ─── Responsive section spacing ─── */
+@media (max-width: 768px) {
+  .section { padding: 64px 0; }
+  .section-inner { padding: 0 20px; }
+}
+@media (max-width: 480px) {
+  .section { padding: 48px 0; }
+  .section-inner { padding: 0 16px; }
+}
+
 /* Staggered children */
 .stagger > * {
   opacity: 0;
