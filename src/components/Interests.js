@@ -19,7 +19,7 @@ const Interests = () => {
         <div className="fade-up" ref={titleRef}>
           <span className="section-tag">Beyond Code</span>
           <h2 className="section-title">
-            What keeps me <span className="gradient-text">alive</span>
+            What keeps me <span className="gradient-text">on track</span>
           </h2>
           <p className="section-subtitle">
             Code isn't the only story. Here's what I'm equally passionate about.
@@ -59,13 +59,13 @@ const Interests = () => {
             <div className="interest-card__header">
               <div className="interest-card__emoji">⚽</div>
               <div>
-                <h3 className="interest-card__title">Faithful Blue</h3>
-                <p className="interest-card__subtitle">Manchester City supporter</p>
+                <h3 className="interest-card__title">The Beautiful Game</h3>
+                <p className="interest-card__subtitle">Manchester City fan</p>
               </div>
             </div>
             <p className="interest-card__body">
-              Football is religion. I bleed sky blue for Manchester City, and I've been lucky enough
-              to witness some of the greatest moments in the modern game.
+              A football fan at heart. Manchester City's my club, and I've had the pleasure of
+              watching some genuinely unforgettable moments in the sport.
             </p>
             <div className="moments">
               <div className="moments__label">Moments etched in memory</div>

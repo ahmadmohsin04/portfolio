@@ -65,8 +65,36 @@
   border: 1px solid rgba(139, 92, 246, 0.2);
   border-radius: 100px;
   padding: 4px 12px;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   margin-bottom: 16px;
+}
+
+.project-card__badge--design {
+  color: #e05fff;
+  background: rgba(224, 95, 255, 0.08);
+  border-color: rgba(224, 95, 255, 0.2);
+}
+
+.project-card--design {
+  border-color: rgba(224, 95, 255, 0.15);
+}
+.project-card--design:hover {
+  border-color: rgba(224, 95, 255, 0.35);
+}
+
+.project-card__badge--app {
+  color: #22c55e;
+  background: rgba(34, 197, 94, 0.08);
+  border-color: rgba(34, 197, 94, 0.2);
+}
+
+.project-card--app {
+  border-color: rgba(34, 197, 94, 0.12);
+}
+.project-card--app:hover {
+  border-color: rgba(34, 197, 94, 0.3);
 }
 
 .project-card__actions {

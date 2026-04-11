@@ -185,7 +185,12 @@ const AlmushtarakaDetail = () => {
             </a>
           </div>
 
-          <div className="detail__tech-strip">
+          <div className="kom-coming-soon">
+            <span className="kom-coming-soon__dot" />
+            Actively in development — new modules and features on the way
+          </div>
+
+          <div className="detail__tech-strip" style={{ marginTop: '20px' }}>
             {tech.map((t) => (
               <span key={t} className="tag">{t}</span>
             ))}
@@ -239,7 +244,7 @@ const AlmushtarakaDetail = () => {
       </div>
 
       <footer className="footer">
-        <p>Crafted with care by <span className="gradient-text">Ahmad Mohsin</span></p>
+        <p>© 2026 Developed by <span className="gradient-text">Ahmad Mohsin</span></p>
       </footer>
     </div>
   );

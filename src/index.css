@@ -151,6 +151,35 @@ body {
   transform: translateY(0);
 }
 
+/* ─── Reusable: active development badge ─── */
+.kom-coming-soon {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--accent-cyan);
+  background: rgba(6, 182, 212, 0.08);
+  border: 1px solid rgba(6, 182, 212, 0.2);
+  border-radius: 100px;
+  padding: 8px 18px;
+  margin-top: 28px;
+}
+
+.kom-coming-soon__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-cyan);
+  flex-shrink: 0;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.7); }
+}
+
 /* Staggered children */
 .stagger > * {
   opacity: 0;

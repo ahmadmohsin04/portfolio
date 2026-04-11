@@ -23,7 +23,7 @@
   width: 600px;
   height: 600px;
   background: radial-gradient(circle, #7c3aed, transparent 70%);
-  top: -200px;
+  top: -320px;
   left: -150px;
   animation: drift1 14s ease-in-out infinite;
 }
@@ -57,8 +57,8 @@
 
 @keyframes drift1 {
   0%, 100% { transform: translate(0, 0) scale(1); }
-  33%       { transform: translate(60px, 40px) scale(1.08); }
-  66%       { transform: translate(-30px, 60px) scale(0.95); }
+  33%       { transform: translate(60px, -20px) scale(1.08); }
+  66%       { transform: translate(-30px, -10px) scale(0.95); }
 }
 @keyframes drift2 {
   0%, 100% { transform: translate(0, 0) scale(1); }

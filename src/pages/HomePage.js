@@ -29,7 +29,7 @@ function HomePage() {
       </main>
 
       <footer className="footer">
-        <p>Crafted with care by <span className="gradient-text">Ahmad Mohsin</span></p>
+        <p>© 2026 Developed by <span className="gradient-text">Ahmad Mohsin</span></p>
       </footer>
     </div>
   );

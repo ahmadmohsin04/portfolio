@@ -30,8 +30,7 @@ const About = () => {
           </p>
           <p className="about__bio about__bio--secondary">
             Outside of code, I'm a passionate cinephile — always hunting for the next great film.
-            I'm also a devoted Manchester City supporter, and a few football moments live rent-free
-            in my head permanently.
+            A big football fan as well — a few moments from the sport live rent-free in my head.
           </p>
         </div>
 
