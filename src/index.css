@@ -196,6 +196,14 @@ body {
   50%       { opacity: 0.4; transform: scale(0.7); }
 }
 
+/* ─── Mobile: reduce backdrop-filter cost ─── */
+@media (max-width: 768px) {
+  .glass-card {
+    backdrop-filter: blur(10px) saturate(140%);
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+  }
+}
+
 /* ─── Light mode global overrides ─── */
 [data-theme="light"] .glass-card::before {
   background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.12), transparent);

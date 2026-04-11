@@ -17,6 +17,8 @@
   border-radius: 50%;
   filter: blur(100px);
   opacity: 0.45;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .orb-1 {
@@ -86,16 +88,25 @@
 
 /* ─── Responsive orbs ─── */
 @media (max-width: 768px) {
+  .orb {
+    animation: none;        /* kill drift animations — huge GPU saving */
+    filter: blur(60px);     /* half the blur = much cheaper to render   */
+  }
   .orb-1 { width: 300px; height: 300px; }
   .orb-2 { width: 260px; height: 260px; right: -60px; }
-  .orb-3 { width: 220px; height: 220px; }
-  .orb-4 { width: 180px; height: 180px; }
+  .orb-3 { width: 200px; height: 200px; }
+  .orb-4 { display: none; }
 }
 @media (max-width: 480px) {
+  .orb { filter: blur(40px); opacity: 0.35; }
   .orb-1 { width: 200px; height: 200px; }
   .orb-2 { width: 180px; height: 180px; }
-  .orb-3 { width: 150px; height: 150px; }
-  .orb-4 { display: none; }
+  .orb-3 { display: none; }
+}
+
+/* ─── Respect OS reduced-motion setting ─── */
+@media (prefers-reduced-motion: reduce) {
+  .orb { animation: none; }
 }
 
 /* All content above z-index: 0 */

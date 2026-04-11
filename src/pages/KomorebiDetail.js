@@ -169,7 +169,7 @@ const KomorebiDetail = () => {
                 style={{ '--accent': s.color }}
               >
                 <div className="kom-gallery__img-wrap">
-                  <img src={s.img} alt={s.title} className="kom-gallery__img" />
+                  <img src={s.img} alt={s.title} className="kom-gallery__img" loading="lazy" decoding="async" />
                   <div className="kom-gallery__overlay">
                     <span>View full screen</span>
                   </div>

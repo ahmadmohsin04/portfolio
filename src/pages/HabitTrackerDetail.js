@@ -183,7 +183,7 @@ const HabitTrackerDetail = () => {
                 onClick={() => openLightbox(i)}
               >
                 <div className="ht-gallery__img-wrap">
-                  <img src={s.img} alt={s.title} className="ht-gallery__img" />
+                  <img src={s.img} alt={s.title} className="ht-gallery__img" loading="lazy" decoding="async" />
                   <div className="ht-gallery__overlay">View full screen</div>
                 </div>
                 <div className="ht-gallery__meta">
