@@ -40,15 +40,15 @@
 }
 
 .contact-link__icon--email {
-  background: rgba(139, 92, 246, 0.15);
-  border: 1px solid rgba(139, 92, 246, 0.25);
-  color: var(--accent-purple);
+  background: rgba(196, 163, 90, 0.12);
+  border: 1px solid rgba(196, 163, 90, 0.25);
+  color: var(--accent-gold);
 }
 
 .contact-link__icon--linkedin {
-  background: rgba(59, 130, 246, 0.15);
-  border: 1px solid rgba(59, 130, 246, 0.25);
-  color: var(--accent-blue);
+  background: rgba(74, 140, 92, 0.12);
+  border: 1px solid rgba(74, 140, 92, 0.25);
+  color: var(--accent-green);
 }
 
 .contact-link__label {

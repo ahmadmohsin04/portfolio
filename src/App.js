@@ -12,6 +12,7 @@ import CryptoDetail from './pages/CryptoDetail';
 function App() {
   return (
     <ThemeProvider>
+    <div className="grain" aria-hidden="true" />
     <BrowserRouter>
       <ScrollToTop />
       <Routes>

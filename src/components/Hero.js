@@ -63,10 +63,14 @@ const Hero = () => {
   return (
     <section id="hero" className="hero">
       <div className={`hero__content ${mounted ? 'hero__content--visible' : ''}`}>
-        <div className="hero__greeting">Hello, I'm</div>
+        <div className="hero__eyebrow">
+          <span className="hero__eyebrow-line" />
+          <span className="hero__eyebrow-text">A Portfolio by</span>
+          <span className="hero__eyebrow-line" />
+        </div>
 
         <h1 className="hero__name">
-          Ahmad <span className="gradient-text">Mohsin</span>
+          Ahmad <em className="gradient-text">Mohsin</em>
         </h1>
 
         <div className="hero__typewriter">
@@ -74,10 +78,14 @@ const Hero = () => {
           <span className="hero__cursor" aria-hidden="true" />
         </div>
 
+        <div className="hero__rule" aria-hidden="true" />
+
         <p className="hero__bio">
           Software engineer exploring the full spectrum of tech — from mobile apps to scalable
           web platforms. Based in Lahore, Pakistan.
         </p>
+
+        <p className="hero__location">Lahore, Pakistan · 2026</p>
 
         <div className="hero__actions">
           <a

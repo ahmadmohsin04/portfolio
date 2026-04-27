@@ -27,9 +27,9 @@
 }
 
 .md-tab--active {
-  background: rgba(139, 92, 246, 0.18);
+  background: rgba(196, 163, 90, 0.14);
   color: var(--text-primary);
-  border: 1px solid rgba(139, 92, 246, 0.3);
+  border: 1px solid rgba(196, 163, 90, 0.3);
 }
 
 /* Screenshot preview */

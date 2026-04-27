@@ -18,7 +18,8 @@
 
 .project-card__title {
   font-family: var(--font-heading);
-  font-size: 1.25rem;
+  font-size: 1.15rem;
+  letter-spacing: 0.01em;
   font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 12px;
@@ -38,50 +39,52 @@
 }
 
 .tag {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 500;
   padding: 4px 12px;
   border-radius: 100px;
-  background: rgba(139, 92, 246, 0.12);
-  border: 1px solid rgba(139, 92, 246, 0.25);
-  color: var(--accent-purple);
-  font-family: var(--font-body);
+  background: rgba(196, 163, 90, 0.1);
+  border: 1px solid rgba(196, 163, 90, 0.22);
+  color: var(--accent-gold);
+  font-family: var(--font-heading);
+  letter-spacing: 0.05em;
 }
 
 .project-card--featured {
-  border-color: rgba(139, 92, 246, 0.2);
+  border-color: rgba(196, 163, 90, 0.18);
 }
 .project-card--featured:hover {
-  border-color: rgba(139, 92, 246, 0.4);
+  border-color: rgba(196, 163, 90, 0.4);
 }
 
 .project-card__badge {
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--accent-purple);
-  background: rgba(139, 92, 246, 0.1);
-  border: 1px solid rgba(139, 92, 246, 0.2);
+  color: var(--accent-gold);
+  background: rgba(196, 163, 90, 0.08);
+  border: 1px solid rgba(196, 163, 90, 0.2);
   border-radius: 100px;
   padding: 4px 12px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
   margin-bottom: 16px;
+  font-family: var(--font-heading);
 }
 
 .project-card__badge--design {
-  color: #e05fff;
-  background: rgba(224, 95, 255, 0.08);
-  border-color: rgba(224, 95, 255, 0.2);
+  color: #c47a4a;
+  background: rgba(196, 122, 74, 0.08);
+  border-color: rgba(196, 122, 74, 0.22);
 }
 
 .project-card--design {
-  border-color: rgba(224, 95, 255, 0.15);
+  border-color: rgba(196, 122, 74, 0.15);
 }
 .project-card--design:hover {
-  border-color: rgba(224, 95, 255, 0.35);
+  border-color: rgba(196, 122, 74, 0.35);
 }
 
 .project-card__badge--app {

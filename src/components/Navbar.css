@@ -29,7 +29,7 @@
 
 /* Logo */
 .navbar__logo {
-  font-family: var(--font-heading);
+  font-family: var(--font-heading); /* stays sans-serif intentionally */
   font-size: 1.5rem;
   font-weight: 700;
   background: var(--accent-gradient);
@@ -160,16 +160,16 @@
 
 /* ─── Light mode ─── */
 [data-theme="light"] .navbar--scrolled {
-  background: rgba(242, 244, 249, 0.88);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  background: rgba(245, 240, 228, 0.9);
+  box-shadow: 0 4px 24px rgba(30, 20, 10, 0.08);
 }
 
 [data-theme="light"] .navbar__links a:hover {
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(30, 20, 10, 0.05);
 }
 
 [data-theme="light"] .navbar__links {
-  background: rgba(242, 244, 249, 0.98);
+  background: rgba(245, 240, 228, 0.98);
 }
 
 [data-theme="light"] .navbar__hamburger span {
