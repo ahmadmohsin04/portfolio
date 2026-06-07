@@ -15,6 +15,16 @@ const projects = [
     type: 'web',
   },
   {
+    title: 'Chess Master',
+    tech: ['HTML5', 'CSS3', 'Vanilla JS', 'chess.js', 'Stockfish AI'],
+    desc: 'A fully playable chess game — Stockfish AI at 20 skill levels, dual chess clocks, move history, and sound effects. Built as a single HTML file with zero dependencies.',
+    link: '/projects/chess-master',
+    live: 'https://playmasterchess.vercel.app/',
+    linkedin: 'https://www.linkedin.com/posts/ahmad-mohsin01_webdevelopment-javascript-chess-ugcPost-7469432174732210176-TMF8/',
+    featured: false,
+    type: 'web',
+  },
+  {
     title: 'Habit Tracker',
     tech: ['Flutter', 'Dart', 'ISAR Database'],
     desc: 'A fully built Flutter app for tracking daily habits. Features a weekly check-in system, monthly heatmap, local ISAR storage, and full light & dark mode support. Open source on GitHub.',
@@ -58,7 +68,8 @@ const projects = [
 
 const Projects = () => {
   const titleRef = useScrollAnimation(0.1);
-  const gridRef = useScrollAnimation(0.1);
+  const gridRef  = useScrollAnimation(0.1);
+  const ctaRef   = useScrollAnimation(0.1);
 
   return (
     <section id="projects" className="section">
@@ -131,7 +142,7 @@ const Projects = () => {
           ))}
         </div>
 
-        <div className="projects__cta fade-up">
+        <div className="projects__cta fade-up" ref={ctaRef}>
           <a
             href="https://www.linkedin.com/in/ahmad-mohsin01"
             target="_blank"

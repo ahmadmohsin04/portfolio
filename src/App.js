@@ -8,6 +8,7 @@ import MediumDesignDetail from './pages/MediumDesignDetail';
 import KomorebiDetail from './pages/KomorebiDetail';
 import HabitTrackerDetail from './pages/HabitTrackerDetail';
 import CryptoDetail from './pages/CryptoDetail';
+import ChessDetail from './pages/ChessDetail';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/projects/komorebi" element={<KomorebiDetail />} />
         <Route path="/projects/habit-tracker" element={<HabitTrackerDetail />} />
         <Route path="/projects/crypto-wallet" element={<CryptoDetail />} />
+        <Route path="/projects/chess-master" element={<ChessDetail />} />
       </Routes>
     </BrowserRouter>
     </ThemeProvider>
