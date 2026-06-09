@@ -1,0 +1,146 @@
+/* ─── YouTube section ─── */
+.youtube__card {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  padding: 40px 44px;
+  border-color: rgba(220, 38, 38, 0.12);
+  margin-top: 52px;
+  flex-wrap: wrap;
+}
+.youtube__card:hover {
+  border-color: rgba(220, 38, 38, 0.3);
+  box-shadow: 0 20px 56px rgba(0, 0, 0, 0.65), 0 0 40px rgba(220, 38, 38, 0.06);
+}
+
+/* Red glow overlay */
+.youtube__glow {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(ellipse at left center, rgba(220, 38, 38, 0.04), transparent 60%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+.youtube__card:hover .youtube__glow {
+  opacity: 1;
+}
+
+/* ─── Icon ─── */
+.youtube__icon-wrap {
+  flex-shrink: 0;
+  width: 68px;
+  height: 68px;
+  border-radius: 20px;
+  background: rgba(220, 38, 38, 0.1);
+  border: 1px solid rgba(220, 38, 38, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ef4444;
+  transition: var(--transition);
+}
+.youtube__card:hover .youtube__icon-wrap {
+  background: rgba(220, 38, 38, 0.16);
+  border-color: rgba(220, 38, 38, 0.35);
+  box-shadow: 0 0 24px rgba(220, 38, 38, 0.2);
+}
+
+/* ─── Text block ─── */
+.youtube__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.youtube__channel-name {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 3px;
+}
+
+.youtube__handle {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #ef4444;
+  opacity: 0.8;
+  letter-spacing: 0.04em;
+  margin-bottom: 12px;
+  font-family: var(--font-heading);
+}
+
+.youtube__desc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  max-width: 520px;
+}
+
+/* ─── Actions ─── */
+.youtube__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.youtube__btn--subscribe {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 26px;
+  border-radius: 100px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-family: var(--font-body);
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  background: #dc2626;
+  color: #fff;
+  letter-spacing: 0.01em;
+  box-shadow: 0 0 24px rgba(220, 38, 38, 0.3);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+}
+.youtube__btn--subscribe:hover {
+  background: #b91c1c;
+  transform: translateY(-2px);
+  box-shadow: 0 0 36px rgba(220, 38, 38, 0.48);
+}
+
+/* ─── Light mode ─── */
+[data-theme="light"] .youtube__card {
+  border-color: rgba(220, 38, 38, 0.1);
+}
+[data-theme="light"] .youtube__btn--subscribe {
+  box-shadow: 0 0 20px rgba(220, 38, 38, 0.2);
+}
+[data-theme="light"] .youtube__icon-wrap {
+  background: rgba(220, 38, 38, 0.07);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 768px) {
+  .youtube__card {
+    padding: 28px 24px;
+    gap: 24px;
+  }
+  .youtube__icon-wrap {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+  }
+}
+@media (max-width: 600px) {
+  .youtube__actions {
+    width: 100%;
+  }
+  .youtube__btn--subscribe {
+    flex: 1;
+    justify-content: center;
+  }
+}
