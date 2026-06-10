@@ -1,9 +1,11 @@
 import React from 'react';
-import { FaYoutube, FaExternalLinkAlt } from 'react-icons/fa';
+import { FaYoutube, FaPlay, FaExternalLinkAlt } from 'react-icons/fa';
 import useScrollAnimation from '../hooks/useScrollAnimation';
 import './YouTube.css';
 
 const CHANNEL = 'https://www.youtube.com/@ahmadmohsin7';
+
+const topics = ['Coding Projects', 'Campus Life', 'Build Vlogs'];
 
 const YouTube = () => {
   const titleRef = useScrollAnimation(0.1);
@@ -18,26 +20,52 @@ const YouTube = () => {
             Building <span className="gradient-text">in public</span>
           </h2>
           <p className="section-subtitle">
-            Dev tutorials, project walkthroughs, and builds documented on YouTube.
+            Code, campus, and everything in between — documented on YouTube.
           </p>
         </div>
 
         <div className="youtube__card glass-card fade-up" ref={cardRef}>
           <div className="youtube__glow" />
+          <FaPlay className="youtube__watermark" aria-hidden="true" />
 
-          <div className="youtube__icon-wrap">
-            <FaYoutube size={34} />
+          <div className="youtube__avatar-wrap">
+            <div className="youtube__avatar-ring">
+              <img
+                src="/images/yt-avatar.jpg"
+                alt="Ahmad Mohsin — YouTube channel"
+                className="youtube__avatar"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div className="youtube__avatar-badge">
+              <FaYoutube size={15} />
+            </div>
           </div>
 
           <div className="youtube__body">
             <div className="youtube__channel-name">Ahmad Mohsin</div>
-            <div className="youtube__handle">@ahmadmohsin7</div>
+            <a
+              href={CHANNEL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="youtube__handle"
+            >
+              @ahmadmohsin7
+            </a>
             <p className="youtube__desc">
-              Coding tutorials, project deep-dives, and behind-the-scenes builds —
-              React, Flutter, Vanilla JS, and whatever I'm working on next. The
-              projects on this portfolio have a story behind them; the channel is where
-              I tell it.
+              A student sharing coding projects, campus life, and the adventures along
+              the way. The projects on this portfolio have a story behind them — the
+              channel is where I tell it.
             </p>
+            <div className="youtube__topics">
+              {topics.map((t) => (
+                <span key={t} className="youtube__topic">
+                  <span className="youtube__topic-dot" />
+                  {t}
+                </span>
+              ))}
+            </div>
           </div>
 
           <div className="youtube__actions">
