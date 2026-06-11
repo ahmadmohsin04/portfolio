@@ -91,6 +91,11 @@ const Projects = () => {
               className={`project-card glass-card ${p.featured ? 'project-card--featured' : ''} project-card--${p.type}`}
             >
               {p.featured && <div className="project-card__badge">Featured Project</div>}
+              {p.type === 'web' && !p.featured && (
+                <div className="project-card__badge project-card__badge--web">
+                  🌐 Web App
+                </div>
+              )}
               {p.type === 'design' && (
                 <div className="project-card__badge project-card__badge--design">
                   <FaFigma size={10} /> UI/UX Design
