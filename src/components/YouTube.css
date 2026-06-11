@@ -1,4 +1,8 @@
 /* ─── YouTube section ─── */
+#youtube.section {
+  padding-bottom: 40px;
+}
+
 .youtube__card {
   display: flex;
   align-items: center;
@@ -222,6 +226,10 @@
 }
 
 /* ─── Responsive ─── */
+@media (max-width: 768px) {
+  #youtube.section { padding-bottom: 28px; }
+}
+
 @media (max-width: 900px) {
   .youtube__card {
     flex-direction: column;
