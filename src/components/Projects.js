@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaLinkedin, FaExternalLinkAlt, FaArrowRight, FaFigma } from 'react-icons/fa';
+import { FaLinkedin, FaExternalLinkAlt, FaArrowRight, FaFigma, FaGithub } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import useScrollAnimation from '../hooks/useScrollAnimation';
 import './Projects.css';
@@ -13,6 +13,16 @@ const projects = [
     live: 'https://www.almushtaraka.com',
     featured: true,
     type: 'web',
+  },
+  {
+    title: 'Real-Time Stock Pipeline',
+    tech: ['Python', 'pandas', 'SQLAlchemy', 'Streamlit', 'Docker'],
+    desc: 'An automated data pipeline that ingests live stock prices every 60 seconds, validates and stores them, computes trading metrics, and serves it all on a live auto-refreshing dashboard. Containerized, tested, and deployed.',
+    link: '/projects/stock-pipeline',
+    live: 'https://stock-dashboard-qh6l.onrender.com',
+    github: 'https://github.com/ahmadmohsin04/realtime-stock-pipeline',
+    featured: false,
+    type: 'data',
   },
   {
     title: 'Chess Master',
@@ -106,6 +116,11 @@ const Projects = () => {
                   📱 Flutter App
                 </div>
               )}
+              {p.type === 'data' && (
+                <div className="project-card__badge project-card__badge--data">
+                  📊 Data Engineering
+                </div>
+              )}
               <div className="project-card__body">
                 <h3 className="project-card__title">{p.title}</h3>
                 <p className="project-card__desc">{p.desc}</p>
@@ -129,7 +144,19 @@ const Projects = () => {
                     rel="noopener noreferrer"
                     className={`btn ${p.link ? 'btn--ghost' : 'btn--primary'} project-card__live-btn`}
                   >
-                    {p.type === 'design' ? <><FaFigma size={13} /> View Design</> : <>Live Site <FaExternalLinkAlt size={11} /></>}
+                    {p.type === 'design'
+                      ? <><FaFigma size={13} /> View Design</>
+                      : <>{p.type === 'data' ? 'Live Demo' : 'Live Site'} <FaExternalLinkAlt size={11} /></>}
+                  </a>
+                )}
+                {p.github && (
+                  <a
+                    href={p.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn--ghost project-card__live-btn"
+                  >
+                    <FaGithub size={14} /> Code
                   </a>
                 )}
                 {p.linkedin && (
