@@ -1,0 +1,191 @@
+/* ============================================================
+   Detail-page retune.
+   The eight project pages keep their own accent colour (that's
+   project identity) but adopt the flat editorial system:
+   no glass, no heavy shadows, 8px radii, uppercase display type.
+   Imported last in App.js so it wins on equal specificity.
+   ============================================================ */
+
+/* ─── Topbar ─── */
+.detail__topbar {
+  background: var(--bg);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: 1px solid var(--line);
+  padding: 16px 0;
+}
+[data-theme="light"] .detail__topbar {
+  background: var(--bg);
+  box-shadow: none;
+}
+
+.detail__topbar-inner,
+.detail__content {
+  max-width: var(--maxw);
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+
+.detail__back-btn {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.detail__back-btn:hover { color: var(--ink); }
+
+/* ─── Hero + section headings ─── */
+.detail__hero {
+  padding: 110px 0 76px;
+  max-width: 900px;
+}
+
+.detail__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 9vw, 7rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 0.87;
+  letter-spacing: var(--track-display);
+  margin: 20px 0 30px;
+}
+
+.detail__tagline {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--ink-2);
+  max-width: 60ch;
+  margin-bottom: 38px;
+}
+
+.detail__section {
+  padding: 96px 0;
+  border-top: 1px solid var(--line);
+}
+
+.detail__section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5.5vw, 3.8rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 0.92;
+  letter-spacing: var(--track-title);
+  margin: 14px 0 18px;
+  max-width: 18ch;
+}
+
+.detail__section-sub {
+  font-size: 1rem;
+  color: var(--ink-2);
+  max-width: 56ch;
+  margin-bottom: 48px;
+}
+
+/* ─── Flatten every surface ─── */
+.detail-page .glass-card,
+.detail-page .glass-card:hover {
+  box-shadow: none !important;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.detail-page .glass-card {
+  background: var(--surface);
+  border-radius: var(--radius-md);
+}
+.detail-page .glass-card:hover {
+  background: var(--surface-2);
+}
+
+/* ─── Every per-page primary button becomes a sharp block ─── */
+.chess-btn--primary,
+.pipe-btn--primary,
+.carto-btn--primary,
+.detail-page .btn,
+.detail-page .tag {
+  border-radius: var(--radius-md);
+}
+.detail-page .tag { border-radius: var(--radius-sm); }
+
+.chess-btn--primary,
+.pipe-btn--primary,
+.carto-btn--primary {
+  box-shadow: none;
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 14px 26px;
+}
+.chess-btn--primary:hover,
+.pipe-btn--primary:hover,
+.carto-btn--primary:hover {
+  box-shadow: none;
+  transform: translateY(-2px);
+}
+
+/* ─── Section eyebrow inside detail pages ─── */
+.detail-page .section-tag {
+  margin-bottom: 18px;
+}
+
+/* ─── Chess amber is unreadable on white — darken it in light mode ─── */
+[data-theme="light"] .chess-gradient {
+  background: linear-gradient(135deg, #a16207, #854d0e);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+[data-theme="light"] .chess-btn--primary {
+  background: linear-gradient(135deg, #a16207, #854d0e);
+  color: #fff;
+}
+[data-theme="light"] .chess-tag,
+[data-theme="light"] .chess-screen-badge {
+  color: #854d0e;
+  background: rgba(133, 77, 14, 0.07);
+  border-color: rgba(133, 77, 14, 0.22);
+}
+[data-theme="light"] .chess-feature:hover,
+[data-theme="light"] .chess-gallery__item:hover,
+[data-theme="light"] .chess-cta:hover {
+  box-shadow: none;
+}
+
+/* ─── Media wells: keep screenshots on a dark plate in both themes ─── */
+.carto-gallery__img-wrap,
+.carto-langshot__img-wrap,
+.carto-scope__img-wrap,
+.carto-video-wrapper,
+.chess-gallery__img-wrap {
+  background: #0b0b0e;
+}
+
+/* ─── Tables read as editorial rules, not cards ─── */
+.carto-langtable,
+.carto-perf {
+  border-radius: 0;
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+}
+.carto-langtable__head,
+.carto-perf__head {
+  background: transparent;
+}
+
+/* ─── Footer inside detail pages ─── */
+.detail-page .footer {
+  margin-top: 0;
+}
+
+@media (max-width: 900px) {
+  .detail__hero { padding: 84px 0 56px; }
+  .detail__section { padding: 68px 0; }
+}
+
+@media (max-width: 600px) {
+  .detail__hero { padding: 60px 0 44px; }
+  .detail__section { padding: 52px 0; }
+  .detail__section-title { max-width: none; }
+  .detail__section-sub { margin-bottom: 32px; }
+}

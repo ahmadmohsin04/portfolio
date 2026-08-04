@@ -62,53 +62,69 @@ const Hero = () => {
 
   return (
     <section id="hero" className="hero">
-      <div className={`hero__content ${mounted ? 'hero__content--visible' : ''}`}>
+      <div className={`hero__inner ${mounted ? 'hero__inner--visible' : ''}`}>
         <div className="hero__eyebrow">
-          <span className="hero__eyebrow-line" />
+          <span className="hero__eyebrow-dot" />
           <span className="hero__eyebrow-text">A Portfolio by</span>
-          <span className="hero__eyebrow-line" />
         </div>
 
+        {/* Stacked display type — the signature of this layout */}
         <h1 className="hero__name">
-          Ahmad <em className="gradient-text">Mohsin</em>
+          <span className="hero__name-line">Ahmad</span>
+          <span className="hero__name-line hero__name-line--accent">Mohsin</span>
         </h1>
 
-        <div className="hero__typewriter">
-          <span className="hero__type-text">{displayText}</span>
-          <span className="hero__cursor" aria-hidden="true" />
+        <div className="hero__meta">
+          <div className="hero__typewriter">
+            <span className="hero__type-text">{displayText}</span>
+            <span className="hero__cursor" aria-hidden="true" />
+          </div>
+
+          <div className="hero__facts">
+            <p className="hero__bio">
+              Software engineer exploring the full spectrum of tech — from mobile apps to scalable
+              web platforms. Based in Lahore, Pakistan.
+            </p>
+
+            <p className="hero__location">Lahore, Pakistan · 2026</p>
+
+            <div className="hero__actions">
+              <a
+                href="https://www.linkedin.com/in/ahmad-mohsin01"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn--primary"
+              >
+                <FaLinkedin size={15} />
+                LinkedIn
+              </a>
+              <a href="#contact" className="btn btn--ghost" onClick={(e) => {
+                e.preventDefault();
+                document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
+              }}>
+                <HiMail size={16} />
+                Get in Touch
+              </a>
+            </div>
+          </div>
         </div>
+      </div>
 
-        <div className="hero__rule" aria-hidden="true" />
-
-        <p className="hero__bio">
-          Software engineer exploring the full spectrum of tech — from mobile apps to scalable
-          web platforms. Based in Lahore, Pakistan.
-        </p>
-
-        <p className="hero__location">Lahore, Pakistan · 2026</p>
-
-        <div className="hero__actions">
-          <a
-            href="https://www.linkedin.com/in/ahmad-mohsin01"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn--primary"
-          >
-            <FaLinkedin size={16} />
-            LinkedIn
-          </a>
-          <a href="#contact" className="btn btn--ghost" onClick={(e) => {
-            e.preventDefault();
-            document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
-          }}>
-            <HiMail size={17} />
-            Get in Touch
-          </a>
+      {/* Kinetic band, built from the same role list the typewriter uses */}
+      <div className="marquee hero__marquee" aria-hidden="true">
+        <div className="marquee__track">
+          {[...words, ...words].map((w, i) => (
+            <React.Fragment key={`${w}-${i}`}>
+              <span className="marquee__item">{w}</span>
+              <span className="marquee__dot" />
+            </React.Fragment>
+          ))}
         </div>
       </div>
 
       <button className="hero__scroll-cta" onClick={scrollToAbout} aria-label="Scroll down">
-        <FiArrowDown size={20} />
+        <FiArrowDown size={16} />
+        <span>Scroll</span>
       </button>
     </section>
   );

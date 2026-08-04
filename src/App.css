@@ -3,128 +3,15 @@
   position: relative;
 }
 
-/* ─── Background orbs ─── */
-.bg-orbs {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(100px);
-  opacity: 0.45;
-  will-change: transform;
-  transform: translateZ(0);
-}
-
-.orb-1 {
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, #1a4a28, transparent 70%);
-  top: -320px;
-  left: -150px;
-  animation: drift1 14s ease-in-out infinite;
-}
-
-.orb-2 {
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, #3d2a0a, transparent 70%);
-  top: 30%;
-  right: -100px;
-  animation: drift2 18s ease-in-out infinite;
-}
-
-.orb-3 {
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, #1e3018, transparent 70%);
-  bottom: 10%;
-  left: 10%;
-  animation: drift3 12s ease-in-out infinite;
-}
-
-.orb-4 {
-  width: 350px;
-  height: 350px;
-  background: radial-gradient(circle, #0a2018, transparent 70%);
-  bottom: 30%;
-  right: 20%;
-  animation: drift4 16s ease-in-out infinite;
-}
-
-@keyframes drift1 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33%       { transform: translate(60px, -20px) scale(1.08); }
-  66%       { transform: translate(-30px, -10px) scale(0.95); }
-}
-@keyframes drift2 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  40%       { transform: translate(-50px, -60px) scale(1.1); }
-  75%       { transform: translate(40px, 30px) scale(0.92); }
-}
-@keyframes drift3 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50%       { transform: translate(70px, -40px) scale(1.06); }
-}
-@keyframes drift4 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  30%       { transform: translate(-60px, 50px) scale(1.12); }
-  70%       { transform: translate(30px, -30px) scale(0.9); }
-}
-
-/* ─── Film grain overlay ─── */
+/* ─── Ambient orbs + film grain are retired in this design.
+       The markup stays in place so the old look can be restored
+       by reverting CSS alone. ─── */
+.bg-orbs,
+.orb,
 .grain {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  pointer-events: none;
-  opacity: 0.045;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 200px 200px;
+  display: none !important;
 }
 
-/* ─── Light mode ─── */
-[data-theme="light"] .orb {
-  opacity: 0.25;
-}
-[data-theme="light"] .grain {
-  opacity: 0.03;
-}
-
-[data-theme="light"] .footer {
-  border-top-color: rgba(15, 23, 42, 0.08);
-}
-
-/* ─── Responsive orbs ─── */
-@media (max-width: 768px) {
-  .orb {
-    animation: none;        /* kill drift animations — huge GPU saving */
-    filter: blur(60px);     /* half the blur = much cheaper to render   */
-  }
-  .orb-1 { width: 300px; height: 300px; }
-  .orb-2 { width: 260px; height: 260px; right: -60px; }
-  .orb-3 { width: 200px; height: 200px; }
-  .orb-4 { display: none; }
-}
-@media (max-width: 480px) {
-  .orb { filter: blur(40px); opacity: 0.35; }
-  .orb-1 { width: 200px; height: 200px; }
-  .orb-2 { width: 180px; height: 180px; }
-  .orb-3 { display: none; }
-}
-
-/* ─── Respect OS reduced-motion setting ─── */
-@media (prefers-reduced-motion: reduce) {
-  .orb { animation: none; }
-}
-
-/* All content above z-index: 0 */
 main, .footer {
   position: relative;
   z-index: 1;
@@ -132,10 +19,18 @@ main, .footer {
 
 /* ─── Footer ─── */
 .footer {
-  text-align: center;
-  padding: 32px 24px;
-  border-top: 1px solid var(--glass-border);
-  color: var(--text-muted);
-  font-size: 0.875rem;
+  border-top: 1px solid var(--line);
+  padding: 44px var(--gutter);
+  color: var(--ink-3);
   font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.footer p {
+  max-width: var(--maxw);
+  margin: 0 auto;
 }

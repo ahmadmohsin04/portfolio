@@ -1,55 +1,90 @@
+/* ============================================================
+   Design system — editorial / Swiss-grotesque
+   Reference: tinywins.com
+   Massive tight uppercase display type, flat surfaces,
+   hairline rules, 4/8px radii, one electric-blue accent.
+   ============================================================ */
+
 :root {
-  /* ── Cinematic dark palette ── */
-  --bg-primary: #080e09;
-  --bg-secondary: #0d1610;
-  --glass-bg: rgba(245, 240, 225, 0.03);
-  --glass-bg-hover: rgba(245, 240, 225, 0.06);
-  --glass-border: rgba(245, 240, 225, 0.08);
-  --glass-border-hover: rgba(245, 240, 225, 0.18);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
-  --glass-highlight: inset 0 1px 0 rgba(245, 240, 225, 0.07);
+  /* ── Light: the primary character ── */
+  --bg:            #ffffff;
+  --bg-alt:        #f4f4f2;
+  --bg-invert:     #000000;
+  --ink:           #000000;
+  --ink-2:         #3f3f3f;
+  --ink-3:         #8a8a8a;
+  --ink-invert:    #ffffff;
+  --line:          rgba(0, 0, 0, 0.13);
+  --line-strong:   rgba(0, 0, 0, 0.28);
+  --surface:       #ffffff;
+  --surface-2:     #f4f4f2;
 
-  --text-primary: #f5f0e4;
-  --text-secondary: #9a9080;
-  --text-muted: #5a5248;
+  --accent:        #3670e1;
+  --accent-ink:    #ffffff;
+  --accent-soft:   rgba(54, 112, 225, 0.08);
+  --accent-line:   rgba(54, 112, 225, 0.28);
 
-  /* ── Cinematic accent palette ── */
-  --accent-gold: #c4a35a;
-  --accent-green: #4a8c5c;
-  --accent-sage: #8ab87a;
-
-  /* ── Legacy aliases so existing components auto-update ── */
-  --accent-purple: var(--accent-gold);
-  --accent-blue: var(--accent-green);
-  --accent-cyan: var(--accent-sage);
-  --accent-gradient: linear-gradient(135deg, #c4a35a, #4a8c5c, #8ab87a);
-  --accent-gradient-hover: linear-gradient(135deg, #b8944a, #3d7a4e, #7aaa6a);
+  /* ── Legacy aliases so every existing page retunes automatically ── */
+  --bg-primary:      var(--bg);
+  --bg-secondary:    var(--bg-alt);
+  --text-primary:    var(--ink);
+  --text-secondary:  var(--ink-2);
+  --text-muted:      var(--ink-3);
+  --glass-bg:        var(--surface);
+  --glass-bg-hover:  var(--surface);
+  --glass-border:    var(--line);
+  --glass-border-hover: var(--line-strong);
+  --glass-shadow:    none;
+  --glass-highlight: none;
+  --accent-gold:     var(--accent);
+  --accent-green:    var(--accent);
+  --accent-sage:     var(--accent);
+  --accent-purple:   var(--accent);
+  --accent-blue:     var(--accent);
+  --accent-cyan:     var(--accent);
+  --accent-gradient: var(--accent);
+  --accent-gradient-hover: var(--accent);
 
   /* ── Typography ── */
+  --font-display: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --font-body:    'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --font-heading: 'Inter', 'Helvetica Neue', Arial, sans-serif;
   --font-serif:   'Cormorant Garamond', Georgia, serif;
-  --font-heading: 'Space Grotesk', sans-serif;
-  --font-body:    'Inter', sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  --radius-sm: 12px;
-  --radius-md: 20px;
-  --radius-lg: 28px;
+  /* Display tracking — the signature of this system */
+  --track-display: -0.045em;
+  --track-title:   -0.035em;
+  --lh-display:    0.85;
 
-  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 8px;
+
+  --gutter: 40px;
+  --maxw: 1240px;
+
+  --transition: 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* ─── Light mode — warm parchment ─── */
-[data-theme="light"] {
-  --bg-primary: #f5f0e4;
-  --bg-secondary: #ede8d8;
-  --glass-bg: rgba(255, 255, 255, 0.65);
-  --glass-bg-hover: rgba(255, 255, 255, 0.85);
-  --glass-border: rgba(30, 20, 10, 0.08);
-  --glass-border-hover: rgba(30, 20, 10, 0.18);
-  --glass-shadow: 0 8px 32px rgba(30, 20, 10, 0.1);
-  --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.95);
-  --text-primary: #1a1510;
-  --text-secondary: #5a5248;
-  --text-muted: #9a9080;
+/* ─── Dark: the same system, inverted ─── */
+[data-theme="dark"] {
+  --bg:          #0a0a0a;
+  --bg-alt:      #161616;
+  --bg-invert:   #ffffff;
+  --ink:         #ffffff;
+  --ink-2:       #b4b4b4;
+  --ink-3:       #767676;
+  --ink-invert:  #000000;
+  --line:        rgba(255, 255, 255, 0.15);
+  --line-strong: rgba(255, 255, 255, 0.38);
+  --surface:     #0f0f0f;
+  --surface-2:   #161616;
+
+  --accent:      #6e9bff;
+  --accent-ink:  #06122b;
+  --accent-soft: rgba(110, 155, 255, 0.1);
+  --accent-line: rgba(110, 155, 255, 0.32);
 }
 
 *, *::before, *::after {
@@ -60,147 +95,282 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 80px;
+  scroll-padding-top: 90px;
 }
 
 body {
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
+  background-color: var(--bg);
+  color: var(--ink);
   font-family: var(--font-body);
-  line-height: 1.6;
+  font-size: 16px;
+  line-height: 1.55;
+  letter-spacing: -0.011em;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: var(--bg-primary);
-}
-::-webkit-scrollbar-thumb {
-  background: rgba(196, 163, 90, 0.35);
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(196, 163, 90, 0.6);
+::selection {
+  background: var(--accent);
+  color: var(--accent-ink);
 }
 
-/* Utility: glass card */
-.glass-card {
-  background: var(--glass-bg);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-md);
-  box-shadow: var(--glass-shadow), var(--glass-highlight);
-  position: relative;
-  overflow: hidden;
-  transition: var(--transition);
-}
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 0; }
+::-webkit-scrollbar-thumb:hover { background: var(--ink); }
 
-.glass-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(196, 163, 90, 0.25), transparent);
-  pointer-events: none;
-}
+/* ============================================================
+   Layout
+   ============================================================ */
 
-.glass-card:hover {
-  background: var(--glass-bg-hover);
-  border-color: var(--glass-border-hover);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.7), var(--glass-highlight);
-  transform: translateY(-3px);
-}
-
-/* Utility: gradient text */
-.gradient-text {
-  background: var(--accent-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Utility: section */
 .section {
-  padding: 100px 0;
+  padding: 140px 0;
   position: relative;
+  border-top: 1px solid var(--line);
 }
 
 .section-inner {
-  max-width: 1100px;
+  max-width: var(--maxw);
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 var(--gutter);
 }
 
+/* ── Eyebrow label ── */
 .section-tag {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   font-size: 0.68rem;
-  font-weight: 500;
-  letter-spacing: 0.22em;
+  font-weight: 600;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--accent-gold);
-  margin-bottom: 14px;
-  font-family: var(--font-heading);
+  color: var(--ink-3);
+  margin-bottom: 28px;
+  font-family: var(--font-body);
 }
 
-.section-tag::after {
+.section-tag::before {
   content: '';
-  display: inline-block;
-  width: 36px;
-  height: 1px;
-  background: var(--accent-gold);
-  opacity: 0.45;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
 }
 
+/* ── The big statement type ── */
 .section-title {
-  font-family: var(--font-serif);
-  font-size: clamp(2.4rem, 5vw, 3.6rem);
-  font-weight: 300;
-  font-style: italic;
-  line-height: 1.1;
-  letter-spacing: -0.01em;
-  margin-bottom: 16px;
-  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 7vw, 5.2rem);
+  font-weight: 700;
+  font-style: normal;
+  text-transform: uppercase;
+  line-height: 0.9;
+  letter-spacing: var(--track-title);
+  margin-bottom: 28px;
+  color: var(--ink);
+  max-width: 16ch;
 }
 
 .section-subtitle {
-  font-size: 1.05rem;
-  color: var(--text-secondary);
-  max-width: 560px;
-  line-height: 1.7;
+  font-size: 1.0625rem;
+  color: var(--ink-2);
+  max-width: 52ch;
+  line-height: 1.65;
+  letter-spacing: -0.012em;
 }
 
-/* Scroll animation */
+/* Accent emphasis — replaces the old gradient text */
+.gradient-text {
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  color: var(--accent);
+}
+
+/* ============================================================
+   Surfaces
+   ============================================================ */
+
+.glass-card {
+  background: var(--surface);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  box-shadow: none;
+  position: relative;
+  overflow: hidden;
+  transition: border-color var(--transition), transform var(--transition), background var(--transition);
+}
+
+.glass-card::before { display: none; }
+
+.glass-card:hover {
+  background: var(--surface);
+  border-color: var(--line-strong);
+  box-shadow: none;
+  transform: translateY(-4px);
+}
+
+/* ============================================================
+   Buttons
+   ============================================================ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 14px 26px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  transition: background var(--transition), color var(--transition),
+              border-color var(--transition), transform var(--transition);
+}
+
+.btn--primary {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+.btn--primary:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+  transform: translateY(-2px);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--line-strong);
+}
+.btn--ghost:hover {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+  transform: translateY(-2px);
+}
+
+/* ── Tags / chips ── */
+.tag {
+  font-family: var(--font-body);
+  font-size: 0.66rem;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--ink-2);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: border-color var(--transition), color var(--transition);
+}
+
+/* ============================================================
+   Marquee — the kinetic band
+   ============================================================ */
+
+.marquee {
+  overflow: hidden;
+  width: 100%;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 18px 0;
+  background: var(--bg);
+}
+
+.marquee__track {
+  display: inline-flex;
+  align-items: center;
+  gap: 28px;
+  white-space: nowrap;
+  will-change: transform;
+  animation: marquee-scroll 34s linear infinite;
+}
+
+.marquee__item {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 3.2vw, 2.6rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--track-title);
+  line-height: 1;
+  color: var(--ink);
+}
+
+.marquee__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.marquee:hover .marquee__track { animation-play-state: paused; }
+
+/* ============================================================
+   Scroll animation
+   ============================================================ */
+
 .fade-up {
   opacity: 0;
-  transform: translateY(32px);
-  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(28px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .fade-up.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* ─── Reusable: active development badge ─── */
+.stagger > * {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+/* Any child becomes visible; the nth-child rules only add the delay,
+   so a 9th+ item still animates in instead of staying invisible. */
+.stagger.visible > * { opacity: 1; transform: translateY(0); }
+.stagger.visible > *:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.04s; }
+.stagger.visible > *:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.10s; }
+.stagger.visible > *:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.16s; }
+.stagger.visible > *:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.22s; }
+.stagger.visible > *:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 0.28s; }
+.stagger.visible > *:nth-child(6) { opacity: 1; transform: translateY(0); transition-delay: 0.34s; }
+.stagger.visible > *:nth-child(7) { opacity: 1; transform: translateY(0); transition-delay: 0.40s; }
+.stagger.visible > *:nth-child(8) { opacity: 1; transform: translateY(0); transition-delay: 0.46s; }
+
+/* ─── Active development badge ─── */
 .kom-coming-soon {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  font-size: 0.82rem;
-  font-weight: 500;
-  color: var(--accent-sage);
-  background: rgba(138, 184, 122, 0.08);
-  border: 1px solid rgba(138, 184, 122, 0.22);
-  border-radius: 100px;
-  padding: 8px 18px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-sm);
+  padding: 8px 14px;
   margin-top: 28px;
 }
 
@@ -208,62 +378,34 @@ body {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--accent-cyan);
+  background: var(--accent);
   flex-shrink: 0;
   animation: pulse-dot 2s ease-in-out infinite;
 }
 
 @keyframes pulse-dot {
   0%, 100% { opacity: 1; transform: scale(1); }
-  50%       { opacity: 0.4; transform: scale(0.7); }
+  50%      { opacity: 0.4; transform: scale(0.7); }
 }
 
-/* ─── Mobile: reduce backdrop-filter cost ─── */
-@media (max-width: 768px) {
-  .glass-card {
-    backdrop-filter: blur(10px) saturate(140%);
-    -webkit-backdrop-filter: blur(10px) saturate(140%);
-  }
+/* ============================================================
+   Responsive
+   ============================================================ */
+
+@media (max-width: 900px) {
+  :root { --gutter: 28px; }
+  .section { padding: 96px 0; }
 }
 
-/* ─── Light mode global overrides ─── */
-[data-theme="light"] .glass-card::before {
-  background: linear-gradient(90deg, transparent, rgba(196, 163, 90, 0.18), transparent);
+@media (max-width: 600px) {
+  :root { --gutter: 20px; }
+  .section { padding: 72px 0; }
+  .section-title { max-width: none; }
+  .btn { padding: 13px 20px; font-size: 0.74rem; }
+  .marquee__track { animation-duration: 22s; }
 }
 
-[data-theme="light"] .glass-card:hover {
-  box-shadow: 0 16px 48px rgba(15, 23, 42, 0.12), var(--glass-highlight);
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track { animation: none; }
+  .fade-up, .stagger > * { transition: none; }
 }
-
-[data-theme="light"] ::-webkit-scrollbar-track {
-  background: var(--bg-secondary);
-}
-
-/* ─── Responsive section spacing ─── */
-@media (max-width: 768px) {
-  .section { padding: 64px 0; }
-  .section-inner { padding: 0 20px; }
-}
-@media (max-width: 480px) {
-  .section { padding: 48px 0; }
-  .section-inner { padding: 0 16px; }
-}
-
-/* Staggered children */
-.stagger > * {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-/* Any child becomes visible; the nth-child rules below only add the delay,
-   so a 9th+ item still animates in instead of staying invisible. */
-.stagger.visible > * { opacity: 1; transform: translateY(0); }
-.stagger.visible > *:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.05s; }
-.stagger.visible > *:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.15s; }
-.stagger.visible > *:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.25s; }
-.stagger.visible > *:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.35s; }
-.stagger.visible > *:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 0.45s; }
-.stagger.visible > *:nth-child(6) { opacity: 1; transform: translateY(0); transition-delay: 0.55s; }
-.stagger.visible > *:nth-child(7) { opacity: 1; transform: translateY(0); transition-delay: 0.65s; }
-.stagger.visible > *:nth-child(8) { opacity: 1; transform: translateY(0); transition-delay: 0.75s; }
