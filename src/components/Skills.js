@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaReact, FaNodeJs, FaJava } from 'react-icons/fa';
 import { SiFlutter, SiDart } from 'react-icons/si';
-import useScrollAnimation from '../hooks/useScrollAnimation';
+import { Reveal, MaskedText, StaggerGroup, StaggerItem } from './motion/Motion';
 import './Skills.css';
 
 const skills = [
@@ -37,41 +37,43 @@ const skills = [
   },
 ];
 
-const Skills = () => {
-  const titleRef = useScrollAnimation(0.1);
-  const gridRef = useScrollAnimation(0.05);
+const Skills = () => (
+  <section id="skills" className="section">
+    <div className="section-inner">
+      <Reveal>
+        <span className="section-tag">Tech Stack</span>
+      </Reveal>
 
-  return (
-    <section id="skills" className="section">
-      <div className="section-inner">
-        <div className="fade-up" ref={titleRef}>
-          <span className="section-tag">Tech Stack</span>
-          <h2 className="section-title">
-            Tools I <span className="gradient-text">build with</span>
-          </h2>
-          <p className="section-subtitle">
-            A focused stack, chosen for real-world impact and production-ready results.
-          </p>
-        </div>
+      <h2 className="section-title">
+        <MaskedText
+          text="Tools I build with"
+          wordClassName={(w, i) => (i >= 2 ? 'gradient-text' : '')}
+        />
+      </h2>
 
-        <div className="skills__grid stagger" ref={gridRef}>
-          {skills.map((skill) => (
-            <div key={skill.name} className="skill-card glass-card">
-              <div className="skill-card__icon" style={{ color: skill.color }}>
-                {skill.icon}
-              </div>
-              <div className="skill-card__name">{skill.name}</div>
-              <div className="skill-card__desc">{skill.desc}</div>
-              <div
-                className="skill-card__glow"
-                style={{ background: `radial-gradient(circle at center, ${skill.color}22, transparent 70%)` }}
-              />
+      <Reveal delay={0.1}>
+        <p className="section-subtitle">
+          A focused stack, chosen for real-world impact and production-ready results.
+        </p>
+      </Reveal>
+
+      <StaggerGroup className="skills__grid" stagger={0.07}>
+        {skills.map((skill) => (
+          <StaggerItem key={skill.name} className="skill-card glass-card">
+            <div className="skill-card__icon" style={{ color: skill.color }}>
+              {skill.icon}
             </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
+            <div className="skill-card__name">{skill.name}</div>
+            <div className="skill-card__desc">{skill.desc}</div>
+            <div
+              className="skill-card__glow"
+              style={{ background: `radial-gradient(circle at center, ${skill.color}22, transparent 70%)` }}
+            />
+          </StaggerItem>
+        ))}
+      </StaggerGroup>
+    </div>
+  </section>
+);
 
 export default Skills;

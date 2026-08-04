@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaLinkedin, FaExternalLinkAlt, FaArrowRight, FaFigma, FaGithub } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import useScrollAnimation from '../hooks/useScrollAnimation';
+import { Reveal, MaskedText, StaggerGroup, StaggerItem } from './motion/Motion';
 import './Projects.css';
 
 const projects = [
@@ -88,26 +88,29 @@ const projects = [
 ];
 
 const Projects = () => {
-  const titleRef = useScrollAnimation(0.1);
-  const gridRef  = useScrollAnimation(0.1);
-  const ctaRef   = useScrollAnimation(0.1);
-
   return (
     <section id="projects" className="section">
       <div className="section-inner">
-        <div className="fade-up" ref={titleRef}>
+        <Reveal>
           <span className="section-tag">Work</span>
-          <h2 className="section-title">
-            Things I've <span className="gradient-text">built</span>
-          </h2>
+        </Reveal>
+
+        <h2 className="section-title">
+          <MaskedText
+            text="Things I've built"
+            wordClassName={(w, i) => (i >= 2 ? 'gradient-text' : '')}
+          />
+        </h2>
+
+        <Reveal delay={0.1}>
           <p className="section-subtitle">
             I focus on web development, working on production-scale applications.
           </p>
-        </div>
+        </Reveal>
 
-        <div className="projects__grid stagger" ref={gridRef}>
+        <StaggerGroup className="projects__grid" stagger={0.06}>
           {projects.map((p) => (
-            <div
+            <StaggerItem
               key={p.title}
               className={`project-card glass-card ${p.featured ? 'project-card--featured' : ''} project-card--${p.type}`}
             >
@@ -186,11 +189,11 @@ const Projects = () => {
                   </a>
                 )}
               </div>
-            </div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerGroup>
 
-        <div className="projects__cta fade-up" ref={ctaRef}>
+        <Reveal className="projects__cta" delay={0.05}>
           <a
             href="https://www.linkedin.com/in/ahmad-mohsin01"
             target="_blank"
@@ -201,7 +204,7 @@ const Projects = () => {
             More on LinkedIn
             <FaExternalLinkAlt size={11} />
           </a>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

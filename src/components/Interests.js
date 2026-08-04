@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaExternalLinkAlt } from 'react-icons/fa';
-import useScrollAnimation from '../hooks/useScrollAnimation';
+import { Reveal, MaskedText, StaggerGroup, StaggerItem } from './motion/Motion';
 import './Interests.css';
 
 const footballMoments = [
@@ -10,25 +10,29 @@ const footballMoments = [
 ];
 
 const Interests = () => {
-  const titleRef = useScrollAnimation(0.1);
-  const cardsRef = useScrollAnimation(0.08);
-
   return (
     <section id="interests" className="section">
       <div className="section-inner">
-        <div className="fade-up" ref={titleRef}>
+        <Reveal>
           <span className="section-tag">Beyond Code</span>
-          <h2 className="section-title">
-            What keeps me <span className="gradient-text">on track</span>
-          </h2>
+        </Reveal>
+
+        <h2 className="section-title">
+          <MaskedText
+            text="What keeps me on track"
+            wordClassName={(w, i) => (i >= 3 ? 'gradient-text' : '')}
+          />
+        </h2>
+
+        <Reveal delay={0.1}>
           <p className="section-subtitle">
             Code isn't the only story. Here's what I'm equally passionate about.
           </p>
-        </div>
+        </Reveal>
 
-        <div className="interests__grid stagger" ref={cardsRef}>
+        <StaggerGroup className="interests__grid" stagger={0.12}>
           {/* Cinema Card */}
-          <div className="interest-card interest-card--cinema glass-card">
+          <StaggerItem className="interest-card interest-card--cinema glass-card">
             <div className="interest-card__glow interest-card__glow--cinema" />
             <div className="interest-card__header">
               <div className="interest-card__emoji">🎬</div>
@@ -51,10 +55,10 @@ const Interests = () => {
               <span>View my Letterboxd</span>
               <FaExternalLinkAlt size={11} />
             </a>
-          </div>
+          </StaggerItem>
 
           {/* Football Card */}
-          <div className="interest-card interest-card--football glass-card">
+          <StaggerItem className="interest-card interest-card--football glass-card">
             <div className="interest-card__glow interest-card__glow--football" />
             <div className="interest-card__header">
               <div className="interest-card__emoji">⚽</div>
@@ -76,8 +80,8 @@ const Interests = () => {
                 </div>
               ))}
             </div>
-          </div>
-        </div>
+          </StaggerItem>
+        </StaggerGroup>
       </div>
     </section>
   );

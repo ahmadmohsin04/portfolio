@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { FiArrowDown } from 'react-icons/fi';
 import { FaLinkedin } from 'react-icons/fa';
 import { HiMail } from 'react-icons/hi';
+import { MaskedText, EASE } from './motion/Motion';
 import './Hero.css';
 
 const words = [
@@ -16,9 +18,12 @@ const DELETING_SPEED = 55;
 const PAUSE_AFTER    = 2000;
 const PAUSE_BEFORE   = 350;
 
+/* The name rises as the intro curtain clears the screen. */
+const NAME_DELAY = 1.05;
+
 const Hero = () => {
   const [displayText, setDisplayText] = useState('');
-  const [mounted, setMounted] = useState(false);
+  const reduced = useReducedMotion();
 
   const timerRef    = useRef(null);
   const textRef     = useRef('');
@@ -26,8 +31,6 @@ const Hero = () => {
   const deletingRef = useRef(false);
 
   useEffect(() => {
-    setMounted(true);
-
     const tick = () => {
       const current = words[wordIdxRef.current];
       if (!deletingRef.current) {
@@ -51,30 +54,46 @@ const Hero = () => {
         }
       }
     };
-    timerRef.current = setTimeout(tick, 600);
+    timerRef.current = setTimeout(tick, reduced ? 300 : 1900);
 
     return () => clearTimeout(timerRef.current);
-  }, []);
+  }, [reduced]);
 
   const scrollToAbout = () => {
     document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const rise = (delay) =>
+    reduced
+      ? {}
+      : {
+          initial: { opacity: 0, y: 22 },
+          animate: { opacity: 1, y: 0 },
+          transition: { duration: 0.7, ease: EASE, delay },
+        };
+
   return (
     <section id="hero" className="hero">
-      <div className={`hero__inner ${mounted ? 'hero__inner--visible' : ''}`}>
-        <div className="hero__eyebrow">
+      <div className="hero__inner">
+        <motion.div className="hero__eyebrow" {...rise(NAME_DELAY - 0.2)}>
           <span className="hero__eyebrow-dot" />
           <span className="hero__eyebrow-text">A Portfolio by</span>
-        </div>
+        </motion.div>
 
-        {/* Stacked display type — the signature of this layout */}
+        {/* Stacked display type, revealed one masked line at a time */}
         <h1 className="hero__name">
-          <span className="hero__name-line">Ahmad</span>
-          <span className="hero__name-line hero__name-line--accent">Mohsin</span>
+          <MaskedText
+            text="Ahmad Mohsin"
+            block
+            animateOnMount
+            delay={NAME_DELAY}
+            stagger={0.11}
+            duration={0.95}
+            wordClassName={(w) => (w === 'Mohsin' ? 'hero__name-line--accent' : '')}
+          />
         </h1>
 
-        <div className="hero__meta">
+        <motion.div className="hero__meta" {...rise(NAME_DELAY + 0.42)}>
           <div className="hero__typewriter">
             <span className="hero__type-text">{displayText}</span>
             <span className="hero__cursor" aria-hidden="true" />
@@ -107,11 +126,11 @@ const Hero = () => {
               </a>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       {/* Kinetic band, built from the same role list the typewriter uses */}
-      <div className="marquee hero__marquee" aria-hidden="true">
+      <motion.div className="marquee hero__marquee" aria-hidden="true" {...rise(NAME_DELAY + 0.6)}>
         <div className="marquee__track">
           {[...words, ...words].map((w, i) => (
             <React.Fragment key={`${w}-${i}`}>
@@ -120,12 +139,17 @@ const Hero = () => {
             </React.Fragment>
           ))}
         </div>
-      </div>
+      </motion.div>
 
-      <button className="hero__scroll-cta" onClick={scrollToAbout} aria-label="Scroll down">
+      <motion.button
+        className="hero__scroll-cta"
+        onClick={scrollToAbout}
+        aria-label="Scroll down"
+        {...rise(NAME_DELAY + 0.75)}
+      >
         <FiArrowDown size={16} />
         <span>Scroll</span>
-      </button>
+      </motion.button>
     </section>
   );
 };

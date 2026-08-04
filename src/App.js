@@ -11,10 +11,14 @@ import CryptoDetail from './pages/CryptoDetail';
 import ChessDetail from './pages/ChessDetail';
 import StockPipelineDetail from './pages/StockPipelineDetail';
 import CartographerDetail from './pages/CartographerDetail';
+import { useSmoothScroll } from './components/motion/Motion';
 // Imported last so the redesign's flat overrides win on equal specificity.
 import './styles/detail-overrides.css';
 
 function App() {
+  // Lenis smooth scrolling, applied across every route.
+  useSmoothScroll();
+
   return (
     <ThemeProvider>
     <div className="grain" aria-hidden="true" />

@@ -1,0 +1,71 @@
+/* ─── Masked line reveal ───────────────────────────────────
+   The clip box needs a little vertical breathing room or
+   descenders (g, y, p) get shaved off by overflow:hidden. */
+.mask {
+  display: inline;
+}
+
+.mask--block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.mask__line {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+
+/* Word gaps come from real space text nodes between the lines,
+   so no margin hack is needed (and textContent stays readable). */
+
+.mask__word {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* ─── Page-load curtain ─────────────────────────────────── */
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--bg-invert);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
+}
+
+.intro__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  padding: 0 var(--gutter);
+}
+
+.intro__mark {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 5vw, 3.2rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--track-display);
+  line-height: 1;
+  color: var(--ink-invert);
+}
+
+.intro__rule {
+  display: block;
+  width: min(260px, 50vw);
+  height: 2px;
+  background: var(--accent);
+  transform-origin: left center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro { display: none; }
+  .mask__word { transform: none !important; }
+}

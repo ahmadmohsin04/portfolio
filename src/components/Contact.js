@@ -1,27 +1,35 @@
 import React from 'react';
 import { HiMail } from 'react-icons/hi';
 import { FaLinkedin } from 'react-icons/fa';
-import useScrollAnimation from '../hooks/useScrollAnimation';
+import { Reveal, MaskedText, StaggerGroup, StaggerItem } from './motion/Motion';
 import './Contact.css';
 
-const Contact = () => {
-  const ref = useScrollAnimation(0.1);
-
-  return (
-    <section id="contact" className="section">
-      <div className="section-inner">
-        <div className="contact__wrapper fade-up" ref={ref}>
-          <div className="contact__header">
+const Contact = () => (
+  <section id="contact" className="section">
+    <div className="section-inner">
+      <div className="contact__wrapper">
+        <div className="contact__header">
+          <Reveal>
             <span className="section-tag">Contact</span>
-            <h2 className="section-title">
-              Let's <span className="gradient-text">connect</span>
-            </h2>
+          </Reveal>
+
+          <h2 className="section-title">
+            <MaskedText
+              text="Let's connect"
+              block
+              wordClassName={(w, i) => (i >= 1 ? 'gradient-text' : '')}
+            />
+          </h2>
+
+          <Reveal delay={0.1}>
             <p className="section-subtitle">
               Whether it's a project, collaboration, or just a conversation — my inbox is open.
             </p>
-          </div>
+          </Reveal>
+        </div>
 
-          <div className="contact__links">
+        <StaggerGroup className="contact__links" stagger={0.1}>
+          <StaggerItem>
             <a
               href="mailto:business.ahmadmohsin@gmail.com"
               className="contact-link glass-card"
@@ -34,7 +42,9 @@ const Contact = () => {
                 <div className="contact-link__value">business.ahmadmohsin@gmail.com</div>
               </div>
             </a>
+          </StaggerItem>
 
+          <StaggerItem>
             <a
               href="https://www.linkedin.com/in/ahmad-mohsin01"
               target="_blank"
@@ -49,11 +59,11 @@ const Contact = () => {
                 <div className="contact-link__value">ahmad-mohsin01</div>
               </div>
             </a>
-          </div>
-        </div>
+          </StaggerItem>
+        </StaggerGroup>
       </div>
-    </section>
-  );
-};
+    </div>
+  </section>
+);
 
 export default Contact;

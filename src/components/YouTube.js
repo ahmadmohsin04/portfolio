@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaYoutube, FaPlay, FaExternalLinkAlt } from 'react-icons/fa';
-import useScrollAnimation from '../hooks/useScrollAnimation';
+import { Reveal, MaskedText } from './motion/Motion';
 import './YouTube.css';
 
 const CHANNEL = 'https://www.youtube.com/@ahmadmohsin7';
@@ -8,23 +8,27 @@ const CHANNEL = 'https://www.youtube.com/@ahmadmohsin7';
 const topics = ['Coding Projects', 'Campus Life', 'Build Vlogs'];
 
 const YouTube = () => {
-  const titleRef = useScrollAnimation(0.1);
-  const cardRef  = useScrollAnimation(0.1);
-
   return (
     <section id="youtube" className="section">
       <div className="section-inner">
-        <div className="fade-up" ref={titleRef}>
+        <Reveal>
           <span className="section-tag">Content</span>
-          <h2 className="section-title">
-            Building <span className="gradient-text">in public</span>
-          </h2>
+        </Reveal>
+
+        <h2 className="section-title">
+          <MaskedText
+            text="Building in public"
+            wordClassName={(w, i) => (i >= 1 ? 'gradient-text' : '')}
+          />
+        </h2>
+
+        <Reveal delay={0.1}>
           <p className="section-subtitle">
             Code, campus, and everything in between — documented on YouTube.
           </p>
-        </div>
+        </Reveal>
 
-        <div className="youtube__card glass-card fade-up" ref={cardRef}>
+        <Reveal className="youtube__card glass-card" delay={0.06}>
           <div className="youtube__glow" />
           <FaPlay className="youtube__watermark" aria-hidden="true" />
 
@@ -88,7 +92,7 @@ const YouTube = () => {
               <FaExternalLinkAlt size={11} />
             </a>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
