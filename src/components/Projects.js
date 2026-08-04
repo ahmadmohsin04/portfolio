@@ -6,6 +6,17 @@ import './Projects.css';
 
 const projects = [
   {
+    title: 'Codebase Cartographer',
+    tech: ['Next.js', 'TypeScript', 'React Flow', 'Anthropic API', 'GitHub API'],
+    desc: 'Paste any public GitHub repo and get an interactive, narrated map of its architecture — a dependency graph, a guided tour, and a plain-English explanation of every file. Handles 1,000+ file repos across 8 languages.',
+    link: '/projects/codebase-cartographer',
+    live: 'https://codebase-cartographer-mohsin.vercel.app',
+    liveLabel: 'Live Demo',
+    github: 'https://github.com/ahmadmohsin04/codebase_cartographer',
+    featured: false,
+    type: 'tool',
+  },
+  {
     title: 'Al-Mushtaraka',
     tech: ['React', 'Supabase', 'jsPDF', 'React Router'],
     desc: 'A production-grade trading operations platform — multi-module system with agreements, remote signing, customer management, admin panel, and PDF generation.',
@@ -121,6 +132,11 @@ const Projects = () => {
                   📊 Data Engineering
                 </div>
               )}
+              {p.type === 'tool' && (
+                <div className="project-card__badge project-card__badge--tool">
+                  🧭 Developer Tool
+                </div>
+              )}
               <div className="project-card__body">
                 <h3 className="project-card__title">{p.title}</h3>
                 <p className="project-card__desc">{p.desc}</p>
@@ -146,7 +162,7 @@ const Projects = () => {
                   >
                     {p.type === 'design'
                       ? <><FaFigma size={13} /> View Design</>
-                      : <>{p.type === 'data' ? 'Live Demo' : 'Live Site'} <FaExternalLinkAlt size={11} /></>}
+                      : <>{p.liveLabel || (p.type === 'data' ? 'Live Demo' : 'Live Site')} <FaExternalLinkAlt size={11} /></>}
                   </a>
                 )}
                 {p.github && (

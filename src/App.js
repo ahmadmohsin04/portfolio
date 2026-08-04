@@ -10,6 +10,7 @@ import HabitTrackerDetail from './pages/HabitTrackerDetail';
 import CryptoDetail from './pages/CryptoDetail';
 import ChessDetail from './pages/ChessDetail';
 import StockPipelineDetail from './pages/StockPipelineDetail';
+import CartographerDetail from './pages/CartographerDetail';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/projects/crypto-wallet" element={<CryptoDetail />} />
         <Route path="/projects/chess-master" element={<ChessDetail />} />
         <Route path="/projects/stock-pipeline" element={<StockPipelineDetail />} />
+        <Route path="/projects/codebase-cartographer" element={<CartographerDetail />} />
       </Routes>
     </BrowserRouter>
     </ThemeProvider>

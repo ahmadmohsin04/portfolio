@@ -125,6 +125,25 @@
   border-color: rgba(13, 148, 136, 0.24);
 }
 
+.project-card__badge--tool {
+  color: #a78bfa;
+  background: rgba(167, 139, 250, 0.08);
+  border-color: rgba(167, 139, 250, 0.22);
+}
+
+.project-card--tool {
+  border-color: rgba(167, 139, 250, 0.14);
+}
+.project-card--tool:hover {
+  border-color: rgba(167, 139, 250, 0.34);
+}
+
+[data-theme="light"] .project-card__badge--tool {
+  color: #6d28d9;
+  background: rgba(109, 40, 217, 0.07);
+  border-color: rgba(109, 40, 217, 0.22);
+}
+
 .project-card__actions {
   display: flex;
   gap: 10px;
