@@ -14,9 +14,9 @@ const words = [
 ];
 
 /* The hero rises into the gap the intro leaves behind: the veil starts
-   clearing at 1.2s, so this lands the words mid-reveal rather than
+   clearing at 1.4s, so this lands the words mid-reveal rather than
    stranding them behind it or making the page sit empty afterwards. */
-const NAME_DELAY = 1.5;
+const NAME_DELAY = 1.7;
 
 /* Split a phrase across two rows so every arrangement occupies the
    same two-line block — the hero must not change height mid-swap. */

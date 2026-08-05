@@ -111,8 +111,26 @@
 }
 
 .brand-intro__mark-in {
+  position: relative;
   display: inline-block;
   will-change: transform, opacity;
+}
+
+.brand-intro__face {
+  display: block;
+  will-change: opacity;
+}
+
+/* The sketch: the same glyphs drawn as an outline instead of filled.
+   Absolutely placed so only the solid face contributes to the box the
+   flight measures, and a hair larger so the cross-fade reads as the
+   letterforms breathing rather than the logo blinking. */
+.brand-intro__face--sketch {
+  position: absolute;
+  inset: 0;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--ink);
+  transform: scale(1.03);
 }
 
 /* The nav logo is the flight's landing point, so it stays in the

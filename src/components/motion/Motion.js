@@ -294,6 +294,22 @@ export const SwapLines = ({ phrases, interval = 5100, startDelay = 0, className 
 
 const EASE_IN_OUT = [0.65, 0, 0.35, 1];  /* ≈ gsap power3.inOut */
 
+/* The mark alternates between its solid letterforms and a sketch of
+   them — an outline of the same glyphs — twice before settling, then
+   flies. Held in one place because the two faces, the veil and the
+   hero's entrance all have to stay in step; the seconds below are the
+   whole opening. */
+const INTRO_MORPH  = [0, 0.55, 0.70, 0.85, 1.00, 1.15];  /* solid ↔ sketch */
+const INTRO_SOLID  = [1, 1,    0,    1,    0,    1];
+const INTRO_FLIGHT = 1.4;   /* mark leaves for the nav        */
+const INTRO_END    = INTRO_FLIGHT + 0.8;
+
+const morphTiming = {
+  duration: INTRO_MORPH[INTRO_MORPH.length - 1],
+  times: INTRO_MORPH.map((t) => t / INTRO_MORPH[INTRO_MORPH.length - 1]),
+  ease: 'easeInOut',
+};
+
 export const BrandIntro = ({ mark = 'AM', target = '.navbar__logo', onDone }) => {
   const reduced = useReducedMotion();
   const markRef = useRef(null);
@@ -331,7 +347,7 @@ export const BrandIntro = ({ mark = 'AM', target = '.navbar__logo', onDone }) =>
     // Safety net: rAF is paused in background tabs, so the flight may
     // never run and would leave the veil covering the page. Timers keep
     // firing when rAF doesn't, so this guarantees the intro clears.
-    const t = setTimeout(finish, 3400);
+    const t = setTimeout(finish, INTRO_END * 1000 + 1200);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reduced]);
@@ -346,7 +362,7 @@ export const BrandIntro = ({ mark = 'AM', target = '.navbar__logo', onDone }) =>
         className="brand-intro__veil"
         initial={{ opacity: 1 }}
         animate={{ opacity: 0 }}
-        transition={{ duration: 0.6, ease: EASE, delay: 1.2 }}
+        transition={{ duration: 0.6, ease: EASE, delay: INTRO_FLIGHT }}
       />
       {/* Two nested spans, one animation each: the outer carries the
           measured flight, the inner the entrance. Splitting them keeps
@@ -358,7 +374,7 @@ export const BrandIntro = ({ mark = 'AM', target = '.navbar__logo', onDone }) =>
         className="brand-intro__mark"
         initial={{ x: 0, y: 0, scale: 1 }}
         animate={flight || {}}
-        transition={{ duration: 0.8, ease: EASE_IN_OUT, delay: 1.2 }}
+        transition={{ duration: 0.8, ease: EASE_IN_OUT, delay: INTRO_FLIGHT }}
         // Guarded: without it this fires the moment the no-op initial
         // animation settles, before the flight is measured, and clears
         // the intro early.
@@ -370,7 +386,24 @@ export const BrandIntro = ({ mark = 'AM', target = '.navbar__logo', onDone }) =>
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, ease: 'easeOut', delay: 0.1 }}
         >
-          {mark}
+          {/* The solid face sits in normal flow, so it alone defines the
+              box the flight is measured from. The sketch is laid over it
+              and the two cross-fade, which reads as the letterforms
+              breaking down and reforming rather than blinking. */}
+          <motion.span
+            className="brand-intro__face"
+            animate={{ opacity: INTRO_SOLID }}
+            transition={morphTiming}
+          >
+            {mark}
+          </motion.span>
+          <motion.span
+            className="brand-intro__face brand-intro__face--sketch"
+            animate={{ opacity: INTRO_SOLID.map((o) => 1 - o) }}
+            transition={morphTiming}
+          >
+            {mark}
+          </motion.span>
         </motion.span>
       </motion.span>
     </div>
