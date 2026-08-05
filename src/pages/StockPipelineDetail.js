@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiX } from 'react-icons/fi';
 import { FaGithub, FaExternalLinkAlt, FaYoutube } from 'react-icons/fa';
-import { Takeaways, NextProject } from '../components/project/ProjectParts';
 import '../App.css';
 import './StockPipelineDetail.css';
 
@@ -252,14 +251,6 @@ const StockPipelineDetail = () => {
             ))}
           </div>
         </div>
-
-        <Takeaways
-          items={[
-            'Four tickers polled live every 60 seconds',
-            'Database-level unique constraint makes duplicate writes impossible',
-            'Single process on Render — free tiers share no disk',
-          ]}
-        />
 
         {/* ─── Stats ─── */}
         <div className="pipe-stats">
@@ -546,8 +537,6 @@ const StockPipelineDetail = () => {
           </button>
         </div>
       )}
-
-      <NextProject />
 
       <footer className="footer">
         <p>© 2026 Developed by <span className="gradient-text">Ahmad Mohsin</span></p>

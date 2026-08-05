@@ -26,9 +26,6 @@
   --accent-ink:    #ffffff;
   --accent-soft:   rgba(138, 21, 56, 0.08);
   --accent-line:   rgba(138, 21, 56, 0.28);
-  /* For accents sitting on --bg-invert. A deep maroon on black is barely
-     visible, so the inverted surfaces borrow the other theme's value. */
-  --accent-on-invert: #de8098;
 
   /* ── Legacy aliases so every existing page retunes automatically ── */
   --bg-primary:      var(--bg);
@@ -94,8 +91,6 @@
   --accent-ink:  #1f060c;
   --accent-soft: rgba(222, 128, 152, 0.1);
   --accent-line: rgba(222, 128, 152, 0.32);
-  /* Inverted here means white, so this flips back to the deep maroon. */
-  --accent-on-invert: #8a1538;
 }
 
 *, *::before, *::after {
@@ -105,11 +100,7 @@
 }
 
 html {
-  /* Deliberately not scroll-behavior: smooth. Lenis owns the scroll, and
-     the CSS property makes the browser run its own animation for every
-     programmatic scroll at the same time — the two then fight over the
-     position. Smoothness comes from Lenis; anchor jumps go through
-     scrollToEl, which hands them to it. */
+  scroll-behavior: smooth;
   scroll-padding-top: 90px;
 }
 

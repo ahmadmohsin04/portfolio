@@ -18,26 +18,6 @@ import './Motion.css';
 /* Shared curve — matches the reference's slow-out feel */
 export const EASE = [0.22, 1, 0.36, 1];
 
-/* ─── Anchor navigation ───────────────────────────────────────
-   While Lenis owns the scroll, jumping with scrollIntoView starts the
-   browser's own animation alongside Lenis's and the two fight over the
-   position. Every in-page jump goes through here instead, and only
-   falls back to the native call when Lenis isn't running. */
-let lenisRunning = false;
-
-export const scrollToEl = (el) => {
-  if (!el) return;
-
-  if (lenisRunning) {
-    window.dispatchEvent(new CustomEvent('lenis:scrollto', { detail: el }));
-    return;
-  }
-
-  // No Lenis means reduced motion, which should also mean no glide.
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  el.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' });
-};
-
 /* ─── Lenis smooth scroll ─────────────────────────────────── */
 export const useSmoothScroll = () => {
   const reduced = useReducedMotion();
@@ -51,8 +31,6 @@ export const useSmoothScroll = () => {
       smoothWheel: true,
       touchMultiplier: 1.6,
     });
-
-    lenisRunning = true;
 
     let frame;
     const raf = (time) => {
@@ -69,7 +47,6 @@ export const useSmoothScroll = () => {
     window.addEventListener('lenis:scrollto', onAnchor);
 
     return () => {
-      lenisRunning = false;
       cancelAnimationFrame(frame);
       window.removeEventListener('lenis:scrollto', onAnchor);
       lenis.destroy();

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiX } from 'react-icons/fi';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
-import { Takeaways, NextProject } from '../components/project/ProjectParts';
 import '../App.css';
 import './CryptoDetail.css';
 
@@ -103,14 +102,6 @@ const CryptoDetail = () => {
           </div>
         </div>
 
-        <Takeaways
-          items={[
-            'Three screens: onboarding, dashboard, loan flow',
-            'Built in Flutter and Dart with custom widgets',
-            'Loan inputs surface live APY and liquidation price',
-          ]}
-        />
-
         {/* ─── Full showcase ─── */}
         <div className="detail__section">
           <span className="section-tag">Preview</span>
@@ -200,8 +191,6 @@ const CryptoDetail = () => {
           </div>
         </div>
       )}
-
-      <NextProject />
 
       <footer className="footer">
         <p>© 2026 Developed by <span className="gradient-text">Ahmad Mohsin</span></p>

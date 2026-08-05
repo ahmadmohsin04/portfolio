@@ -4,7 +4,6 @@ import { FiArrowLeft } from 'react-icons/fi';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 import '../App.css';
 import './AlmushtarakaDetail.css';
-import { Takeaways, NextProject } from '../components/project/ProjectParts';
 
 const modules = [
   {
@@ -198,14 +197,6 @@ const AlmushtarakaDetail = () => {
           </div>
         </div>
 
-        <Takeaways
-          items={[
-            'Nine production modules for a UAE trading company',
-            'PDFs generated programmatically with jsPDF, no HTML capture',
-            'Buyers sign remotely, drafts update live via Supabase',
-          ]}
-        />
-
         {/* ─── Video Demo ─── */}
         <div className="detail__section">
           <span className="section-tag">Demo</span>
@@ -251,8 +242,6 @@ const AlmushtarakaDetail = () => {
         </div>
 
       </div>
-
-      <NextProject />
 
       <footer className="footer">
         <p>© 2026 Developed by <span className="gradient-text">Ahmad Mohsin</span></p>

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiX } from 'react-icons/fi';
 import { FaGithub, FaExternalLinkAlt, FaYoutube, FaLinkedin } from 'react-icons/fa';
-import { Takeaways, NextProject } from '../components/project/ProjectParts';
 import '../App.css';
 import './CartographerDetail.css';
 
@@ -243,14 +242,6 @@ const CartographerDetail = () => {
             ))}
           </div>
         </div>
-
-        <Takeaways
-          items={[
-            'Maps 1,069-file repos across eight languages',
-            'One tarball request replaces 400 GitHub API calls',
-            '400-file map in 2.9s, before any LLM call',
-          ]}
-        />
 
         {/* ─── Stats ─── */}
         <div className="carto-stats">
@@ -584,8 +575,6 @@ const CartographerDetail = () => {
           </button>
         </div>
       )}
-
-      <NextProject />
 
       <footer className="footer">
         <p>© 2026 Developed by <span className="gradient-text">Ahmad Mohsin</span></p>

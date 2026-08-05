@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiX } from 'react-icons/fi';
-import { Takeaways, NextProject } from '../components/project/ProjectParts';
 import '../App.css';
 import './KomorebiDetail.css';
 
@@ -126,14 +125,6 @@ const KomorebiDetail = () => {
           </div>
         </div>
 
-        <Takeaways
-          items={[
-            'Seven screens spanning academics, productivity, and campus life',
-            'Flutter and Dart front end, designed in Figma',
-            'Interface complete; backend still in development',
-          ]}
-        />
-
         {/* ─── Module overview ─── */}
         <div className="detail__section">
           <span className="section-tag">Structure</span>
@@ -231,8 +222,6 @@ const KomorebiDetail = () => {
           </button>
         </div>
       )}
-
-      <NextProject />
 
       <footer className="footer">
         <p>© 2026 Developed by <span className="gradient-text">Ahmad Mohsin</span></p>

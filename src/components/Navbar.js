@@ -9,7 +9,6 @@ import {
   NAV_ENTER_STEP,
   NAV_RISE_AT,
   NAV_RISE_DUR,
-  scrollToEl,
 } from './motion/Motion';
 import './Navbar.css';
 
@@ -101,7 +100,8 @@ const Navbar = ({ brandHidden = false, animateIn = false }) => {
   const handleNavClick = (e, href) => {
     e.preventDefault();
     setMenuOpen(false);
-    scrollToEl(document.querySelector(href));
+    const el = document.querySelector(href);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
   // The mobile menu is position:fixed inside this bar, and any transform
