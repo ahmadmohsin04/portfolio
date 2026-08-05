@@ -120,15 +120,22 @@ export const SPECIMENS = [
     dir: 'ltr',
   },
   {
-    key: 'inter-thin',
+    /* Condensed and light. This slot held Inter 200, which sat next to
+       the Space Grotesk that closes the run and read as the same shape
+       at a different weight — both are plain Latin grotesques. Oswald
+       differs on three axes at once: it is narrower (55px against 88px
+       at matched cap height), lighter, and condensed in proportion
+       rather than merely thinner. */
+    key: 'oswald',
     text: 'AM',
-    family: 'Inter',
+    family: 'Oswald',
     fallback: 'sans-serif',
     weight: 200,
     style: 'normal',
-    tracking: '-0.02em',
-    /* same cap height as Inter */
-    scale: 1,
+    /* Condensed caps need a little air to stay legible as a monogram. */
+    tracking: '0.03em',
+    /* measured against Inter's cap height */
+    scale: 0.89,
     lang: 'en',
     dir: 'ltr',
   },
