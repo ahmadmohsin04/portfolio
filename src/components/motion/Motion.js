@@ -1,6 +1,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import Lenis from 'lenis';
+import { roughFrames, ROUGH_VIEWBOX } from './roughMark';
 import './Motion.css';
 
 /* ============================================================
@@ -306,9 +307,12 @@ export const SwapLines = ({ phrases, interval = 5100, startDelay = 0, className 
 
 const EASE_IN_OUT = [0.65, 0, 0.35, 1];  /* ≈ gsap power3.inOut */
 
-const WIPE_AT    = [0, 0.40, 0.78, 0.92, 1.30];
-const WIPE_WIDTH = ['0%', '0%', '100%', '100%', '0%'];
-const SCAN_FADE  = [0, 1, 1, 1, 0];
+/* Beat 2: the solid letterforms hand over to the drawn ones and back. */
+const SKETCH_AT    = [0, 0.40, 0.55, 1.15, 1.30];
+const SOLID_FADE   = [1, 1, 0, 0, 1];
+const SKETCH_FADE  = [0, 0, 1, 1, 0];
+const ROUGH_FRAMES = roughFrames();
+const ROUGH_FPS_MS = 75;   /* the reference's own frame rate */
 
 const CURTAIN_AT   = 1.45;                    /* white panel starts down   */
 const CURTAIN_DUR  = 0.6;
@@ -317,36 +321,59 @@ const INTRO_FLIGHT = CURTAIN_LAND + 0.1;      /* mark leaves for the nav   */
 const INTRO_FLIGHT_DUR = 0.7;
 const INTRO_END    = INTRO_FLIGHT + INTRO_FLIGHT_DUR;
 
-const sweepTiming = {
-  duration: WIPE_AT[WIPE_AT.length - 1],
-  times: WIPE_AT.map((t) => t / WIPE_AT[WIPE_AT.length - 1]),
+const sketchTiming = {
+  duration: SKETCH_AT[SKETCH_AT.length - 1],
+  times: SKETCH_AT.map((t) => t / SKETCH_AT[SKETCH_AT.length - 1]),
   ease: 'easeInOut',
 };
 
 const curtainTiming = { duration: CURTAIN_DUR, delay: CURTAIN_AT, ease: EASE_IN_OUT };
 
-/* The mark's two faces: solid letterforms, plus an outline of the same
-   glyphs revealed through a widening window. Shared by both colourways
-   so the black copy is guaranteed identical to the white one. */
-const MarkFaces = ({ mark, sweep }) => (
-  <>
-    <span className="brand-intro__face">{mark}</span>
-    {sweep && (
+/* The flipbook. Frames are generated once at module load, so this only
+   ever swaps which path string is mounted. */
+const RoughMark = () => {
+  const [frame, setFrame] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(
+      () => setFrame((n) => (n + 1) % ROUGH_FRAMES.length),
+      ROUGH_FPS_MS
+    );
+    return () => clearInterval(id);
+  }, []);
+
+  return (
+    <svg className="brand-intro__rough" viewBox={ROUGH_VIEWBOX} aria-hidden="true" focusable="false">
+      <path d={ROUGH_FRAMES[frame]} />
+    </svg>
+  );
+};
+
+/* The mark's two faces: the real letterforms, and the drawn ones. Only
+   the solid face sits in normal flow, so it alone defines the box the
+   flight is measured from — the sketch is laid over it and deliberately
+   overshoots, the way a drawn line runs past its corner. */
+const MarkFaces = ({ mark, sketch }) =>
+  sketch ? (
+    <>
       <motion.span
-        className="brand-intro__wipe"
-        animate={{ width: WIPE_WIDTH }}
-        transition={sweepTiming}
+        className="brand-intro__face"
+        animate={{ opacity: SOLID_FADE }}
+        transition={sketchTiming}
       >
-        <span className="brand-intro__face brand-intro__face--sketch">{mark}</span>
-        <motion.span
-          className="brand-intro__scan"
-          animate={{ opacity: SCAN_FADE }}
-          transition={sweepTiming}
-        />
+        {mark}
       </motion.span>
-    )}
-  </>
-);
+      <motion.span
+        className="brand-intro__sketch"
+        animate={{ opacity: SKETCH_FADE }}
+        transition={sketchTiming}
+      >
+        <RoughMark />
+      </motion.span>
+    </>
+  ) : (
+    <span className="brand-intro__face">{mark}</span>
+  );
 
 export const BrandIntro = ({ mark = 'AM', target = '.navbar__logo', onDone }) => {
   const reduced = useReducedMotion();
@@ -411,7 +438,7 @@ export const BrandIntro = ({ mark = 'AM', target = '.navbar__logo', onDone }) =>
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.45, ease: 'easeOut', delay: 0.05 }}
         >
-          <MarkFaces mark={mark} sweep />
+          <MarkFaces mark={mark} sketch />
         </motion.span>
       </motion.div>
 
