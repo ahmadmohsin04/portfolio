@@ -39,6 +39,16 @@
   gap: 24px;
 }
 
+/* Once the entrance is over the items belong to CSS again. !important is
+   deliberate and is the whole point: it has to beat the inline opacity:0
+   the animation leaves behind if its clock never ran — a background tab
+   gets no animation frames, and the bar would stay invisible. */
+.navbar--settled .navbar__links li,
+.navbar--settled .navbar__actions button {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
 /* ─── Logo ─── */
 .navbar__logo {
   font-family: var(--font-display);

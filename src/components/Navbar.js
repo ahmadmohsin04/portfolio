@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { FiSun, FiMoon } from 'react-icons/fi';
 import { useTheme } from '../context/ThemeContext';
+import { EASE, NAV_ENTER_AT, NAV_ENTER_STEP } from './motion/Motion';
 import './Navbar.css';
 
 const navLinks = [
@@ -12,13 +14,46 @@ const navLinks = [
   { label: 'Contact', href: '#contact' },
 ];
 
-const Navbar = ({ brandHidden = false }) => {
+const Navbar = ({ brandHidden = false, animateIn = false }) => {
   const [scrolled, setScrolled] = useState(false);
   const [retracted, setRetracted] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const reduced = useReducedMotion();
 
   const lastY = useRef(0);
+  const [settled, setSettled] = useState(!animateIn);
+
+  /* The bar assembles around the mark as it arrives: each item lifts into
+     place one step behind the last. Only during an opening — arriving
+     from a project page, the nav is simply already there.
+
+     Per-item delays rather than a stagger container on purpose. The list
+     itself carries a CSS transform on mobile (it slides off-canvas), and
+     a variant container would put an inline transform on the same element
+     and take the menu with it. */
+  const enter = (i) =>
+    animateIn && !reduced
+      ? {
+          initial: { opacity: 0, y: -7 },
+          animate: { opacity: 1, y: 0 },
+          transition: { duration: 0.55, ease: EASE, delay: NAV_ENTER_AT + i * NAV_ENTER_STEP },
+        }
+      : {};
+
+  /* Safety net, the same one the intro carries. These items start at
+     opacity 0 and are lifted by an animation clock that only advances on
+     animation frames — which a background tab does not get. Opened in a
+     background tab, the whole bar would sit invisible until the tab was
+     focused. Timers keep running when frames don't, so this hands the
+     items back to CSS once the entrance is long past. */
+  useEffect(() => {
+    if (!animateIn || settled) return undefined;
+    const done =
+      (NAV_ENTER_AT + (navLinks.length + 1) * NAV_ENTER_STEP + 0.55) * 1000 + 1200;
+    const t = setTimeout(() => setSettled(true), done);
+    return () => clearTimeout(t);
+  }, [animateIn, settled]);
 
   useEffect(() => {
     const onScroll = () => {
@@ -51,7 +86,7 @@ const Navbar = ({ brandHidden = false }) => {
     <nav
       className={`navbar ${scrolled ? 'navbar--scrolled' : ''} ${
         retracted && !menuOpen ? 'navbar--retracted' : ''
-      }`}
+      } ${settled ? 'navbar--settled' : ''}`}
     >
       <div className="navbar__inner">
         <a
@@ -63,33 +98,35 @@ const Navbar = ({ brandHidden = false }) => {
         </a>
 
         <ul className={`navbar__links ${menuOpen ? 'navbar__links--open' : ''}`}>
-          {navLinks.map((link) => (
-            <li key={link.label}>
+          {navLinks.map((link, i) => (
+            <motion.li key={link.label} {...enter(i)}>
               <a href={link.href} onClick={(e) => handleNavClick(e, link.href)}>
                 {link.label}
               </a>
-            </li>
+            </motion.li>
           ))}
         </ul>
 
         <div className="navbar__actions">
-          <button
+          <motion.button
             className="navbar__theme-toggle"
             onClick={toggleTheme}
             aria-label="Toggle theme"
+            {...enter(navLinks.length)}
           >
             {theme === 'dark' ? <FiSun size={17} /> : <FiMoon size={17} />}
-          </button>
+          </motion.button>
 
-          <button
+          <motion.button
             className={`navbar__hamburger ${menuOpen ? 'navbar__hamburger--open' : ''}`}
             onClick={() => setMenuOpen((v) => !v)}
             aria-label="Toggle menu"
+            {...enter(navLinks.length + 1)}
           >
             <span />
             <span />
             <span />
-          </button>
+          </motion.button>
         </div>
       </div>
     </nav>

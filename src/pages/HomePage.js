@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import '../App.css';
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
@@ -19,6 +19,12 @@ let introPlayed = false;
 function HomePage() {
   const [introDone, setIntroDone] = useState(introPlayed);
 
+  /* Captured on the first render, before handleIntroDone flips the module
+     flag, so it stays true for the whole opening. Reading !introDone
+     instead would go false the moment the intro ended and cancel the
+     nav's entrance halfway through it. */
+  const playsIntro = useRef(!introPlayed).current;
+
   const handleIntroDone = () => {
     introPlayed = true;
     setIntroDone(true);
@@ -36,8 +42,9 @@ function HomePage() {
       {!introDone && <BrandIntro onDone={handleIntroDone} />}
 
       {/* The nav logo is where the intro's mark lands, so it stays
-          hidden until the flight has finished on top of it. */}
-      <Navbar brandHidden={!introDone} />
+          hidden until the flight has finished on top of it; the rest of
+          the bar assembles around it as it arrives. */}
+      <Navbar brandHidden={!introDone} animateIn={playsIntro} />
       <main>
         <Hero />
         <About />

@@ -331,6 +331,12 @@ const INTRO_END    = INTRO_FLIGHT + INTRO_FLIGHT_DUR;
    coupling that drifts the moment a beat is retimed. */
 export const INTRO_REVEAL_AT = INTRO_FLIGHT + 0.25;
 
+/* The nav assembles around the arriving mark. It can't start before the
+   curtain's face begins clearing at INTRO_FLIGHT, since the whole bar is
+   underneath the intro until then and the entrance would play unseen. */
+export const NAV_ENTER_AT   = INTRO_FLIGHT + 0.05;
+export const NAV_ENTER_STEP = 0.06;
+
 const sketchTiming = {
   duration: SKETCH_AT[SKETCH_AT.length - 1],
   times: SKETCH_AT.map((t) => t / SKETCH_AT[SKETCH_AT.length - 1]),
