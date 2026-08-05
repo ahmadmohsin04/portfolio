@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import { FaFigma, FaLinkedin, FaExternalLinkAlt } from 'react-icons/fa';
+import { Takeaways, NextProject } from '../components/project/ProjectParts';
 import '../App.css';
 import './MediumDesignDetail.css';
 
@@ -95,6 +96,14 @@ const MediumDesignDetail = () => {
           </div>
         </div>
 
+        <Takeaways
+          items={[
+            'Complete landing page redesign, desktop and mobile layouts',
+            'Tabbed viewer switches between screenshot and Figma embed',
+            'Designed in Figma before any Flutter code',
+          ]}
+        />
+
         {/* ─── Design viewer ─── */}
         <div className="detail__section">
           <span className="section-tag">Design</span>
@@ -181,6 +190,8 @@ const MediumDesignDetail = () => {
         </div>
 
       </div>
+
+      <NextProject />
 
       <footer className="footer">
         <p>© 2026 Developed by <span className="gradient-text">Ahmad Mohsin</span></p>

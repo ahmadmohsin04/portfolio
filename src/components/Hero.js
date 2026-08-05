@@ -3,7 +3,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { FiArrowDown } from 'react-icons/fi';
 import { FaLinkedin } from 'react-icons/fa';
 import { HiMail } from 'react-icons/hi';
-import { SwapLines, EASE, INTRO_REVEAL_AT } from './motion/Motion';
+import { SwapLines, EASE, INTRO_REVEAL_AT, scrollToEl } from './motion/Motion';
 import './Hero.css';
 
 const words = [
@@ -39,9 +39,7 @@ const PHRASES = words.flatMap((role) => [
 const Hero = () => {
   const reduced = useReducedMotion();
 
-  const scrollToAbout = () => {
-    document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' });
-  };
+  const scrollToAbout = () => scrollToEl(document.querySelector('#about'));
 
   const rise = (delay) =>
     reduced
@@ -89,7 +87,7 @@ const Hero = () => {
               </a>
               <a href="#contact" className="btn btn--ghost" onClick={(e) => {
                 e.preventDefault();
-                document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
+                scrollToEl(document.querySelector('#contact'));
               }}>
                 <HiMail size={16} />
                 Get in Touch

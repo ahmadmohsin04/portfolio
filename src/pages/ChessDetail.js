@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiX } from 'react-icons/fi';
 import { FaLinkedin, FaExternalLinkAlt } from 'react-icons/fa';
+import { Takeaways, NextProject } from '../components/project/ProjectParts';
 import '../App.css';
 import './ChessDetail.css';
 
@@ -132,6 +133,14 @@ const ChessDetail = () => {
           </div>
         </div>
 
+        <Takeaways
+          items={[
+            '20 Stockfish skill levels, beginner to grandmaster',
+            '1700+ lines, one HTML file, zero build step',
+            'Runs in any browser — no install, no account',
+          ]}
+        />
+
         {/* ─── Features ─── */}
         <div className="detail__section">
           <span className="section-tag">Features</span>
@@ -234,6 +243,8 @@ const ChessDetail = () => {
           </button>
         </div>
       )}
+
+      <NextProject />
 
       <footer className="footer">
         <p>© 2026 Developed by <span className="gradient-text">Ahmad Mohsin</span></p>

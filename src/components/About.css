@@ -94,3 +94,161 @@
   .about__step-desc { padding-left: 0; }
   .about__step-icon { margin-bottom: 14px; }
 }
+
+/* ─── The journey, pinned ──────────────────────────────────────
+   The wrapper's height is set inline from the stage count, so the
+   scroll budget follows the content rather than a magic number. */
+.journey {
+  position: relative;
+  margin-top: 96px;
+  border-top: 1px solid var(--line);
+}
+
+.journey__pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.journey__inner {
+  max-width: var(--maxw);
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  display: grid;
+  grid-template-columns: minmax(190px, 260px) 1fr;
+  gap: 64px;
+  align-items: center;
+}
+
+/* ─── The rail: where you are in the path ─── */
+.journey__rail {
+  list-style: none;
+  border-left: 1px solid var(--line);
+}
+
+.journey__tick {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 14px 0 14px 22px;
+  position: relative;
+  color: var(--ink-3);
+  transition: color var(--transition);
+}
+
+/* The marker rides the left rule, so the rule reads as the path and
+   the marker as the position on it. */
+.journey__tick::before {
+  content: '';
+  position: absolute;
+  left: -1px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--accent);
+  transform: scaleY(0);
+  transform-origin: top center;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.journey__tick--on::before,
+.journey__tick--past::before { transform: scaleY(1); }
+
+.journey__tick--past { color: var(--ink-2); }
+.journey__tick--on   { color: var(--ink); }
+
+.journey__tick-num {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+}
+
+.journey__tick-label {
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ─── The stage ─── */
+.journey__stages {
+  position: relative;
+  min-height: 300px;
+}
+
+.journey__stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  pointer-events: none;
+}
+.journey__stage--on { pointer-events: auto; }
+
+.journey__icon {
+  font-size: 2.2rem;
+  line-height: 1;
+  margin-bottom: 26px;
+}
+
+.journey__label {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 6vw, 4.6rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 0.95;
+  letter-spacing: var(--track-title);
+  color: var(--ink);
+  margin-bottom: 20px;
+}
+
+.journey__desc {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--ink-2);
+  max-width: 42ch;
+}
+
+/* ─── Unpinned below the desktop range ─────────────────────────
+   The inline height has to be beaten with !important — it is set from
+   the stage count on the element itself, and left alone it would leave
+   four blank screens of scroll behind a section that no longer pins. */
+@media (max-width: 900px) {
+  .journey {
+    height: auto !important;
+    margin-top: 56px;
+  }
+  .journey__pin {
+    position: static;
+    height: auto;
+    padding: 8px 0 0;
+  }
+  .journey__inner {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .journey__rail { display: none; }
+  .journey__stages {
+    position: static;
+    min-height: 0;
+    display: grid;
+    gap: 0;
+  }
+  .journey__stage {
+    position: static;
+    opacity: 1 !important;
+    transform: none !important;
+    pointer-events: auto;
+    padding: 26px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .journey__stage:last-child { border-bottom: none; }
+  .journey__icon { font-size: 1.5rem; margin-bottom: 14px; }
+  .journey__label { font-size: 1.6rem; margin-bottom: 10px; }
+  .journey__desc { font-size: 0.9rem; }
+}

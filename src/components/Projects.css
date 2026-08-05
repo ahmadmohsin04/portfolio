@@ -1,11 +1,21 @@
+/* Twelve columns so the cards can be ranked by width. An even two-column
+   grid made a production platform and a UI exploration the same size,
+   which is a claim about the work — and the wrong one. The spans come
+   from the project list, so the running order and the ranking live in
+   one place. */
 .projects__grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(12, 1fr);
   gap: 0;
   margin-top: 80px;
   border-top: 1px solid var(--line);
   border-left: 1px solid var(--line);
 }
+
+.project-card--span-12 { grid-column: span 12; }
+.project-card--span-7  { grid-column: span 7; }
+.project-card--span-5  { grid-column: span 5; }
+.project-card--span-4  { grid-column: span 4; }
 
 .project-card {
   padding: 44px 40px;
@@ -55,13 +65,30 @@
   margin-bottom: 18px;
 }
 
+/* The one clause every card carries. Set larger than the old paragraph
+   was, because it is now the only thing being read at this level. */
+.project-card__line {
+  font-size: 1rem;
+  color: var(--ink-2);
+  line-height: 1.55;
+  letter-spacing: -0.012em;
+  margin-bottom: 24px;
+  max-width: 40ch;
+}
+
+.project-card--featured .project-card__line {
+  font-size: clamp(1.05rem, 1.7vw, 1.35rem);
+  max-width: 34ch;
+  margin-bottom: 18px;
+}
+
 .project-card__desc {
   font-size: 0.9rem;
   color: var(--ink-2);
   line-height: 1.7;
   letter-spacing: -0.011em;
   margin-bottom: 24px;
-  max-width: 46ch;
+  max-width: 52ch;
 }
 
 .project-card__tags {
@@ -111,7 +138,9 @@
   flex-shrink: 0;
 }
 
-.project-card--featured .project-card__badge { color: var(--accent); }
+/* The featured card inverts its ground, so the accent has to invert with
+   it — the deep maroon on black is all but invisible. */
+.project-card--featured .project-card__badge { color: var(--accent-on-invert); }
 .project-card__badge--web    { color: #2563eb; }
 .project-card__badge--design { color: #c2410c; }
 .project-card__badge--app    { color: #16a34a; }
@@ -198,11 +227,24 @@
   .project-card { padding: 34px 26px; }
 }
 
+/* Below the desktop range the ranking has nowhere to go — every card is
+   full width, and the order alone carries it. */
+@media (max-width: 980px) {
+  .project-card--span-12,
+  .project-card--span-7,
+  .project-card--span-5,
+  .project-card--span-4 { grid-column: span 12; }
+}
+
 @media (max-width: 700px) {
   .projects__grid {
     grid-template-columns: 1fr;
     margin-top: 52px;
   }
+  .project-card--span-12,
+  .project-card--span-7,
+  .project-card--span-5,
+  .project-card--span-4 { grid-column: span 1; }
   .project-card {
     padding: 30px 0;
     border-right: none;

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiX } from 'react-icons/fi';
 import { FaGithub, FaLinkedin, FaExternalLinkAlt } from 'react-icons/fa';
+import { Takeaways, NextProject } from '../components/project/ProjectParts';
 import '../App.css';
 import './HabitTrackerDetail.css';
 
@@ -150,6 +151,14 @@ const HabitTrackerDetail = () => {
           </div>
         </div>
 
+        <Takeaways
+          items={[
+            'Flutter and Dart app for daily habit check-ins',
+            'Local ISAR database, offline-first with no cloud dependency',
+            'GitHub-style heatmap shows completed days at a glance',
+          ]}
+        />
+
         {/* ─── Features ─── */}
         <div className="detail__section">
           <span className="section-tag">Features</span>
@@ -254,6 +263,8 @@ const HabitTrackerDetail = () => {
           </button>
         </div>
       )}
+
+      <NextProject />
 
       <footer className="footer">
         <p>© 2026 Developed by <span className="gradient-text">Ahmad Mohsin</span></p>
