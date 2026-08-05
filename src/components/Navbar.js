@@ -16,7 +16,7 @@ import './Navbar.css';
    Three keyframes rather than two so it holds through the fast part of
    the travel and collapses over the last stretch, instead of thinning out
    from the very first frame. */
-const SHADOW_LIFTED = '0px 40px 80px rgba(0, 0, 0, 0.30)';
+const SHADOW_LIFTED = '0px 32px 64px rgba(0, 0, 0, 0.14)';
 const SHADOW_FLAT   = '0px 0px 0px rgba(0, 0, 0, 0)';
 const SHADOW_KEYS   = [SHADOW_LIFTED, SHADOW_LIFTED, SHADOW_FLAT];
 
