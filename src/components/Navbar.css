@@ -68,6 +68,12 @@
   transform: none !important;
 }
 
+/* The shadow belongs to the flight only. If the animation clock never
+   advanced, the panel would otherwise sit there permanently lifted. */
+.navbar--settled .navbar__inner {
+  box-shadow: none !important;
+}
+
 /* ─── Logo ─── */
 .navbar__logo {
   font-family: var(--font-display);

@@ -329,15 +329,19 @@ const CURTAIN_LAND = CURTAIN_AT + CURTAIN_DUR;
 const REVEAL_AT  = CURTAIN_LAND + 0.05;
 const REVEAL_DUR = 0.5;
 
-/* The bar rises into place from below. Deliberately the slowest travel in
-   the opening: it is a panel being set down, not an element fading in. */
-export const NAV_RISE_AT  = CURTAIN_LAND + 0.1;
-export const NAV_RISE_DUR = 0.9;
+/* The bar flies the whole height of the screen, from below the bottom
+   edge up to the top. Started a beat after the reveal begins so most of
+   that travel happens in view rather than behind the clearing curtain,
+   and given the longest duration in the opening because it covers the
+   longest distance — a short one over that far reads as a jump. */
+export const NAV_RISE_AT  = REVEAL_AT + 0.2;
+export const NAV_RISE_DUR = 1.2;
 const NAV_RISE_END = NAV_RISE_AT + NAV_RISE_DUR;
 
-/* The mark leaves while the bar is still settling and lands after it has
-   come to rest, so the slot it drops into is already where it belongs. */
-const INTRO_FLIGHT = NAV_RISE_AT + 0.6;
+/* The mark leaves while the bar is still travelling and lands after it
+   has come to rest, so the slot it drops into is already where it
+   belongs. */
+const INTRO_FLIGHT = NAV_RISE_AT + 0.9;
 const INTRO_FLIGHT_DUR = 0.65;
 const INTRO_END    = INTRO_FLIGHT + INTRO_FLIGHT_DUR;
 
@@ -346,11 +350,13 @@ const INTRO_END    = INTRO_FLIGHT + INTRO_FLIGHT_DUR;
    coupling that drifts the moment a beat is retimed. */
 export const INTRO_REVEAL_AT = REVEAL_AT + 0.3;
 
-/* The bar's contents fill in only once the bar itself has been set down —
-   growing them while it was still travelling read as one muddled move
-   rather than two. */
-export const NAV_ENTER_AT   = NAV_RISE_END + 0.05;
-export const NAV_ENTER_STEP = 0.07;
+/* The contents fill in over the tail of the bar's travel, while it is
+   already decelerating into place. Waiting for it to stop entirely made
+   the opening read as two separate errands; overlapping the last quarter
+   makes the bar arrive alive. */
+export const NAV_ENTER_AT   = NAV_RISE_END - 0.25;
+export const NAV_ENTER_STEP = 0.05;
+export const NAV_ENTER_DUR  = 0.45;
 
 const sketchTiming = {
   duration: SKETCH_AT[SKETCH_AT.length - 1],

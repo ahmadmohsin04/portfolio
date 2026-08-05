@@ -2,8 +2,23 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { FiSun, FiMoon } from 'react-icons/fi';
 import { useTheme } from '../context/ThemeContext';
-import { EASE, NAV_ENTER_AT, NAV_ENTER_STEP, NAV_RISE_AT, NAV_RISE_DUR } from './motion/Motion';
+import {
+  EASE,
+  NAV_ENTER_AT,
+  NAV_ENTER_DUR,
+  NAV_ENTER_STEP,
+  NAV_RISE_AT,
+  NAV_RISE_DUR,
+} from './motion/Motion';
 import './Navbar.css';
+
+/* Present while the panel is in the air, gone by the time it is placed.
+   Three keyframes rather than two so it holds through the fast part of
+   the travel and collapses over the last stretch, instead of thinning out
+   from the very first frame. */
+const SHADOW_LIFTED = '0px 40px 80px rgba(0, 0, 0, 0.30)';
+const SHADOW_FLAT   = '0px 0px 0px rgba(0, 0, 0, 0)';
+const SHADOW_KEYS   = [SHADOW_LIFTED, SHADOW_LIFTED, SHADOW_FLAT];
 
 const navLinks = [
   { label: 'About', href: '#about' },
@@ -24,6 +39,11 @@ const Navbar = ({ brandHidden = false, animateIn = false }) => {
   const lastY = useRef(0);
   const [settled, setSettled] = useState(!animateIn);
 
+  /* The whole height of the screen, so the panel genuinely starts below
+     the bottom edge rather than merely low on it. Captured once — a
+     resize mid-flight is not worth chasing for a one-shot opening. */
+  const riseFrom = useRef(typeof window === 'undefined' ? 800 : window.innerHeight).current;
+
   /* The bar assembles around the mark as it arrives: each item lifts into
      place one step behind the last. Only during an opening — arriving
      from a project page, the nav is simply already there.
@@ -42,7 +62,7 @@ const Navbar = ({ brandHidden = false, animateIn = false }) => {
              right, then settles left into its slot. */
           initial: { opacity: 0, scale: 0.72, x: 14 },
           animate: { opacity: 1, scale: 1, x: 0 },
-          transition: { duration: 0.6, ease: EASE, delay: NAV_ENTER_AT + i * NAV_ENTER_STEP },
+          transition: { duration: NAV_ENTER_DUR, ease: EASE, delay: NAV_ENTER_AT + i * NAV_ENTER_STEP },
         }
       : {};
 
@@ -55,7 +75,7 @@ const Navbar = ({ brandHidden = false, animateIn = false }) => {
   useEffect(() => {
     if (!animateIn || settled) return undefined;
     const done =
-      (NAV_ENTER_AT + (navLinks.length + 1) * NAV_ENTER_STEP + 0.6) * 1000 + 1200;
+      (NAV_ENTER_AT + (navLinks.length + 1) * NAV_ENTER_STEP + NAV_ENTER_DUR) * 1000 + 1200;
     const t = setTimeout(() => setSettled(true), done);
     return () => clearTimeout(t);
   }, [animateIn, settled]);
@@ -93,15 +113,29 @@ const Navbar = ({ brandHidden = false, animateIn = false }) => {
         retracted && !menuOpen ? 'navbar--retracted' : ''
       } ${settled ? 'navbar--settled' : ''}`}
     >
-      {/* The bar is a panel in its own right, and it is set down rather
-          than faded in: it travels up from below over a longer, slower
-          arc than anything else in the opening, and the mark drops into
-          it once it has come to rest. */}
+      {/* The bar is a panel in its own right, and it is flown into place
+          rather than faded in: it starts below the bottom edge of the
+          screen and travels the full height up to the top, carrying its
+          contents with it. No opacity in the move — it is a physical
+          arrival, and fading it would undo that.
+
+          The shadow exists only while it is in the air. It is carried on
+          the element rather than in the stylesheet precisely so it can
+          be animated to nothing, and it collapses over the last part of
+          the travel so the panel is flat by the time it is placed. */}
       <motion.div
         className="navbar__inner"
-        initial={animateIn && !reduced ? { y: 44, opacity: 0 } : false}
-        animate={animateIn && !reduced ? { y: 0, opacity: 1 } : undefined}
-        transition={{ duration: NAV_RISE_DUR, ease: EASE, delay: NAV_RISE_AT }}
+        initial={animateIn && !reduced ? { y: riseFrom, boxShadow: SHADOW_LIFTED } : false}
+        animate={animateIn && !reduced ? { y: 0, boxShadow: SHADOW_KEYS } : undefined}
+        transition={{
+          y: { duration: NAV_RISE_DUR, ease: EASE, delay: NAV_RISE_AT },
+          boxShadow: {
+            duration: NAV_RISE_DUR,
+            delay: NAV_RISE_AT,
+            times: [0, 0.55, 1],
+            ease: 'easeOut',
+          },
+        }}
       >
         <a
           href="#hero"
