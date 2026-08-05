@@ -1,5 +1,10 @@
 .hero {
   min-height: 100vh;
+  /* On phones vh is the *large* viewport — measured with the address bar
+     hidden — so 100vh is taller than what is actually on screen and the
+     hero runs off the bottom before you have scrolled. dvh is the real
+     visible height; the vh above stays as the fallback. */
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   justify-content: center;

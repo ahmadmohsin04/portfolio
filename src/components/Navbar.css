@@ -91,6 +91,19 @@
 }
 .navbar__logo:hover { color: var(--accent); }
 
+/* The mark is 27x17 of actual glyph, which is far too small to hit with a
+   thumb. The tap area is extended with a pseudo-element rather than with
+   padding on purpose: the intro measures this element to work out where
+   to land the flying mark, and padding it would move the landing. A
+   pseudo-element is a child, so it leaves the box alone. */
+.navbar__logo { position: relative; }
+
+.navbar__logo::after {
+  content: '';
+  position: absolute;
+  inset: -14px -12px;
+}
+
 /* ─── Links ─── */
 .navbar__links {
   display: flex;
@@ -180,6 +193,14 @@
 /* ─── Mobile ─── */
 @media (max-width: 860px) {
   .navbar__hamburger { display: flex; }
+
+  /* 36px is a mouse target, not a thumb one. Both fit inside the bar's
+     58px min-height, so widening them costs no layout. */
+  .navbar__theme-toggle,
+  .navbar__hamburger {
+    width: 44px;
+    height: 44px;
+  }
 
   /* Hangs off the bar rather than off the viewport. It used to be
      position:fixed, which stopped working the moment the bar itself

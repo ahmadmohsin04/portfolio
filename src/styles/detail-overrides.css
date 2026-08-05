@@ -183,6 +183,16 @@
   .detail__section { padding: 68px 0; }
 }
 
+@media (max-width: 700px) {
+  /* Shared by all eight project pages, and the only way back — it was
+     30px tall, which is a mouse target rather than a thumb one. */
+  .detail__back-btn {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
 @media (max-width: 600px) {
   .detail__hero { padding: 60px 0 44px; }
   .detail__section { padding: 52px 0; }
