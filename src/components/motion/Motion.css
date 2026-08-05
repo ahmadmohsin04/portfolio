@@ -79,16 +79,49 @@
   position: fixed;
   inset: 0;
   z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   pointer-events: none;
 }
 
-.brand-intro__veil {
+/* Beats 1–2: the dark ground and the mark drawn on it. */
+.brand-intro__under {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-intro__stage {
+  position: absolute;
+  inset: 0;
+  background: var(--bg-invert);
+}
+
+/* Beat 3: the panel that wipes the ground from dark to light. Its face
+   is a child rather than its own background, so the face can fade away
+   at the end without taking the mark inside down with it. */
+.brand-intro__curtain {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  will-change: transform;
+}
+
+.brand-intro__curtain-face {
   position: absolute;
   inset: 0;
   background: var(--bg);
+}
+
+/* Counter-translated by exactly the curtain's own travel, so anything
+   in here stays put on screen while the panel moves across it. */
+.brand-intro__curtain-inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
 }
 
 .brand-intro__mark {
@@ -110,10 +143,15 @@
   will-change: transform;
 }
 
-.brand-intro__mark-in {
-  position: relative;
-  display: inline-block;
-  will-change: transform, opacity;
+/* The mark on the dark ground, before the curtain flips it. Declared
+   after .brand-intro__mark, not before: both are single-class rules, so
+   source order decides and the base colour would otherwise win — which
+   left this drawn black on black. */
+.brand-intro__mark--invert {
+  color: var(--ink-invert);
+}
+.brand-intro__mark--invert .brand-intro__face--sketch {
+  -webkit-text-stroke-color: var(--ink-invert);
 }
 
 .brand-intro__face {

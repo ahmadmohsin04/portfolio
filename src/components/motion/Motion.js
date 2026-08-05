@@ -273,48 +273,80 @@ export const SwapLines = ({ phrases, interval = 5100, startDelay = 0, className 
 };
 
 /* ─── Page-load brand intro ───────────────────────────────────
-   Modelled on the reference's real opening, decoded from its own
-   GSAP timeline:
+   The reference's loader is a z-200 overlay staged in four beats,
+   read off its DOM:
 
-     t=0.00  the mark fades in alone, centred, at close to its
-             final size — it never balloons and never moves
-             vertically in the original
-     t=1.20  it travels to its resting place in the nav,
-             0.8s on power3.inOut
-     after   the reference then morphs its logomark path into a
-             wordmark; ours is already letterforms, so the
-             travel is where our equivalent beat lands
+     1. a black backdrop fills the screen
+     2. a 300x197 frame centred on it plays the logo becoming a
+        rough drawing and coming back — eleven stacked <img> frames
+        cross-toggled at 75ms, a flipbook of hand-drawn artwork
+     3. a white panel parked at translateY(-100%) slides down and
+        wipes the screen from black to white, the logo turning from
+        white to black as it passes
+     4. only then does the logo travel to the nav
 
-   The mark is only modestly larger than the nav logo it becomes,
-   so the move reads as a settle rather than a zoom.
+   Beat 2 is artwork we don't have, so it is drawn from the glyphs
+   instead: an accent line sweeps across the mark and converts it
+   to an outline of itself as it passes, then sweeps back. The line
+   is a child of the wipe, pinned to its right edge, so it rides
+   the boundary and the two can never drift apart.
+
+   Beat 3 is the piece that makes the whole thing read. The curtain
+   carries the mark in its final colour, counter-translated so it
+   holds still while the panel moves over it — so the colour flip
+   is done by the curtain's own edge rather than a timed cross-fade
+   that could fall out of step with it.
 
    The flight is measured rather than hard-coded: the mark's own
-   box and the nav logo's box are compared at mount, so the
-   landing stays exact at any viewport width or type scale.    */
+   box and the nav logo's box are compared at mount, so the landing
+   stays exact at any viewport width or type scale.
+
+   Seconds from mount. Held in one place because the two marks, the
+   curtain, the backdrop and the hero's entrance all keep step.  */
 
 const EASE_IN_OUT = [0.65, 0, 0.35, 1];  /* ≈ gsap power3.inOut */
 
-/* An accent line sweeps across the mark and converts it to a sketch of
-   itself as it passes, then sweeps back and restores it. Cross-fading
-   two static faces read as a blink because nothing actually moved; the
-   line gives the change a direction and something to watch.
-
-   The line is a child of the wipe, pinned to its right edge, so it
-   rides the boundary for free and the two can never drift apart.
-
-   Seconds from mount. Held in one place because the faces, the veil
-   and the hero's entrance all have to stay in step.                */
-const WIPE_AT    = [0, 0.55, 0.90, 1.05, 1.45];
+const WIPE_AT    = [0, 0.40, 0.78, 0.92, 1.30];
 const WIPE_WIDTH = ['0%', '0%', '100%', '100%', '0%'];
 const SCAN_FADE  = [0, 1, 1, 1, 0];
-const INTRO_FLIGHT = 1.65;  /* mark leaves for the nav */
-const INTRO_END    = INTRO_FLIGHT + 0.8;
+
+const CURTAIN_AT   = 1.45;                    /* white panel starts down   */
+const CURTAIN_DUR  = 0.6;
+const CURTAIN_LAND = CURTAIN_AT + CURTAIN_DUR;
+const INTRO_FLIGHT = CURTAIN_LAND + 0.1;      /* mark leaves for the nav   */
+const INTRO_FLIGHT_DUR = 0.7;
+const INTRO_END    = INTRO_FLIGHT + INTRO_FLIGHT_DUR;
 
 const sweepTiming = {
   duration: WIPE_AT[WIPE_AT.length - 1],
   times: WIPE_AT.map((t) => t / WIPE_AT[WIPE_AT.length - 1]),
   ease: 'easeInOut',
 };
+
+const curtainTiming = { duration: CURTAIN_DUR, delay: CURTAIN_AT, ease: EASE_IN_OUT };
+
+/* The mark's two faces: solid letterforms, plus an outline of the same
+   glyphs revealed through a widening window. Shared by both colourways
+   so the black copy is guaranteed identical to the white one. */
+const MarkFaces = ({ mark, sweep }) => (
+  <>
+    <span className="brand-intro__face">{mark}</span>
+    {sweep && (
+      <motion.span
+        className="brand-intro__wipe"
+        animate={{ width: WIPE_WIDTH }}
+        transition={sweepTiming}
+      >
+        <span className="brand-intro__face brand-intro__face--sketch">{mark}</span>
+        <motion.span
+          className="brand-intro__scan"
+          animate={{ opacity: SCAN_FADE }}
+          transition={sweepTiming}
+        />
+      </motion.span>
+    )}
+  </>
+);
 
 export const BrandIntro = ({ mark = 'AM', target = '.navbar__logo', onDone }) => {
   const reduced = useReducedMotion();
@@ -362,55 +394,68 @@ export const BrandIntro = ({ mark = 'AM', target = '.navbar__logo', onDone }) =>
 
   return (
     <div className="brand-intro" aria-hidden="true">
-      {/* The veil clears as the mark flies, revealing the site beneath.
-          The mark is its sibling, not its child, so it doesn't fade too. */}
+      {/* Beats 1 and 2: the mark sketching itself on the dark ground.
+          Both are dropped the instant the curtain has covered them —
+          they're behind it by then, so nothing is seen to go, and they
+          can't reappear when the curtain's face fades away. */}
       <motion.div
-        className="brand-intro__veil"
+        className="brand-intro__under"
         initial={{ opacity: 1 }}
         animate={{ opacity: 0 }}
-        transition={{ duration: 0.6, ease: EASE, delay: INTRO_FLIGHT }}
-      />
-      {/* Two nested spans, one animation each: the outer carries the
-          measured flight, the inner the entrance. Splitting them keeps
-          both transitions single-purpose instead of one keyframe chain,
-          and a transform on the inner can't disturb the outer's box —
-          which is the box the flight is measured from. */}
-      <motion.span
-        ref={markRef}
-        className="brand-intro__mark"
-        initial={{ x: 0, y: 0, scale: 1 }}
-        animate={flight || {}}
-        transition={{ duration: 0.8, ease: EASE_IN_OUT, delay: INTRO_FLIGHT }}
-        // Guarded: without it this fires the moment the no-op initial
-        // animation settles, before the flight is measured, and clears
-        // the intro early.
-        onAnimationComplete={() => { if (flight) finish(); }}
+        transition={{ duration: 0.01, delay: CURTAIN_LAND }}
       >
+        <div className="brand-intro__stage" />
         <motion.span
-          className="brand-intro__mark-in"
+          className="brand-intro__mark brand-intro__mark--invert"
           initial={{ opacity: 0, scale: 0.94 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, ease: 'easeOut', delay: 0.1 }}
+          transition={{ duration: 0.45, ease: 'easeOut', delay: 0.05 }}
         >
-          {/* The solid face sits in normal flow, so it alone defines the
-              box the flight is measured from. The sketch is revealed by
-              a widening window laid over it, so the two must stay
-              pixel-aligned — no offset or scale on either. */}
-          <span className="brand-intro__face">{mark}</span>
-          <motion.span
-            className="brand-intro__wipe"
-            animate={{ width: WIPE_WIDTH }}
-            transition={sweepTiming}
-          >
-            <span className="brand-intro__face brand-intro__face--sketch">{mark}</span>
-            <motion.span
-              className="brand-intro__scan"
-              animate={{ opacity: SCAN_FADE }}
-              transition={sweepTiming}
-            />
-          </motion.span>
+          <MarkFaces mark={mark} sweep />
         </motion.span>
-      </motion.span>
+      </motion.div>
+
+      {/* Beat 3: the curtain. Its face travels with it; its contents are
+          counter-translated by exactly as much, so the mark inside holds
+          still on screen while the panel sweeps down over it. The colour
+          flip is therefore the curtain's own edge, frame-accurate by
+          construction rather than by a timing that has to be kept true. */}
+      <motion.div
+        className="brand-intro__curtain"
+        initial={{ y: '-100%' }}
+        animate={{ y: '0%' }}
+        transition={curtainTiming}
+      >
+        <motion.div
+          className="brand-intro__curtain-face"
+          initial={{ opacity: 1 }}
+          animate={{ opacity: 0 }}
+          transition={{ duration: 0.55, ease: EASE, delay: INTRO_FLIGHT }}
+        />
+        <motion.div
+          className="brand-intro__curtain-inner"
+          initial={{ y: '100%' }}
+          animate={{ y: '0%' }}
+          transition={curtainTiming}
+        >
+          {/* Beat 4. This is the copy that flies, so this is the copy the
+              flight measures — it and the nav logo are the same colour on
+              the same ground, so the handoff at the end is invisible. */}
+          <motion.span
+            ref={markRef}
+            className="brand-intro__mark"
+            initial={{ x: 0, y: 0, scale: 1 }}
+            animate={flight || {}}
+            transition={{ duration: INTRO_FLIGHT_DUR, ease: EASE_IN_OUT, delay: INTRO_FLIGHT }}
+            // Guarded: without it this fires the moment the no-op initial
+            // animation settles, before the flight is measured, and clears
+            // the intro early.
+            onAnimationComplete={() => { if (flight) finish(); }}
+          >
+            <MarkFaces mark={mark} />
+          </motion.span>
+        </motion.div>
+      </motion.div>
     </div>
   );
 };

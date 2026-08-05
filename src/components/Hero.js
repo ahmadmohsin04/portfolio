@@ -13,10 +13,10 @@ const words = [
   'Problem Solver',
 ];
 
-/* The hero rises into the gap the intro leaves behind: the veil starts
-   clearing at 1.65s, so this lands the words mid-reveal rather than
-   stranding them behind it or making the page sit empty afterwards. */
-const NAME_DELAY = 1.95;
+/* The hero rises into the gap the intro leaves behind: the curtain's
+   face starts clearing at 2.15s, so this lands the words mid-reveal
+   rather than stranding them behind it or leaving the page bare. */
+const NAME_DELAY = 2.4;
 
 /* Split a phrase across two rows so every arrangement occupies the
    same two-line block — the hero must not change height mid-swap. */
