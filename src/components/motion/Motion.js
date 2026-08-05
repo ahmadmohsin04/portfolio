@@ -322,23 +322,34 @@ const SKETCH_FADE = [0, 0, 1, 1, 0];
 const CURTAIN_AT   = SKETCH_END + 0.15;       /* white panel starts down   */
 const CURTAIN_DUR  = 0.55;
 const CURTAIN_LAND = CURTAIN_AT + CURTAIN_DUR;
-const INTRO_FLIGHT = CURTAIN_LAND + 0.1;      /* mark leaves for the nav   */
-const INTRO_FLIGHT_DUR = 0.7;
+
+/* The page is uncovered as soon as the curtain has landed. This used to
+   hang off the flight, which meant nothing underneath could be seen
+   arriving — and the bar's rise is the thing that most needs watching. */
+const REVEAL_AT  = CURTAIN_LAND + 0.05;
+const REVEAL_DUR = 0.5;
+
+/* The bar rises into place from below. Deliberately the slowest travel in
+   the opening: it is a panel being set down, not an element fading in. */
+export const NAV_RISE_AT  = CURTAIN_LAND + 0.1;
+export const NAV_RISE_DUR = 0.9;
+const NAV_RISE_END = NAV_RISE_AT + NAV_RISE_DUR;
+
+/* The mark leaves while the bar is still settling and lands after it has
+   come to rest, so the slot it drops into is already where it belongs. */
+const INTRO_FLIGHT = NAV_RISE_AT + 0.6;
+const INTRO_FLIGHT_DUR = 0.65;
 const INTRO_END    = INTRO_FLIGHT + INTRO_FLIGHT_DUR;
 
 /* Exported so the hero rises into the reveal rather than guessing at it —
    the two stayed in step by hand before, which is exactly the kind of
    coupling that drifts the moment a beat is retimed. */
-export const INTRO_REVEAL_AT = INTRO_FLIGHT + 0.25;
+export const INTRO_REVEAL_AT = REVEAL_AT + 0.3;
 
-/* The nav grows into place around the arriving mark.
-
-   Timed off the END of the curtain's fade, not its start. Beginning at
-   INTRO_FLIGHT put the whole entrance behind a still-opaque curtain: by
-   the time the page could be seen the bar had already finished arriving,
-   so nothing appeared to happen at all. The face takes 0.55s to clear,
-   so this waits for it and lands with the mark instead. */
-export const NAV_ENTER_AT   = INTRO_FLIGHT + 0.5;
+/* The bar's contents fill in only once the bar itself has been set down —
+   growing them while it was still travelling read as one muddled move
+   rather than two. */
+export const NAV_ENTER_AT   = NAV_RISE_END + 0.05;
 export const NAV_ENTER_STEP = 0.07;
 
 const sketchTiming = {
@@ -453,7 +464,22 @@ export const BrandIntro = ({ mark = 'AM', target = '.navbar__logo', onDone }) =>
     const el = markRef.current;
     if (!dest || !el) return;
 
+    /* The bar the logo sits in rises into place, so at mount the logo is
+       still below where it will come to rest. Suspend any transform on
+       the way up the tree, measure, then put them all back — otherwise
+       the mark aims at wherever the bar happened to be at mount and
+       lands short. Only inline transforms are suspended, which is what
+       the entrance sets; no class-driven transform is active at load. */
+    const suspended = [];
+    for (let n = dest.parentElement; n && n !== document.body; n = n.parentElement) {
+      if (n.style.transform) {
+        suspended.push([n, n.style.transform]);
+        n.style.transform = 'none';
+      }
+    }
     const d = dest.getBoundingClientRect();
+    suspended.forEach(([n, t]) => { n.style.transform = t; });
+
     const m = el.getBoundingClientRect();
     if (!d.width || !m.width) return;
 
@@ -517,7 +543,7 @@ export const BrandIntro = ({ mark = 'AM', target = '.navbar__logo', onDone }) =>
           className="brand-intro__curtain-face"
           initial={{ opacity: 1 }}
           animate={{ opacity: 0 }}
-          transition={{ duration: 0.55, ease: EASE, delay: INTRO_FLIGHT }}
+          transition={{ duration: REVEAL_DUR, ease: EASE, delay: REVEAL_AT }}
         />
         <motion.div
           className="brand-intro__curtain-inner"

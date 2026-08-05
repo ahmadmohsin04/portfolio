@@ -4,17 +4,39 @@
   left: 0;
   right: 0;
   z-index: 100;
-  padding: 22px 0;
+  /* The bar no longer spans the page — it is a panel floating inside
+     this padding, so the chrome lives on .navbar__inner instead. */
+  padding: 16px var(--gutter) 0;
   background: transparent;
-  border-bottom: 1px solid transparent;
-  transition: padding 0.3s ease, background 0.3s ease, border-color 0.3s ease,
-              transform 0.3s ease-in-out;
+  border-bottom: none;
+  transition: padding 0.3s ease, transform 0.3s ease-in-out;
 }
 
 .navbar--scrolled {
-  padding: 14px 0;
-  background: var(--bg);
-  border-bottom-color: var(--line);
+  padding-top: 10px;
+}
+
+.navbar__inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 18px;
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  /* Anchors the mobile panel, which now hangs off this box. */
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  /* Flat by intent — the system has no shadows in it anywhere. */
+  box-shadow: none;
+  transition: border-color var(--transition);
+}
+
+.navbar--scrolled .navbar__inner {
+  border-color: var(--line-strong);
 }
 
 /* Slides its full height clear of the viewport on scroll down.
@@ -29,16 +51,6 @@
   .navbar--retracted { transform: none; }
 }
 
-.navbar__inner {
-  max-width: var(--maxw);
-  margin: 0 auto;
-  padding: 0 var(--gutter);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-}
-
 /* The entrance scales these up into place. Anchoring each to the edge it
    sits against makes the row unfurl outward from the logo, rather than
    every item breathing about its own middle. */
@@ -49,6 +61,7 @@
    deliberate and is the whole point: it has to beat the inline opacity:0
    the animation leaves behind if its clock never ran — a background tab
    gets no animation frames, and the bar would stay invisible. */
+.navbar--settled .navbar__inner,
 .navbar--settled .navbar__links li,
 .navbar--settled .navbar__actions button {
   opacity: 1 !important;
@@ -162,20 +175,31 @@
 @media (max-width: 860px) {
   .navbar__hamburger { display: flex; }
 
+  /* Hangs off the bar rather than off the viewport. It used to be
+     position:fixed, which stopped working the moment the bar itself
+     carried a transform — a transformed ancestor becomes the containing
+     block for fixed children, so the panel would have been dragged along
+     by the entrance. Anchored to the bar it is also simply the right
+     shape now: a panel under a panel. */
   .navbar__links {
-    position: fixed;
-    inset: 0 0 auto 0;
-    top: 0;
+    position: absolute;
+    top: calc(100% + 8px);
+    /* Pulled out by the bar's own border. An absolutely positioned child
+       resolves against the padding box, so left:0 would sit 1px inside
+       the bar's outer edge and the two panels would not line up. */
+    left: -1px;
+    right: -1px;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
     gap: 0;
-    background: var(--bg);
-    border-bottom: 1px solid var(--line);
-    padding: 96px var(--gutter) 32px;
-    transform: translateY(-100%);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 4px 18px;
+    transform: translateY(-10px);
     opacity: 0;
     pointer-events: none;
-    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
   }
 
   .navbar__links--open {
@@ -190,15 +214,18 @@
   }
   .navbar__links li:last-child { border-bottom: none; }
 
+  /* Sized for a dropdown attached to the bar, not for the full-screen
+     takeover this used to be — 1.6rem display type would overflow a
+     panel that is only as wide as the bar above it. */
   .navbar__links a {
     display: block;
     width: 100%;
-    padding: 18px 0;
+    padding: 14px 0;
     font-family: var(--font-display);
-    font-size: 1.6rem;
-    font-weight: 700;
+    font-size: 1.05rem;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: var(--track-title);
+    letter-spacing: 0.04em;
   }
   .navbar__links a::after { display: none; }
 }

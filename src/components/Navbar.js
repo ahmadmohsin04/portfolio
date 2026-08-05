@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { FiSun, FiMoon } from 'react-icons/fi';
 import { useTheme } from '../context/ThemeContext';
-import { EASE, NAV_ENTER_AT, NAV_ENTER_STEP } from './motion/Motion';
+import { EASE, NAV_ENTER_AT, NAV_ENTER_STEP, NAV_RISE_AT, NAV_RISE_DUR } from './motion/Motion';
 import './Navbar.css';
 
 const navLinks = [
@@ -93,7 +93,16 @@ const Navbar = ({ brandHidden = false, animateIn = false }) => {
         retracted && !menuOpen ? 'navbar--retracted' : ''
       } ${settled ? 'navbar--settled' : ''}`}
     >
-      <div className="navbar__inner">
+      {/* The bar is a panel in its own right, and it is set down rather
+          than faded in: it travels up from below over a longer, slower
+          arc than anything else in the opening, and the mark drops into
+          it once it has come to rest. */}
+      <motion.div
+        className="navbar__inner"
+        initial={animateIn && !reduced ? { y: 44, opacity: 0 } : false}
+        animate={animateIn && !reduced ? { y: 0, opacity: 1 } : undefined}
+        transition={{ duration: NAV_RISE_DUR, ease: EASE, delay: NAV_RISE_AT }}
+      >
         <a
           href="#hero"
           className={`navbar__logo ${brandHidden ? 'navbar__logo--pending' : ''}`}
@@ -133,7 +142,7 @@ const Navbar = ({ brandHidden = false, animateIn = false }) => {
             <span />
           </motion.button>
         </div>
-      </div>
+      </motion.div>
     </nav>
   );
 };
