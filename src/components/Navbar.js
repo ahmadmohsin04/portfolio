@@ -35,9 +35,14 @@ const Navbar = ({ brandHidden = false, animateIn = false }) => {
   const enter = (i) =>
     animateIn && !reduced
       ? {
-          initial: { opacity: 0, y: -7 },
-          animate: { opacity: 1, y: 0 },
-          transition: { duration: 0.55, ease: EASE, delay: NAV_ENTER_AT + i * NAV_ENTER_STEP },
+          /* Small to big. A 7px lift was too slight to register against
+             everything else moving — the bar has to visibly grow into
+             place, the way the reference's pill widens as its links
+             arrive. Each item starts under-scaled and a little to the
+             right, then settles left into its slot. */
+          initial: { opacity: 0, scale: 0.72, x: 14 },
+          animate: { opacity: 1, scale: 1, x: 0 },
+          transition: { duration: 0.6, ease: EASE, delay: NAV_ENTER_AT + i * NAV_ENTER_STEP },
         }
       : {};
 
@@ -50,7 +55,7 @@ const Navbar = ({ brandHidden = false, animateIn = false }) => {
   useEffect(() => {
     if (!animateIn || settled) return undefined;
     const done =
-      (NAV_ENTER_AT + (navLinks.length + 1) * NAV_ENTER_STEP + 0.55) * 1000 + 1200;
+      (NAV_ENTER_AT + (navLinks.length + 1) * NAV_ENTER_STEP + 0.6) * 1000 + 1200;
     const t = setTimeout(() => setSettled(true), done);
     return () => clearTimeout(t);
   }, [animateIn, settled]);

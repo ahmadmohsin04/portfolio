@@ -39,6 +39,12 @@
   gap: 24px;
 }
 
+/* The entrance scales these up into place. Anchoring each to the edge it
+   sits against makes the row unfurl outward from the logo, rather than
+   every item breathing about its own middle. */
+.navbar__links li { transform-origin: left center; }
+.navbar__actions button { transform-origin: right center; }
+
 /* Once the entrance is over the items belong to CSS again. !important is
    deliberate and is the whole point: it has to beat the inline opacity:0
    the animation leaves behind if its clock never ran — a background tab
