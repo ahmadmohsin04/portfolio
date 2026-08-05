@@ -2,7 +2,7 @@
    Design system — editorial / Swiss-grotesque
    Reference: tinywins.com
    Massive tight uppercase display type, flat surfaces,
-   hairline rules, 4/8px radii, one electric-blue accent.
+   hairline rules, 4/8px radii, one deep-maroon accent.
    ============================================================ */
 
 :root {
@@ -19,10 +19,13 @@
   --surface:       #ffffff;
   --surface-2:     #f4f4f2;
 
-  --accent:        #3670e1;
+  /* Deep berry maroon. Measured at 9.35:1 on white — the blue it replaces
+     only managed 4.6:1, which was scraping AA for the accent-coloured
+     words in the section titles. */
+  --accent:        #8a1538;
   --accent-ink:    #ffffff;
-  --accent-soft:   rgba(54, 112, 225, 0.08);
-  --accent-line:   rgba(54, 112, 225, 0.28);
+  --accent-soft:   rgba(138, 21, 56, 0.08);
+  --accent-line:   rgba(138, 21, 56, 0.28);
 
   /* ── Legacy aliases so every existing page retunes automatically ── */
   --bg-primary:      var(--bg);
@@ -81,10 +84,13 @@
   --surface:     #0f0f0f;
   --surface-2:   #161616;
 
-  --accent:      #6e9bff;
-  --accent-ink:  #06122b;
-  --accent-soft: rgba(110, 155, 255, 0.1);
-  --accent-line: rgba(110, 155, 255, 0.32);
+  /* The same hue lifted for a near-black ground. A maroon dark enough to
+     read as maroon is illegible here, so it resolves to a muted rose —
+     7.21:1, which is the presence the blue had at 7.35:1. */
+  --accent:      #de8098;
+  --accent-ink:  #1f060c;
+  --accent-soft: rgba(222, 128, 152, 0.1);
+  --accent-line: rgba(222, 128, 152, 0.32);
 }
 
 *, *::before, *::after {
