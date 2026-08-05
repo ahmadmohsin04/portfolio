@@ -7,6 +7,17 @@
   border-left: 1px solid var(--line);
 }
 
+/* The featured card takes both columns, so eight projects fill nine
+   slots and the last row is left half empty — with the bottom rule
+   stopping mid-way across. This closes it. It fills the odd slot the
+   full-width card creates; if the project count ever changes so the
+   slots come out even, drop this or it adds a stray row. */
+.projects__grid::after {
+  content: '';
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
 .project-card {
   padding: 44px 40px;
   display: flex;
@@ -111,7 +122,9 @@
   flex-shrink: 0;
 }
 
-.project-card--featured .project-card__badge { color: var(--accent); }
+/* This card inverts its ground, so the accent has to invert with it. The
+   deep maroon measures about 1.9:1 on black — effectively invisible. */
+.project-card--featured .project-card__badge { color: var(--accent-on-invert); }
 .project-card__badge--web    { color: #2563eb; }
 .project-card__badge--design { color: #c2410c; }
 .project-card__badge--app    { color: #16a34a; }
@@ -124,9 +137,12 @@
 [data-theme="dark"] .project-card__badge--data   { color: #2dd4bf; }
 [data-theme="dark"] .project-card__badge--tool   { color: #a78bfa; }
 
-/* Featured card gets the inverted treatment */
+/* Featured card gets the inverted treatment, and the full width of the
+   grid — at half width it was making the same claim as everything else
+   while being the only production system in the list. */
 .project-card--featured {
   background: var(--bg-invert);
+  grid-column: 1 / -1;
 }
 .project-card--featured:hover {
   background: var(--bg-invert);
@@ -209,6 +225,8 @@
     border-left: none;
   }
   .projects__grid { border-left: none; }
+  /* Single column below here, so there is no odd slot to fill. */
+  .projects__grid::after { display: none; }
   .project-card::after { left: 0; }
   .project-card--featured {
     padding: 30px 24px;

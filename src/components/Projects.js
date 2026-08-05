@@ -5,6 +5,18 @@ import { Reveal, MaskedText, StaggerGroup, StaggerItem } from './motion/Motion';
 import './Projects.css';
 
 const projects = [
+  /* The featured project leads. It spans the full width of the grid, and
+     a full-width card sitting second would leave the cell beside the
+     first one empty — so being featured decides the order too. */
+  {
+    title: 'Al-Mushtaraka',
+    tech: ['React', 'Supabase', 'jsPDF', 'React Router'],
+    desc: 'A production-grade trading operations platform — multi-module system with agreements, remote signing, customer management, admin panel, and PDF generation.',
+    link: '/projects/almushtaraka',
+    live: 'https://www.almushtaraka.com',
+    featured: true,
+    type: 'web',
+  },
   {
     title: 'Codebase Cartographer',
     tech: ['Next.js', 'TypeScript', 'React Flow', 'Anthropic API', 'GitHub API'],
@@ -15,15 +27,6 @@ const projects = [
     github: 'https://github.com/ahmadmohsin04/codebase_cartographer',
     featured: false,
     type: 'tool',
-  },
-  {
-    title: 'Al-Mushtaraka',
-    tech: ['React', 'Supabase', 'jsPDF', 'React Router'],
-    desc: 'A production-grade trading operations platform — multi-module system with agreements, remote signing, customer management, admin panel, and PDF generation.',
-    link: '/projects/almushtaraka',
-    live: 'https://www.almushtaraka.com',
-    featured: true,
-    type: 'web',
   },
   {
     title: 'Real-Time Stock Pipeline',

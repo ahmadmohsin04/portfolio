@@ -18,6 +18,22 @@ import './Motion.css';
 /* Shared curve — matches the reference's slow-out feel */
 export const EASE = [0.22, 1, 0.36, 1];
 
+/* ─── Jumping to the top between routes ───────────────────────
+   Lenis holds its own scroll position and writes it back on the next
+   frame, so window.scrollTo on its own is undone before it is seen —
+   which is why opening a project landed you wherever the previous page
+   had been left, usually its bottom. The reset has to go through Lenis
+   when Lenis is the thing doing the scrolling. */
+let lenisInstance = null;
+
+export const resetScroll = () => {
+  if (lenisInstance) {
+    lenisInstance.scrollTo(0, { immediate: true, force: true });
+    return;
+  }
+  window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+};
+
 /* ─── Lenis smooth scroll ─────────────────────────────────── */
 export const useSmoothScroll = () => {
   const reduced = useReducedMotion();
@@ -31,6 +47,8 @@ export const useSmoothScroll = () => {
       smoothWheel: true,
       touchMultiplier: 1.6,
     });
+
+    lenisInstance = lenis;
 
     let frame;
     const raf = (time) => {
@@ -47,6 +65,7 @@ export const useSmoothScroll = () => {
     window.addEventListener('lenis:scrollto', onAnchor);
 
     return () => {
+      lenisInstance = null;
       cancelAnimationFrame(frame);
       window.removeEventListener('lenis:scrollto', onAnchor);
       lenis.destroy();
