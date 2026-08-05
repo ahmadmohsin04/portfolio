@@ -3,21 +3,21 @@
    specimens: the same two initials in different faces, weights and
    writing systems, the way a designer flips through a specimen book.
 
-   The scripts are chosen to mean something rather than to be exotic —
-   ا م are the initials of احمد محسن, and the Han and katakana forms
-   are transliterations of A-M, not decoration.
+   The scripts mean something rather than being exotic — the Han and
+   katakana forms transliterate A-M, they are not decoration.
 
    Each specimen holds for a fraction of a second, so what has to
    change between neighbours is the whole colour of the letterform:
    weight, contrast, or script. Two sans faces a weight apart would
-   read as one specimen held twice.
+   read as one specimen held twice — which is why the order alternates
+   heavy against light and Latin against everything else.
 
    `scale` is measured, not chosen. Every face draws a different amount
-   of ink at the same em — Naskh runs from the alef down through the
-   meem's tail, Han fills its whole body, a Garamond italic sits well
-   under its cap line — so each was measured with canvas ink metrics
-   and scaled to land on Inter's cap height. Eyeballed values were out
-   by up to 35%, which shows as the mark lurching between settings.  */
+   of ink at the same em — Han fills its whole body, a Garamond sits
+   well under its cap line — so each was measured with canvas ink
+   metrics and scaled to land on Inter's cap height. Eyeballed values
+   were out by up to 35%, which shows as the mark lurching between
+   settings.                                                        */
 
 export const SPECIMENS = [
   {
@@ -34,15 +34,15 @@ export const SPECIMENS = [
     dir: 'ltr',
   },
   {
-    key: 'cormorant',
+    key: 'mono',
     text: 'AM',
-    family: 'Cormorant Garamond',
-    fallback: 'serif',
-    weight: 300,
-    style: 'italic',
-    tracking: '0.02em',
-    /* Garamond italic sits well under its cap line */
-    scale: 1.14,
+    family: 'JetBrains Mono',
+    fallback: 'monospace',
+    weight: 400,
+    style: 'normal',
+    tracking: '-0.02em',
+    /* same cap height as Inter */
+    scale: 1,
     lang: 'en',
     dir: 'ltr',
   },
@@ -60,30 +60,21 @@ export const SPECIMENS = [
     dir: 'ltr',
   },
   {
-    key: 'mono',
+    /* Upright, not italic. The classical counterpoint to the grotesques
+       around it comes from the serifs and the stroke modulation; the
+       slant was doing nothing for it. Every Cormorant weight shares one
+       cap height, so the scale holds whichever is used. */
+    key: 'cormorant',
     text: 'AM',
-    family: 'JetBrains Mono',
-    fallback: 'monospace',
-    weight: 400,
-    style: 'normal',
-    tracking: '-0.02em',
-    /* same cap height as Inter */
-    scale: 1,
-    lang: 'en',
-    dir: 'ltr',
-  },
-  {
-    key: 'arabic',
-    text: 'ا م',
-    family: 'Noto Naskh Arabic',
+    family: 'Cormorant Garamond',
     fallback: 'serif',
     weight: 700,
     style: 'normal',
-    tracking: '0',
-    /* alef to the meem's tail is far taller than a cap */
-    scale: 0.72,
-    lang: 'ar',
-    dir: 'rtl',
+    tracking: '0.02em',
+    /* Garamond sits well under its cap line */
+    scale: 1.14,
+    lang: 'en',
+    dir: 'ltr',
   },
   {
     key: 'inter-thin',
