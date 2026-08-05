@@ -7,13 +7,26 @@
   padding: 22px 0;
   background: transparent;
   border-bottom: 1px solid transparent;
-  transition: padding 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+  transition: padding 0.3s ease, background 0.3s ease, border-color 0.3s ease,
+              transform 0.3s ease-in-out;
 }
 
 .navbar--scrolled {
   padding: 14px 0;
   background: var(--bg);
   border-bottom-color: var(--line);
+}
+
+/* Slides its full height clear of the viewport on scroll down.
+   Declared only here — leaving the base rule transform-free keeps
+   the mobile menu's position:fixed working. */
+.navbar--retracted {
+  transform: translateY(-100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navbar { transition: background 0.3s ease, border-color 0.3s ease; }
+  .navbar--retracted { transform: none; }
 }
 
 .navbar__inner {
@@ -35,6 +48,10 @@
   text-transform: uppercase;
   color: var(--ink);
   text-decoration: none;
+  /* Matches the intro mark's line-height so the two boxes stay in
+     proportion — the intro measures this element to work out where
+     to land, and inherited leading would offset it vertically. */
+  line-height: 1;
   transition: color var(--transition);
 }
 .navbar__logo:hover { color: var(--accent); }

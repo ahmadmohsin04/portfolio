@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import Lenis from 'lenis';
 import './Motion.css';
 
@@ -176,11 +176,128 @@ export const StaggerItem = ({ children, className = '', y = 26 }) => {
   );
 };
 
-/* ─── Page-load intro curtain ─────────────────────────────────
-   A full-bleed panel that wipes upward off the screen, the same
-   move the reference uses between its pinned sections.        */
-export const Intro = ({ onDone }) => {
+/* ─── Two-column phrase swapper ───────────────────────────────
+   The reference's signature top-of-page move: one line of copy
+   split across a left and a right column, which periodically
+   re-splits itself into a different arrangement.
+
+   Timings are lifted from the reference's own GSAP timeline
+   rather than eyeballed — outgoing words leave at yPercent -105
+   over 0.5s on an ease-in, incoming words arrive from +105 over
+   1s on an expo-out, and the two never overlap.
+
+   The clip is per ROW, not per word: a multi-word row wipes as a
+   single band, which is what keeps the edge straight.           */
+
+export const EASE_IN  = [0.32, 0, 0.67, 0];  /* ≈ gsap power3.in */
+export const EASE_OUT = [0.16, 1, 0.3, 1];   /* ≈ gsap expo.out  */
+
+const SWAP_WORD = {
+  hidden: { y: '105%' },
+  show:   { y: '0%',    transition: { duration: 1,   ease: EASE_OUT } },
+  exit:   { y: '-105%', transition: { duration: 0.5, ease: EASE_IN } },
+};
+
+const SwapSide = ({ rows, side }) => (
+  <div className={`swap__side swap__side--${side}`}>
+    {rows.map((row, r) => (
+      <span className="swap__row" key={`${row.join('-')}-${r}`}>
+        {row.map((word, w) => (
+          <motion.span className="swap__word" key={`${word}-${w}`} variants={SWAP_WORD}>
+            {word}
+          </motion.span>
+        ))}
+      </span>
+    ))}
+  </div>
+);
+
+export const SwapLines = ({ phrases, interval = 5100, startDelay = 0, className = '' }) => {
   const reduced = useReducedMotion();
+  const [i, setI] = useState(0);
+
+  // startDelay holds the very first reveal until the intro curtain has
+  // cleared. Every swap after that follows straight on from the exit,
+  // the way the reference does it — so the delay must not persist.
+  const started = useRef(false);
+  useEffect(() => { started.current = true; }, []);
+
+  useEffect(() => {
+    if (reduced || phrases.length < 2) return undefined;
+    const id = setInterval(() => setI((n) => (n + 1) % phrases.length), interval);
+    return () => clearInterval(id);
+  }, [reduced, phrases.length, interval]);
+
+  const phrase = phrases[i] || phrases[0];
+
+  // Under reduced motion the copy still has to be there — it just
+  // stops moving, and stops cycling on a timer.
+  if (reduced) {
+    return (
+      <div className={`swap ${className}`}>
+        <SwapSide rows={phrase.left} side="left" />
+        <SwapSide rows={phrase.right} side="right" />
+      </div>
+    );
+  }
+
+  // The reference spreads its stagger over a fixed total rather than
+  // a fixed per-word step, so a long phrase doesn't drift out of time
+  // with a short one. Divide the same budget by the words present.
+  const count = [...phrase.left, ...phrase.right].reduce((n, row) => n + row.length, 0);
+  const spread = Math.max(1, count - 1);
+
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={i}
+        className={`swap ${className}`}
+        initial="hidden"
+        animate="show"
+        exit="exit"
+        variants={{
+          show: {
+            transition: {
+              staggerChildren: 0.4 / spread,
+              delayChildren: started.current ? 0 : startDelay,
+            },
+          },
+          exit: { transition: { staggerChildren: 0.2 / spread } },
+        }}
+      >
+        <SwapSide rows={phrase.left} side="left" />
+        <SwapSide rows={phrase.right} side="right" />
+      </motion.div>
+    </AnimatePresence>
+  );
+};
+
+/* ─── Page-load brand intro ───────────────────────────────────
+   Modelled on the reference's real opening, decoded from its own
+   GSAP timeline:
+
+     t=0.00  the mark fades in alone, centred, at close to its
+             final size — it never balloons and never moves
+             vertically in the original
+     t=1.20  it travels to its resting place in the nav,
+             0.8s on power3.inOut
+     after   the reference then morphs its logomark path into a
+             wordmark; ours is already letterforms, so the
+             travel is where our equivalent beat lands
+
+   The mark is only modestly larger than the nav logo it becomes,
+   so the move reads as a settle rather than a zoom.
+
+   The flight is measured rather than hard-coded: the mark's own
+   box and the nav logo's box are compared at mount, so the
+   landing stays exact at any viewport width or type scale.    */
+
+const EASE_IN_OUT = [0.65, 0, 0.35, 1];  /* ≈ gsap power3.inOut */
+
+export const BrandIntro = ({ mark = 'AM', target = '.navbar__logo', onDone }) => {
+  const reduced = useReducedMotion();
+  const markRef = useRef(null);
+  const [flight, setFlight] = useState(null);
   const done = useRef(false);
 
   const finish = () => {
@@ -189,12 +306,32 @@ export const Intro = ({ onDone }) => {
     onDone?.();
   };
 
+  useLayoutEffect(() => {
+    if (reduced) return;
+    const dest = document.querySelector(target);
+    const el = markRef.current;
+    if (!dest || !el) return;
+
+    const d = dest.getBoundingClientRect();
+    const m = el.getBoundingClientRect();
+    if (!d.width || !m.width) return;
+
+    // Centre to centre, because the scale is applied about the centre.
+    // Both boxes hold the same glyphs in the same face, so the width
+    // ratio is the type-size ratio and no font metrics are needed.
+    setFlight({
+      x: (d.left + d.width / 2) - (m.left + m.width / 2),
+      y: (d.top + d.height / 2) - (m.top + m.height / 2),
+      scale: d.width / m.width,
+    });
+  }, [reduced, target]);
+
   useEffect(() => {
     if (reduced) { finish(); return undefined; }
-    // Safety net: rAF is paused in background tabs, so the curtain's exit
-    // animation may never run and would otherwise cover the page forever.
-    // Timers keep firing when rAF doesn't, so this guarantees dismissal.
-    const t = setTimeout(finish, 2600);
+    // Safety net: rAF is paused in background tabs, so the flight may
+    // never run and would leave the veil covering the page. Timers keep
+    // firing when rAF doesn't, so this guarantees the intro clears.
+    const t = setTimeout(finish, 3400);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reduced]);
@@ -202,29 +339,40 @@ export const Intro = ({ onDone }) => {
   if (reduced) return null;
 
   return (
-    <motion.div
-      className="intro"
-      initial={{ y: 0 }}
-      animate={{ y: '-100%' }}
-      transition={{ duration: 0.95, ease: EASE, delay: 0.9 }}
-      onAnimationComplete={finish}
-    >
-      <div className="intro__inner">
+    <div className="brand-intro" aria-hidden="true">
+      {/* The veil clears as the mark flies, revealing the site beneath.
+          The mark is its sibling, not its child, so it doesn't fade too. */}
+      <motion.div
+        className="brand-intro__veil"
+        initial={{ opacity: 1 }}
+        animate={{ opacity: 0 }}
+        transition={{ duration: 0.6, ease: EASE, delay: 1.2 }}
+      />
+      {/* Two nested spans, one animation each: the outer carries the
+          measured flight, the inner the entrance. Splitting them keeps
+          both transitions single-purpose instead of one keyframe chain,
+          and a transform on the inner can't disturb the outer's box —
+          which is the box the flight is measured from. */}
+      <motion.span
+        ref={markRef}
+        className="brand-intro__mark"
+        initial={{ x: 0, y: 0, scale: 1 }}
+        animate={flight || {}}
+        transition={{ duration: 0.8, ease: EASE_IN_OUT, delay: 1.2 }}
+        // Guarded: without it this fires the moment the no-op initial
+        // animation settles, before the flight is measured, and clears
+        // the intro early.
+        onAnimationComplete={() => { if (flight) finish(); }}
+      >
         <motion.span
-          className="intro__mark"
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: EASE, delay: 0.15 }}
+          className="brand-intro__mark-in"
+          initial={{ opacity: 0, scale: 0.94 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, ease: 'easeOut', delay: 0.1 }}
         >
-          Ahmad Mohsin
+          {mark}
         </motion.span>
-        <motion.span
-          className="intro__rule"
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ duration: 1.05, ease: EASE, delay: 0.3 }}
-        />
-      </div>
-    </motion.div>
+      </motion.span>
+    </div>
   );
 };

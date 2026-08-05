@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { FiArrowDown } from 'react-icons/fi';
 import { FaLinkedin } from 'react-icons/fa';
 import { HiMail } from 'react-icons/hi';
-import { MaskedText, EASE } from './motion/Motion';
+import { SwapLines, EASE } from './motion/Motion';
 import './Hero.css';
 
 const words = [
@@ -13,51 +13,31 @@ const words = [
   'Problem Solver',
 ];
 
-const TYPING_SPEED   = 110;
-const DELETING_SPEED = 55;
-const PAUSE_AFTER    = 2000;
-const PAUSE_BEFORE   = 350;
+/* The hero rises into the gap the intro leaves behind: the veil starts
+   clearing at 1.2s, so this lands the words mid-reveal rather than
+   stranding them behind it or making the page sit empty afterwards. */
+const NAME_DELAY = 1.5;
 
-/* The name rises as the intro curtain clears the screen. */
-const NAME_DELAY = 1.05;
+/* Split a phrase across two rows so every arrangement occupies the
+   same two-line block — the hero must not change height mid-swap. */
+const twoRows = (phrase) => {
+  const w = phrase.split(' ');
+  const cut = Math.ceil(w.length / 2);
+  return [w.slice(0, cut), w.slice(cut)];
+};
+
+const NAME_ROWS = [['Ahmad'], ['Mohsin']];
+
+/* Name and role trade sides on every swap, and the role advances each
+   time it comes back around: the reference's "same content, re-split"
+   idea applied to a name and a job title. */
+const PHRASES = words.flatMap((role) => [
+  { left: NAME_ROWS, right: twoRows(role) },
+  { left: twoRows(role), right: NAME_ROWS },
+]);
 
 const Hero = () => {
-  const [displayText, setDisplayText] = useState('');
   const reduced = useReducedMotion();
-
-  const timerRef    = useRef(null);
-  const textRef     = useRef('');
-  const wordIdxRef  = useRef(0);
-  const deletingRef = useRef(false);
-
-  useEffect(() => {
-    const tick = () => {
-      const current = words[wordIdxRef.current];
-      if (!deletingRef.current) {
-        textRef.current = current.slice(0, textRef.current.length + 1);
-        setDisplayText(textRef.current);
-        if (textRef.current === current) {
-          deletingRef.current = true;
-          timerRef.current = setTimeout(tick, PAUSE_AFTER);
-        } else {
-          timerRef.current = setTimeout(tick, TYPING_SPEED);
-        }
-      } else {
-        textRef.current = current.slice(0, textRef.current.length - 1);
-        setDisplayText(textRef.current);
-        if (textRef.current === '') {
-          deletingRef.current = false;
-          wordIdxRef.current = (wordIdxRef.current + 1) % words.length;
-          timerRef.current = setTimeout(tick, PAUSE_BEFORE);
-        } else {
-          timerRef.current = setTimeout(tick, DELETING_SPEED);
-        }
-      }
-    };
-    timerRef.current = setTimeout(tick, reduced ? 300 : 1900);
-
-    return () => clearTimeout(timerRef.current);
-  }, [reduced]);
 
   const scrollToAbout = () => {
     document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' });
@@ -74,37 +54,27 @@ const Hero = () => {
 
   return (
     <section id="hero" className="hero">
+      {/* The animated columns are decorative duplicates of this line —
+          they carry no readable order, so the real heading lives here. */}
+      <h1 className="sr-only">Ahmad Mohsin — Full Stack Developer</h1>
+
       <div className="hero__inner">
         <motion.div className="hero__eyebrow" {...rise(NAME_DELAY - 0.2)}>
           <span className="hero__eyebrow-dot" />
           <span className="hero__eyebrow-text">A Portfolio by</span>
         </motion.div>
 
-        {/* Stacked display type, revealed one masked line at a time */}
-        <h1 className="hero__name">
-          <MaskedText
-            text="Ahmad Mohsin"
-            block
-            animateOnMount
-            delay={NAME_DELAY}
-            stagger={0.11}
-            duration={0.95}
-            wordClassName={(w) => (w === 'Mohsin' ? 'hero__name-line--accent' : '')}
-          />
-        </h1>
+        <div className="hero__display" aria-hidden="true">
+          <SwapLines phrases={PHRASES} startDelay={NAME_DELAY} />
+        </div>
 
         <motion.div className="hero__meta" {...rise(NAME_DELAY + 0.42)}>
-          <div className="hero__typewriter">
-            <span className="hero__type-text">{displayText}</span>
-            <span className="hero__cursor" aria-hidden="true" />
-          </div>
+          <p className="hero__bio">
+            Software engineer exploring the full spectrum of tech — from mobile apps to scalable
+            web platforms. Based in Lahore, Pakistan.
+          </p>
 
           <div className="hero__facts">
-            <p className="hero__bio">
-              Software engineer exploring the full spectrum of tech — from mobile apps to scalable
-              web platforms. Based in Lahore, Pakistan.
-            </p>
-
             <p className="hero__location">Lahore, Pakistan · 2026</p>
 
             <div className="hero__actions">

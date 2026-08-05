@@ -42,34 +42,30 @@
   color: var(--ink-3);
 }
 
-/* ─── The name — stacked, tightly tracked.
-       Capped at ~7rem to sit in the same range as the
-       reference's display type rather than dwarfing the page. ─── */
-.hero__name {
+/* ─── The display block — name and role, trading sides.
+       Scale matches the reference's own clamp; the weight and
+       tracking stay on this site's tokens so the hero doesn't
+       clash with the section titles below it. ─── */
+.hero__display {
   font-family: var(--font-display);
-  font-size: clamp(2.6rem, 8vw, 6.6rem);
+  /* The cap is set by the longest phrase, not by taste. The column
+     stops growing at 1160px while 5.2vw keeps climbing, so above
+     ~1500px the widest row ("React & Node.js Engineer" opposite the
+     name) outgrows the column and the two sides collide. 4.6rem is
+     the largest cap that keeps that row inside 1160px. */
+  font-size: clamp(2rem, 5.2vw, 4.6rem);
   font-weight: 700;
   text-transform: uppercase;
-  line-height: 0.92;
+  line-height: 0.9;
   letter-spacing: var(--track-display);
   color: var(--ink);
   margin-bottom: 44px;
+  /* Two rows at line-height 0.9, pinned — one arrangement handing
+     over to the next must not jog the rest of the page. */
+  min-height: 1.8em;
 }
 
-.hero__name .mask--block {
-  align-items: flex-start;
-}
-
-.hero__name-line,
-.hero__name-line--accent {
-  display: block;
-}
-
-.hero__name-line--accent {
-  color: var(--accent);
-}
-
-/* ─── Meta row: role + facts side by side ─── */
+/* ─── Meta row: bio + facts side by side ─── */
 .hero__meta {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -77,37 +73,6 @@
   align-items: start;
   padding-top: 34px;
   border-top: 1px solid var(--line);
-}
-
-.hero__typewriter {
-  display: flex;
-  align-items: baseline;
-  gap: 4px;
-  min-height: 2.6em;
-}
-
-.hero__type-text {
-  font-family: var(--font-display);
-  font-size: clamp(1.2rem, 2.6vw, 2.1rem);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: var(--track-title);
-  line-height: 1.05;
-  color: var(--ink);
-}
-
-.hero__cursor {
-  display: inline-block;
-  width: 3px;
-  height: 1em;
-  background: var(--accent);
-  flex-shrink: 0;
-  animation: hero-blink 1s steps(2, start) infinite;
-}
-
-@keyframes hero-blink {
-  0%, 100% { opacity: 1; }
-  50%      { opacity: 0; }
 }
 
 .hero__facts {
@@ -119,7 +84,7 @@
   line-height: 1.7;
   color: var(--ink-2);
   letter-spacing: -0.012em;
-  margin-bottom: 18px;
+  max-width: 46ch;
 }
 
 .hero__location {
@@ -177,20 +142,23 @@
     grid-template-columns: 1fr;
     gap: 28px;
   }
-  .hero__typewriter { min-height: 0; }
-  .hero__name { margin-bottom: 36px; }
+  .hero__display { margin-bottom: 36px; }
   .hero__marquee { margin-top: 60px; }
   .hero__scroll-cta { display: none; }
 }
 
+/* Below 700px the two columns stack, so the block is four rows tall. */
+@media (max-width: 700px) {
+  .hero__display { min-height: 3.6em; }
+}
+
 @media (max-width: 600px) {
   .hero { min-height: auto; padding: 108px 0 0; }
-  .hero__name { margin-bottom: 28px; }
+  .hero__display { margin-bottom: 28px; }
   .hero__actions .btn { flex: 1; }
   .hero__marquee { margin-top: 48px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero__scroll-cta svg,
-  .hero__cursor { animation: none; }
+  .hero__scroll-cta svg { animation: none; }
 }

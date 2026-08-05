@@ -27,45 +27,103 @@
   will-change: transform;
 }
 
-/* ─── Page-load curtain ─────────────────────────────────── */
-.intro {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background: var(--bg-invert);
+/* ─── Two-column phrase swapper ───────────────────────────
+   Type scale is set by whatever wraps this, so the primitive
+   stays reusable — only structure and clipping live here. */
+.swap {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5em;
+  width: 100%;
+}
+
+.swap__side {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.swap__side--left  { align-items: flex-start; text-align: left; }
+.swap__side--right { align-items: flex-end;   text-align: right; }
+
+/* The clip is per row, not per word — a multi-word row has to
+   wipe as one band or its words drift apart at the edge. */
+.swap__row {
+  display: flex;
+  gap: 0.68em;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+
+.swap__word {
+  display: inline-block;
   will-change: transform;
 }
 
-.intro__inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 22px;
-  padding: 0 var(--gutter);
-}
-
-.intro__mark {
-  font-family: var(--font-display);
-  font-size: clamp(1.6rem, 5vw, 3.2rem);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: var(--track-display);
-  line-height: 1;
-  color: var(--ink-invert);
-}
-
-.intro__rule {
-  display: block;
-  width: min(260px, 50vw);
-  height: 2px;
-  background: var(--accent);
-  transform-origin: left center;
+/* Mirrored on narrow screens: the columns stack and swap their
+   alignment, so the block still reads as two opposed edges. */
+@media (max-width: 700px) {
+  .swap { flex-direction: column; gap: 0; }
+  .swap__side--left  { align-items: flex-end;   text-align: right; }
+  .swap__side--right { align-items: flex-start; text-align: left; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .intro { display: none; }
+  .swap__word { transform: none !important; }
+}
+
+/* ─── Page-load brand intro ─────────────────────────────── */
+.brand-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.brand-intro__veil {
+  position: absolute;
+  inset: 0;
+  background: var(--bg);
+}
+
+.brand-intro__mark {
+  position: relative;
+  display: inline-block;
+  font-family: var(--font-display);
+  /* Only a few times the nav logo it lands on. The reference's mark
+     doesn't grow at all during its opening, so a large one would read
+     as a different move entirely. */
+  font-size: clamp(2.25rem, 4.5vw, 3.5rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  /* Deliberately the nav logo's tracking, not the display tracking:
+     the flight's scale comes from comparing the two measured widths,
+     so the letterforms have to be spaced identically for it to land. */
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--ink);
+  will-change: transform;
+}
+
+.brand-intro__mark-in {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+/* The nav logo is the flight's landing point, so it stays in the
+   layout (and keeps its box measurable) but invisible until the
+   mark has arrived on top of it. */
+.navbar__logo--pending {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-intro { display: none; }
+  .navbar__logo--pending { opacity: 1; }
   .mask__word { transform: none !important; }
 }

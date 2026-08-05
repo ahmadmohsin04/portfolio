@@ -8,17 +8,19 @@ import Projects from '../components/Projects';
 import Interests from '../components/Interests';
 import YouTube from '../components/YouTube';
 import Contact from '../components/Contact';
-import { Intro } from '../components/motion/Motion';
+import { BrandIntro } from '../components/motion/Motion';
+
+/* Plays once per page load. A module-level flag rather than sessionStorage
+   is deliberate: it survives client-side navigation back from a project
+   page, but resets on a real reload. sessionStorage persisted for the whole
+   tab, so after the first view the intro never ran again. */
+let introPlayed = false;
 
 function HomePage() {
-  // Play the curtain once per session — coming back from a project page
-  // shouldn't replay it.
-  const [introDone, setIntroDone] = useState(
-    () => typeof sessionStorage !== 'undefined' && sessionStorage.getItem('intro-played') === '1'
-  );
+  const [introDone, setIntroDone] = useState(introPlayed);
 
   const handleIntroDone = () => {
-    try { sessionStorage.setItem('intro-played', '1'); } catch (e) { /* private mode */ }
+    introPlayed = true;
     setIntroDone(true);
   };
 
@@ -31,9 +33,11 @@ function HomePage() {
         <div className="orb orb-4" />
       </div>
 
-      {!introDone && <Intro onDone={handleIntroDone} />}
+      {!introDone && <BrandIntro onDone={handleIntroDone} />}
 
-      <Navbar />
+      {/* The nav logo is where the intro's mark lands, so it stays
+          hidden until the flight has finished on top of it. */}
+      <Navbar brandHidden={!introDone} />
       <main>
         <Hero />
         <About />
