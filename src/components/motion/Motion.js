@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import Lenis from 'lenis';
-import { roughFrames, ROUGH_VIEWBOX } from './roughMark';
+import { buildSequence, ROUGH_VIEWBOX } from './roughMark';
 import './Motion.css';
 
 /* ============================================================
@@ -307,19 +307,33 @@ export const SwapLines = ({ phrases, interval = 5100, startDelay = 0, className 
 
 const EASE_IN_OUT = [0.65, 0, 0.35, 1];  /* ≈ gsap power3.inOut */
 
-/* Beat 2: the solid letterforms hand over to the drawn ones and back. */
-const SKETCH_AT    = [0, 0.40, 0.55, 1.15, 1.30];
-const SOLID_FADE   = [1, 1, 0, 0, 1];
-const SKETCH_FADE  = [0, 0, 1, 1, 0];
-const ROUGH_FRAMES = roughFrames();
-const ROUGH_FPS_MS = 75;   /* the reference's own frame rate */
+/* Beat 2: the solid letterforms hand over to the drawn ones and back.
+   The window is derived from the flipbook rather than fixed, so it holds
+   the sketch for exactly one full pass through the treatments — adding
+   another treatment lengthens the beat instead of truncating the loop,
+   and everything downstream shifts with it. */
+const ROUGH_FRAMES = buildSequence({ boil: 3 });
+const ROUGH_FPS_MS = 67;
 
-const CURTAIN_AT   = 1.45;                    /* white panel starts down   */
-const CURTAIN_DUR  = 0.6;
+const SKETCH_IN   = 0.45;
+const SKETCH_OUT  = SKETCH_IN + (ROUGH_FRAMES.length * ROUGH_FPS_MS) / 1000;
+const SKETCH_END  = SKETCH_OUT + 0.14;
+
+const SKETCH_AT   = [0, SKETCH_IN - 0.13, SKETCH_IN, SKETCH_OUT, SKETCH_END];
+const SOLID_FADE  = [1, 1, 0, 0, 1];
+const SKETCH_FADE = [0, 0, 1, 1, 0];
+
+const CURTAIN_AT   = SKETCH_END + 0.15;       /* white panel starts down   */
+const CURTAIN_DUR  = 0.55;
 const CURTAIN_LAND = CURTAIN_AT + CURTAIN_DUR;
 const INTRO_FLIGHT = CURTAIN_LAND + 0.1;      /* mark leaves for the nav   */
 const INTRO_FLIGHT_DUR = 0.7;
 const INTRO_END    = INTRO_FLIGHT + INTRO_FLIGHT_DUR;
+
+/* Exported so the hero rises into the reveal rather than guessing at it —
+   the two stayed in step by hand before, which is exactly the kind of
+   coupling that drifts the moment a beat is retimed. */
+export const INTRO_REVEAL_AT = INTRO_FLIGHT + 0.25;
 
 const sketchTiming = {
   duration: SKETCH_AT[SKETCH_AT.length - 1],
@@ -330,21 +344,37 @@ const sketchTiming = {
 const curtainTiming = { duration: CURTAIN_DUR, delay: CURTAIN_AT, ease: EASE_IN_OUT };
 
 /* The flipbook. Frames are generated once at module load, so this only
-   ever swaps which path string is mounted. */
+   ever swaps which path is mounted and what it's stroked with.
+
+   It starts on the beat the sketch becomes visible, not at mount —
+   otherwise the loop is already part-way through by the time anyone
+   sees it, and the run would begin on an arbitrary treatment instead
+   of the one chosen to open. */
 const RoughMark = () => {
   const [frame, setFrame] = useState(0);
 
   useEffect(() => {
-    const id = setInterval(
-      () => setFrame((n) => (n + 1) % ROUGH_FRAMES.length),
-      ROUGH_FPS_MS
-    );
-    return () => clearInterval(id);
+    let id;
+    const start = setTimeout(() => {
+      id = setInterval(
+        () => setFrame((n) => (n + 1) % ROUGH_FRAMES.length),
+        ROUGH_FPS_MS
+      );
+    }, SKETCH_IN * 1000);
+
+    return () => { clearTimeout(start); clearInterval(id); };
   }, []);
+
+  const f = ROUGH_FRAMES[frame];
 
   return (
     <svg className="brand-intro__rough" viewBox={ROUGH_VIEWBOX} aria-hidden="true" focusable="false">
-      <path d={ROUGH_FRAMES[frame]} />
+      <path
+        d={f.d}
+        strokeWidth={f.w}
+        strokeDasharray={f.dash === 'none' ? undefined : f.dash}
+        opacity={f.opacity}
+      />
     </svg>
   );
 };

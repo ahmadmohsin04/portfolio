@@ -175,9 +175,11 @@
   overflow: visible;
   fill: none;
   stroke: currentColor;
-  stroke-width: 7;
   stroke-linecap: round;
   stroke-linejoin: round;
+  /* No stroke-width here on purpose. Each frame carries its own as a
+     presentation attribute, and a CSS rule would outrank it — the
+     treatments would all silently render at one weight. */
 }
 
 /* The nav logo is the flight's landing point, so it stays in the

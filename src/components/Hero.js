@@ -3,7 +3,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { FiArrowDown } from 'react-icons/fi';
 import { FaLinkedin } from 'react-icons/fa';
 import { HiMail } from 'react-icons/hi';
-import { SwapLines, EASE } from './motion/Motion';
+import { SwapLines, EASE, INTRO_REVEAL_AT } from './motion/Motion';
 import './Hero.css';
 
 const words = [
@@ -13,10 +13,10 @@ const words = [
   'Problem Solver',
 ];
 
-/* The hero rises into the gap the intro leaves behind: the curtain's
-   face starts clearing at 2.15s, so this lands the words mid-reveal
-   rather than stranding them behind it or leaving the page bare. */
-const NAME_DELAY = 2.4;
+/* The hero rises into the gap the intro leaves behind. Taken from the
+   intro itself rather than restated here — the two were kept in step by
+   hand, which drifts the moment a beat of the opening is retimed. */
+const NAME_DELAY = INTRO_REVEAL_AT;
 
 /* Split a phrase across two rows so every arrangement occupies the
    same two-line block — the hero must not change height mid-swap. */
