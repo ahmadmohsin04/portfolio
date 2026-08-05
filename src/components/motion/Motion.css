@@ -122,15 +122,39 @@
 }
 
 /* The sketch: the same glyphs drawn as an outline instead of filled.
-   Absolutely placed so only the solid face contributes to the box the
-   flight measures, and a hair larger so the cross-fade reads as the
-   letterforms breathing rather than the logo blinking. */
+   No offset and no scale — it is revealed through a window over the
+   solid face, so any difference between the two would show as a step
+   at the boundary. */
 .brand-intro__face--sketch {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: max-content;
   color: transparent;
   -webkit-text-stroke: 1.5px var(--ink);
-  transform: scale(1.03);
+}
+
+/* The window the sketch is seen through. Its width is the sweep, so
+   its right edge is the boundary between sketch and solid. */
+.brand-intro__wipe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  overflow: hidden;
+  will-change: width;
+}
+
+/* Pinned to that right edge, so it rides the boundary without being
+   animated separately — the line and the change can't fall out of sync. */
+.brand-intro__scan {
+  position: absolute;
+  top: -8%;
+  right: 0;
+  width: 2px;
+  height: 116%;
+  background: var(--accent);
 }
 
 /* The nav logo is the flight's landing point, so it stays in the

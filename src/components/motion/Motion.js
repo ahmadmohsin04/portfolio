@@ -294,19 +294,25 @@ export const SwapLines = ({ phrases, interval = 5100, startDelay = 0, className 
 
 const EASE_IN_OUT = [0.65, 0, 0.35, 1];  /* ≈ gsap power3.inOut */
 
-/* The mark alternates between its solid letterforms and a sketch of
-   them — an outline of the same glyphs — twice before settling, then
-   flies. Held in one place because the two faces, the veil and the
-   hero's entrance all have to stay in step; the seconds below are the
-   whole opening. */
-const INTRO_MORPH  = [0, 0.55, 0.70, 0.85, 1.00, 1.15];  /* solid ↔ sketch */
-const INTRO_SOLID  = [1, 1,    0,    1,    0,    1];
-const INTRO_FLIGHT = 1.4;   /* mark leaves for the nav        */
+/* An accent line sweeps across the mark and converts it to a sketch of
+   itself as it passes, then sweeps back and restores it. Cross-fading
+   two static faces read as a blink because nothing actually moved; the
+   line gives the change a direction and something to watch.
+
+   The line is a child of the wipe, pinned to its right edge, so it
+   rides the boundary for free and the two can never drift apart.
+
+   Seconds from mount. Held in one place because the faces, the veil
+   and the hero's entrance all have to stay in step.                */
+const WIPE_AT    = [0, 0.55, 0.90, 1.05, 1.45];
+const WIPE_WIDTH = ['0%', '0%', '100%', '100%', '0%'];
+const SCAN_FADE  = [0, 1, 1, 1, 0];
+const INTRO_FLIGHT = 1.65;  /* mark leaves for the nav */
 const INTRO_END    = INTRO_FLIGHT + 0.8;
 
-const morphTiming = {
-  duration: INTRO_MORPH[INTRO_MORPH.length - 1],
-  times: INTRO_MORPH.map((t) => t / INTRO_MORPH[INTRO_MORPH.length - 1]),
+const sweepTiming = {
+  duration: WIPE_AT[WIPE_AT.length - 1],
+  times: WIPE_AT.map((t) => t / WIPE_AT[WIPE_AT.length - 1]),
   ease: 'easeInOut',
 };
 
@@ -387,22 +393,21 @@ export const BrandIntro = ({ mark = 'AM', target = '.navbar__logo', onDone }) =>
           transition={{ duration: 0.5, ease: 'easeOut', delay: 0.1 }}
         >
           {/* The solid face sits in normal flow, so it alone defines the
-              box the flight is measured from. The sketch is laid over it
-              and the two cross-fade, which reads as the letterforms
-              breaking down and reforming rather than blinking. */}
+              box the flight is measured from. The sketch is revealed by
+              a widening window laid over it, so the two must stay
+              pixel-aligned — no offset or scale on either. */}
+          <span className="brand-intro__face">{mark}</span>
           <motion.span
-            className="brand-intro__face"
-            animate={{ opacity: INTRO_SOLID }}
-            transition={morphTiming}
+            className="brand-intro__wipe"
+            animate={{ width: WIPE_WIDTH }}
+            transition={sweepTiming}
           >
-            {mark}
-          </motion.span>
-          <motion.span
-            className="brand-intro__face brand-intro__face--sketch"
-            animate={{ opacity: INTRO_SOLID.map((o) => 1 - o) }}
-            transition={morphTiming}
-          >
-            {mark}
+            <span className="brand-intro__face brand-intro__face--sketch">{mark}</span>
+            <motion.span
+              className="brand-intro__scan"
+              animate={{ opacity: SCAN_FADE }}
+              transition={sweepTiming}
+            />
           </motion.span>
         </motion.span>
       </motion.span>
