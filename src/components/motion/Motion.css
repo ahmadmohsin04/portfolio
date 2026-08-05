@@ -157,29 +157,24 @@
   will-change: opacity;
 }
 
-/* The drawn face. Absolutely placed, so it contributes nothing to the
-   box the flight measures, and inset negative so the strokes overshoot
-   the letterforms — a drawn line runs past its corner. */
-.brand-intro__sketch {
+/* The specimen slot. Absolutely placed and centred: each setting is its
+   own width, so it contributes nothing to the box the flight measures
+   and every specimen stays on the same centre as it swaps. */
+.brand-intro__alt {
   position: absolute;
-  inset: -9% -5%;
-  display: block;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   will-change: opacity;
 }
 
-.brand-intro__rough {
-  width: 100%;
-  height: 100%;
-  /* The jitter pushes points outside the viewBox; without this the
-     wander gets clipped flat against the edges. */
-  overflow: visible;
-  fill: none;
-  stroke: currentColor;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  /* No stroke-width here on purpose. Each frame carries its own as a
-     presentation attribute, and a CSS rule would outrank it — the
-     treatments would all silently render at one weight. */
+.brand-intro__specimen {
+  line-height: 1;
+  white-space: nowrap;
+  /* The mark is uppercased for its Latin setting; that must not reach
+     the Han, kana or Arabic specimens. */
+  text-transform: none;
 }
 
 /* The nav logo is the flight's landing point, so it stays in the

@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import Lenis from 'lenis';
-import { buildSequence, ROUGH_VIEWBOX } from './roughMark';
+import { SPECIMENS, SPECIMEN_MS, specimenFont } from './markSpecimens';
 import './Motion.css';
 
 /* ============================================================
@@ -307,16 +307,12 @@ export const SwapLines = ({ phrases, interval = 5100, startDelay = 0, className 
 
 const EASE_IN_OUT = [0.65, 0, 0.35, 1];  /* ≈ gsap power3.inOut */
 
-/* Beat 2: the solid letterforms hand over to the drawn ones and back.
-   The window is derived from the flipbook rather than fixed, so it holds
-   the sketch for exactly one full pass through the treatments — adding
-   another treatment lengthens the beat instead of truncating the loop,
-   and everything downstream shifts with it. */
-const ROUGH_FRAMES = buildSequence({ boil: 3 });
-const ROUGH_FPS_MS = 67;
-
+/* Beat 2: the solid mark hands over to the specimen run and back.
+   The window is derived from the run rather than fixed, so it holds for
+   exactly one full pass — adding a specimen lengthens the beat instead
+   of truncating the loop, and everything downstream shifts with it. */
 const SKETCH_IN   = 0.45;
-const SKETCH_OUT  = SKETCH_IN + (ROUGH_FRAMES.length * ROUGH_FPS_MS) / 1000;
+const SKETCH_OUT  = SKETCH_IN + (SPECIMENS.length * SPECIMEN_MS) / 1000;
 const SKETCH_END  = SKETCH_OUT + 0.14;
 
 const SKETCH_AT   = [0, SKETCH_IN - 0.13, SKETCH_IN, SKETCH_OUT, SKETCH_END];
@@ -343,48 +339,72 @@ const sketchTiming = {
 
 const curtainTiming = { duration: CURTAIN_DUR, delay: CURTAIN_AT, ease: EASE_IN_OUT };
 
-/* The flipbook. Frames are generated once at module load, so this only
-   ever swaps which path is mounted and what it's stroked with.
+/* The specimen run. Swaps which setting of the monogram is mounted.
 
-   It starts on the beat the sketch becomes visible, not at mount —
-   otherwise the loop is already part-way through by the time anyone
-   sees it, and the run would begin on an arbitrary treatment instead
-   of the one chosen to open. */
-const RoughMark = () => {
-  const [frame, setFrame] = useState(0);
+   It starts on the beat the run becomes visible, not at mount, so it
+   opens on the specimen chosen to open rather than wherever a
+   free-running interval had got to. */
+const SpecimenMark = () => {
+  const [i, setI] = useState(0);
+  const [ready, setReady] = useState(false);
+  const mountedAt = useRef(Date.now());
 
   useEffect(() => {
-    let id;
-    const start = setTimeout(() => {
-      id = setInterval(
-        () => setFrame((n) => (n + 1) % ROUGH_FRAMES.length),
-        ROUGH_FPS_MS
-      );
-    }, SKETCH_IN * 1000);
+    // A font is only fetched when something on the page needs it, so
+    // document.fonts.ready would resolve happily before any of these had
+    // even been requested. Each face has to be asked for by name, and the
+    // run can't begin until they answer — otherwise the first pass falls
+    // back to a system face and shows the wrong letterforms entirely.
+    if (!document.fonts || !document.fonts.load) { setReady(true); return undefined; }
 
-    return () => { clearTimeout(start); clearInterval(id); };
+    let live = true;
+    const settle = () => { if (live) setReady(true); };
+    Promise.all(SPECIMENS.map((s) => document.fonts.load(specimenFont(s), s.text)))
+      .then(settle, settle);
+
+    return () => { live = false; };
   }, []);
 
-  const f = ROUGH_FRAMES[frame];
+  useEffect(() => {
+    if (!ready) return undefined;
+
+    let id;
+    // Measured from mount, not from the moment the fonts arrived — a slow
+    // network would otherwise push the whole run past its window.
+    const wait = Math.max(0, SKETCH_IN * 1000 - (Date.now() - mountedAt.current));
+    const start = setTimeout(() => {
+      id = setInterval(() => setI((n) => (n + 1) % SPECIMENS.length), SPECIMEN_MS);
+    }, wait);
+
+    return () => { clearTimeout(start); clearInterval(id); };
+  }, [ready]);
+
+  const s = SPECIMENS[i];
 
   return (
-    <svg className="brand-intro__rough" viewBox={ROUGH_VIEWBOX} aria-hidden="true" focusable="false">
-      <path
-        d={f.d}
-        strokeWidth={f.w}
-        strokeDasharray={f.dash === 'none' ? undefined : f.dash}
-        opacity={f.opacity}
-      />
-    </svg>
+    <span
+      className="brand-intro__specimen"
+      lang={s.lang}
+      dir={s.dir}
+      style={{
+        fontFamily: `"${s.family}", ${s.fallback}`,
+        fontWeight: s.weight,
+        fontStyle: s.style,
+        letterSpacing: s.tracking,
+        fontSize: `${s.scale}em`,
+      }}
+    >
+      {s.text}
+    </span>
   );
 };
 
-/* The mark's two faces: the real letterforms, and the drawn ones. Only
-   the solid face sits in normal flow, so it alone defines the box the
-   flight is measured from — the sketch is laid over it and deliberately
-   overshoots, the way a drawn line runs past its corner. */
-const MarkFaces = ({ mark, sketch }) =>
-  sketch ? (
+/* The mark's two faces: its own setting, and whatever it is being set as
+   at that moment. Only the first sits in normal flow, so it alone defines
+   the box the flight is measured from — every specimen is its own width
+   and would otherwise shove that box around eight times a second. */
+const MarkFaces = ({ mark, specimens }) =>
+  specimens ? (
     <>
       <motion.span
         className="brand-intro__face"
@@ -394,11 +414,11 @@ const MarkFaces = ({ mark, sketch }) =>
         {mark}
       </motion.span>
       <motion.span
-        className="brand-intro__sketch"
+        className="brand-intro__alt"
         animate={{ opacity: SKETCH_FADE }}
         transition={sketchTiming}
       >
-        <RoughMark />
+        <SpecimenMark />
       </motion.span>
     </>
   ) : (
@@ -468,7 +488,7 @@ export const BrandIntro = ({ mark = 'AM', target = '.navbar__logo', onDone }) =>
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.45, ease: 'easeOut', delay: 0.05 }}
         >
-          <MarkFaces mark={mark} sketch />
+          <MarkFaces mark={mark} specimens />
         </motion.span>
       </motion.div>
 
