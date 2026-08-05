@@ -3,21 +3,32 @@
    specimens: the same two initials in different faces, weights and
    writing systems, the way a designer flips through a specimen book.
 
-   The scripts mean something rather than being exotic — the Han and
-   katakana forms transliterate A-M, they are not decoration.
+   The scripts mean something rather than being exotic — 艾姆 and アム
+   transliterate A-M, and 아모 are the initials of 아마드 모신.
+
+   The three CJK settings are deliberately from unrelated type
+   families. Noto Sans SC and Noto Sans JP were used before and read
+   as one specimen shown twice: they are the same typeface design with
+   different glyph coverage, so nothing changed between them but the
+   script. These three are a Song-flavoured display face, a rounded
+   gothic and a humanist sans — three different hands.
+
+   They are also set light. A 900-weight Han glyph is a solid block of
+   ink next to Latin caps; at 400 the setting reads as letterforms
+   rather than as a dark rectangle.
 
    Each specimen holds for a fraction of a second, so what has to
    change between neighbours is the whole colour of the letterform:
    weight, contrast, or script. Two sans faces a weight apart would
    read as one specimen held twice — which is why the order alternates
-   heavy against light and Latin against everything else.
+   Latin against everything else.
 
    `scale` is measured, not chosen. Every face draws a different amount
-   of ink at the same em — Han fills its whole body, a Garamond sits
-   well under its cap line — so each was measured with canvas ink
-   metrics and scaled to land on Inter's cap height. Eyeballed values
-   were out by up to 35%, which shows as the mark lurching between
-   settings.                                                        */
+   of ink at the same em, so each was measured with canvas ink metrics
+   and scaled to land on Inter's cap height, then trimmed to 0.92 of
+   that: CJK glyphs fill their body where Latin caps do not, so equal
+   ink height still reads too large. Eyeballed values were out by up to
+   35%, which shows as the mark lurching between settings.          */
 
 export const SPECIMENS = [
   {
@@ -34,6 +45,21 @@ export const SPECIMENS = [
     dir: 'ltr',
   },
   {
+    /* Chinese. A light Song-flavoured display face — nothing like the
+       gothic used for the kana. Single weight. */
+    key: 'hanzi',
+    text: '艾姆',
+    family: 'ZCOOL XiaoWei',
+    fallback: 'serif',
+    weight: 400,
+    style: 'normal',
+    tracking: '0',
+    /* measured 0.854, trimmed to 0.92 */
+    scale: 0.79,
+    lang: 'zh-Hans',
+    dir: 'ltr',
+  },
+  {
     key: 'mono',
     text: 'AM',
     family: 'JetBrains Mono',
@@ -47,23 +73,25 @@ export const SPECIMENS = [
     dir: 'ltr',
   },
   {
-    key: 'hanzi',
-    text: '艾姆',
-    family: 'Noto Sans SC',
+    /* Japanese. Rounded gothic — soft terminals, no serifs, the
+       opposite hand to the Chinese setting. Single weight. */
+    key: 'kana',
+    text: 'アム',
+    family: 'Kosugi Maru',
     fallback: 'sans-serif',
-    weight: 900,
+    weight: 400,
     style: 'normal',
     tracking: '0',
-    /* Han fills its body; 0.93 optical trim applied */
-    scale: 0.71,
-    lang: 'zh-Hans',
+    /* measured 0.891, trimmed to 0.92 */
+    scale: 0.82,
+    lang: 'ja',
     dir: 'ltr',
   },
   {
     /* Upright, not italic. The classical counterpoint to the grotesques
-       around it comes from the serifs and the stroke modulation; the
-       slant was doing nothing for it. Every Cormorant weight shares one
-       cap height, so the scale holds whichever is used. */
+       around it comes from the serifs and the stroke modulation. Every
+       Cormorant weight shares one cap height, so the scale holds
+       whichever is used. */
     key: 'cormorant',
     text: 'AM',
     family: 'Cormorant Garamond',
@@ -77,6 +105,21 @@ export const SPECIMENS = [
     dir: 'ltr',
   },
   {
+    /* Korean. A humanist sans, narrower and lighter than either of the
+       other two scripts. Single weight. */
+    key: 'hangul',
+    text: '아모',
+    family: 'Gowun Dodum',
+    fallback: 'sans-serif',
+    weight: 400,
+    style: 'normal',
+    tracking: '0',
+    /* measured 0.854, trimmed to 0.92 */
+    scale: 0.79,
+    lang: 'ko',
+    dir: 'ltr',
+  },
+  {
     key: 'inter-thin',
     text: 'AM',
     family: 'Inter',
@@ -87,19 +130,6 @@ export const SPECIMENS = [
     /* same cap height as Inter */
     scale: 1,
     lang: 'en',
-    dir: 'ltr',
-  },
-  {
-    key: 'katakana',
-    text: 'アム',
-    family: 'Noto Sans JP',
-    fallback: 'sans-serif',
-    weight: 700,
-    style: 'normal',
-    tracking: '0',
-    /* kana fills its body; 0.93 optical trim applied */
-    scale: 0.79,
-    lang: 'ja',
     dir: 'ltr',
   },
   {
