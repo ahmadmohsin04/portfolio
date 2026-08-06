@@ -64,9 +64,10 @@ const YouTube = () => {
               <span className="youtube__topics">{topics.join(' · ')}</span>
             </span>
 
-            <span className="idx__arrow">
-              <FiArrowUpRight size={22} />
-            </span>
+            <span className="idx__view">
+                Visit
+                <FiArrowUpRight size={15} />
+              </span>
           </a>
         </Reveal>
 

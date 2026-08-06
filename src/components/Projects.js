@@ -100,8 +100,9 @@ const Projects = () => (
                 {p.live && <span className="idx__live">Live</span>}
               </span>
 
-              <span className="idx__arrow">
-                <FiArrowUpRight size={22} />
+              <span className="idx__view">
+                View
+                <FiArrowUpRight size={15} />
               </span>
 
               {p.shot && (

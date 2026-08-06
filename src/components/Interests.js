@@ -51,8 +51,9 @@ const Interests = () => {
                 </span>
               </span>
               <span className="idx__meta">Obsessive film watcher</span>
-              <span className="idx__arrow">
-                <FiArrowUpRight size={22} />
+              <span className="idx__view">
+                View
+                <FiArrowUpRight size={15} />
               </span>
             </a>
           </StaggerItem>

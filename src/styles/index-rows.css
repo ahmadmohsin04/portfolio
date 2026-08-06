@@ -20,7 +20,9 @@
 .idx__row {
   position: relative;
   display: grid;
-  grid-template-columns: 3.25rem minmax(0, 1fr) minmax(0, 20ch) 2.25rem;
+  /* Last column sizes to the button, and collapses to nothing on the
+     static rows that do not have one. */
+  grid-template-columns: 3.25rem minmax(0, 1fr) minmax(0, 20ch) auto;
   align-items: center;
   gap: 0 28px;
   padding: 30px 4px 32px;
@@ -70,19 +72,42 @@ a.idx__row:hover .idx__title { transform: translateX(10px); }
 /* Stepped back so the preview has somewhere to land without a clash. */
 a.idx__row:hover .idx__meta { opacity: 0; }
 
-/* ─── Arrow ─── */
-.idx__arrow {
+/* ─── View button ──────────────────────────────────────────────
+   An arrow on its own says "something happens here" without saying
+   what, so each linked row carries a labelled control instead.
+
+   It is a span, not a link: the row itself is already the anchor and
+   nesting one inside another is invalid. The whole row stays the
+   click target — this only has to look like the thing you press. */
+.idx__view {
   justify-self: end;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  color: var(--ink-3);
-  transition: transform var(--transition), color var(--transition);
+  gap: 7px;
+  padding: 9px 13px 9px 15px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  white-space: nowrap;
+  transition: background var(--transition), color var(--transition),
+              border-color var(--transition);
 }
-a.idx__row:hover .idx__arrow {
-  color: var(--accent);
-  transform: translateX(6px);
+
+/* Fills on hover, the same move .btn--ghost makes, so it belongs to the
+   same family as every other control on the site. */
+a.idx__row:hover .idx__view {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
 }
+
+.idx__view svg { transition: transform var(--transition); }
+a.idx__row:hover .idx__view svg { transform: translate(2px, -2px); }
 
 /* ─── Hover preview ───────────────────────────────────────────
    Rows without imagery simply do not render one, so a project with
@@ -90,7 +115,9 @@ a.idx__row:hover .idx__arrow {
 .idx__preview {
   position: absolute;
   top: 50%;
-  right: 4.5rem;
+  /* Clear of the View button, which sits in the last column and is
+     about 84px wide — at 4.5rem the screenshot slid underneath it. */
+  right: 8.5rem;
   width: 208px;
   height: 128px;
   overflow: hidden;
@@ -136,7 +163,7 @@ a.idx__row:hover .idx__preview {
 @media (max-width: 860px) {
   .idx { margin-top: 44px; }
   .idx__row {
-    grid-template-columns: 2.5rem minmax(0, 1fr) 1.75rem;
+    grid-template-columns: 2.5rem minmax(0, 1fr);
     gap: 0 16px;
     padding: 22px 0 24px;
   }
@@ -148,7 +175,14 @@ a.idx__row:hover .idx__preview {
     font-size: 0.68rem;
   }
   .idx__num  { grid-row: 1; align-self: start; padding-top: 4px; }
-  .idx__arrow { grid-row: 1; }
+  /* Its own line rather than a squeezed third column — at this width a
+     column for it would leave the titles wrapping to fit around it. */
+  .idx__view {
+    grid-column: 2 / 3;
+    grid-row: 3;
+    justify-self: start;
+    margin-top: 18px;
+  }
 }
 
 /* ─── The lead row ─────────────────────────────────────────────

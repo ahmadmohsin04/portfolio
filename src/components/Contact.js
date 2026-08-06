@@ -48,8 +48,9 @@ const Contact = () => (
 
               <span className="idx__meta">business.ahmadmohsin@gmail.com</span>
 
-              <span className="idx__arrow">
-                <FiArrowUpRight size={22} />
+              <span className="idx__view">
+                Open
+                <FiArrowUpRight size={15} />
               </span>
             </a>
           </StaggerItem>
@@ -74,8 +75,9 @@ const Contact = () => (
 
               <span className="idx__meta">ahmad-mohsin01</span>
 
-              <span className="idx__arrow">
-                <FiArrowUpRight size={22} />
+              <span className="idx__view">
+                Open
+                <FiArrowUpRight size={15} />
               </span>
             </a>
           </StaggerItem>
