@@ -1,69 +1,20 @@
-.skills__grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 0;
-  margin-top: 80px;
-  border-top: 1px solid var(--line);
-  border-left: 1px solid var(--line);
-}
+/* ─── Skills ───────────────────────────────────────────────────
+   The rows themselves come from the shared index vocabulary in
+   styles/index-rows.css. All that belongs here is the mark that
+   sits in front of each name: sized in em so it tracks the title
+   as it scales, and carrying the brand colour from the data. */
 
-.skill-card {
-  padding: 40px 28px;
-  text-align: left;
-  position: relative;
-  overflow: hidden;
-  background: transparent;
-  border: none;
-  border-right: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  border-radius: 0;
-  transition: background var(--transition);
-}
-
-.skill-card:hover {
-  transform: none;
-  background: var(--surface-2);
-  border-color: var(--line);
-}
-
-.skill-card__icon {
-  margin-bottom: 26px;
+.skills__icon {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 0.42em;
   line-height: 0;
-  transition: transform var(--transition);
-}
-.skill-card:hover .skill-card__icon {
-  transform: translateY(-4px);
 }
 
-.skill-card__name {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: var(--track-title);
-  color: var(--ink);
-  margin-bottom: 12px;
-}
-
-.skill-card__desc {
-  font-size: 0.84rem;
-  color: var(--ink-2);
-  line-height: 1.6;
-}
-
-/* The old radial glow is retired in this flat system */
-.skill-card__glow { display: none; }
-
-@media (max-width: 1100px) {
-  .skills__grid { grid-template-columns: repeat(3, 1fr); }
-}
-
-@media (max-width: 700px) {
-  .skills__grid { grid-template-columns: repeat(2, 1fr); margin-top: 52px; }
-  .skill-card { padding: 28px 20px; }
-  .skill-card__name { font-size: 1.25rem; }
-}
-
-@media (max-width: 420px) {
-  .skills__grid { grid-template-columns: 1fr; }
+/* Overrides the size the react-icons component sets as an
+   attribute, so one number here governs every mark. */
+.skills__icon svg {
+  display: block;
+  width: 0.66em;
+  height: 0.66em;
 }

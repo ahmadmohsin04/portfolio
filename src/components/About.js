@@ -37,12 +37,15 @@ const About = () => (
         </p>
       </Reveal>
 
-      <StaggerGroup className="about__timeline">
-        {timeline.map((item) => (
-          <StaggerItem key={item.label} className="about__step glass-card">
-            <div className="about__step-icon">{item.icon}</div>
-            <div className="about__step-label">{item.label}</div>
-            <div className="about__step-desc">{item.desc}</div>
+      <StaggerGroup className="idx">
+        {timeline.map((item, i) => (
+          <StaggerItem key={item.label} className="idx__row idx__row--static">
+            <span className="idx__num">{String(i + 1).padStart(2, '0')}</span>
+            <span className="idx__body">
+              <span className="about__step-icon">{item.icon}</span>
+              <span className="idx__title">{item.label}</span>
+            </span>
+            <span className="idx__meta">{item.desc}</span>
           </StaggerItem>
         ))}
       </StaggerGroup>

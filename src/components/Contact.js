@@ -1,6 +1,7 @@
 import React from 'react';
 import { HiMail } from 'react-icons/hi';
 import { FaLinkedin } from 'react-icons/fa';
+import { FiArrowUpRight } from 'react-icons/fi';
 import { Reveal, MaskedText, StaggerGroup, StaggerItem } from './motion/Motion';
 import './Contact.css';
 
@@ -28,19 +29,28 @@ const Contact = () => (
           </Reveal>
         </div>
 
-        <StaggerGroup className="contact__links" stagger={0.1}>
+        <StaggerGroup className="idx contact__index" stagger={0.1}>
           <StaggerItem>
             <a
               href="mailto:business.ahmadmohsin@gmail.com"
-              className="contact-link glass-card"
+              className="idx__row idx__row--lead"
             >
-              <div className="contact-link__icon contact-link__icon--email">
-                <HiMail size={24} />
-              </div>
-              <div>
-                <div className="contact-link__label">Email</div>
-                <div className="contact-link__value">business.ahmadmohsin@gmail.com</div>
-              </div>
+              <span className="idx__num">01</span>
+
+              <span className="idx__body">
+                <span className="idx__title">
+                  <span className="contact__mark" aria-hidden="true">
+                    <HiMail />
+                  </span>
+                  Email
+                </span>
+              </span>
+
+              <span className="idx__meta">business.ahmadmohsin@gmail.com</span>
+
+              <span className="idx__arrow">
+                <FiArrowUpRight size={22} />
+              </span>
             </a>
           </StaggerItem>
 
@@ -49,15 +59,24 @@ const Contact = () => (
               href="https://www.linkedin.com/in/ahmad-mohsin01"
               target="_blank"
               rel="noopener noreferrer"
-              className="contact-link glass-card"
+              className="idx__row idx__row--lead"
             >
-              <div className="contact-link__icon contact-link__icon--linkedin">
-                <FaLinkedin size={24} />
-              </div>
-              <div>
-                <div className="contact-link__label">LinkedIn</div>
-                <div className="contact-link__value">ahmad-mohsin01</div>
-              </div>
+              <span className="idx__num">02</span>
+
+              <span className="idx__body">
+                <span className="idx__title">
+                  <span className="contact__mark" aria-hidden="true">
+                    <FaLinkedin />
+                  </span>
+                  LinkedIn
+                </span>
+              </span>
+
+              <span className="idx__meta">ahmad-mohsin01</span>
+
+              <span className="idx__arrow">
+                <FiArrowUpRight size={22} />
+              </span>
             </a>
           </StaggerItem>
         </StaggerGroup>

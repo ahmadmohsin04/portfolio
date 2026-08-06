@@ -52,23 +52,28 @@ const Skills = () => (
       </h2>
 
       <Reveal delay={0.1}>
-        <p className="section-subtitle">
+        <p className="idx__lead">
           A focused stack, chosen for real-world impact and production-ready results.
         </p>
       </Reveal>
 
-      <StaggerGroup className="skills__grid" stagger={0.07}>
-        {skills.map((skill) => (
-          <StaggerItem key={skill.name} className="skill-card glass-card">
-            <div className="skill-card__icon" style={{ color: skill.color }}>
-              {skill.icon}
+      <StaggerGroup className="idx" stagger={0.07}>
+        {skills.map((skill, i) => (
+          <StaggerItem key={skill.name}>
+            <div className="idx__row idx__row--static">
+              <span className="idx__num">{String(i + 1).padStart(2, '0')}</span>
+
+              <span className="idx__body">
+                <span className="idx__title">
+                  <span className="skills__icon" style={{ color: skill.color }} aria-hidden="true">
+                    {skill.icon}
+                  </span>
+                  {skill.name}
+                </span>
+              </span>
+
+              <span className="idx__meta">{skill.desc}</span>
             </div>
-            <div className="skill-card__name">{skill.name}</div>
-            <div className="skill-card__desc">{skill.desc}</div>
-            <div
-              className="skill-card__glow"
-              style={{ background: `radial-gradient(circle at center, ${skill.color}22, transparent 70%)` }}
-            />
           </StaggerItem>
         ))}
       </StaggerGroup>

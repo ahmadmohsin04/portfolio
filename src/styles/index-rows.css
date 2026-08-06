@@ -1,0 +1,193 @@
+/* ─── The index ────────────────────────────────────────────────
+   The interior used to be a deck of cards: every section was a
+   heading over a grid of bordered boxes, so a production platform,
+   a language, and a hobby all arrived in the same rectangle. Seven
+   sections, one rhythm, and nothing ranked.
+
+   This replaces the box with the row. A number, a name set large,
+   its detail set small, a rule, and the next one — the way a
+   contents page or a set of credits is built. Density instead of
+   padding, and the type carries the hierarchy rather than a border.
+
+   Shared vocabulary, used by every section on the home page so they
+   read as one document. */
+
+.idx {
+  border-top: 1px solid var(--line);
+  margin-top: 64px;
+}
+
+.idx__row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 3.25rem minmax(0, 1fr) minmax(0, 20ch) 2.25rem;
+  align-items: center;
+  gap: 0 28px;
+  padding: 30px 4px 32px;
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+  color: inherit;
+  /* The hover preview slides in from beyond the right edge. */
+  overflow: hidden;
+  transition: background var(--transition);
+}
+
+a.idx__row:hover { background: var(--surface-2); }
+
+/* ─── Number ─── */
+.idx__num {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-3);
+  transition: color var(--transition);
+}
+a.idx__row:hover .idx__num { color: var(--accent); }
+
+/* ─── Name ─── */
+.idx__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 3.1vw, 2.5rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1;
+  letter-spacing: var(--track-title);
+  color: var(--ink);
+  transition: transform var(--transition), color var(--transition);
+}
+a.idx__row:hover .idx__title { transform: translateX(10px); }
+
+/* ─── Detail ─── */
+.idx__meta {
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  line-height: 1.5;
+  transition: opacity var(--transition);
+}
+/* Stepped back so the preview has somewhere to land without a clash. */
+a.idx__row:hover .idx__meta { opacity: 0; }
+
+/* ─── Arrow ─── */
+.idx__arrow {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-3);
+  transition: transform var(--transition), color var(--transition);
+}
+a.idx__row:hover .idx__arrow {
+  color: var(--accent);
+  transform: translateX(6px);
+}
+
+/* ─── Hover preview ───────────────────────────────────────────
+   Rows without imagery simply do not render one, so a project with
+   no screenshot degrades to a plain row rather than a gap. */
+.idx__preview {
+  position: absolute;
+  top: 50%;
+  right: 4.5rem;
+  width: 208px;
+  height: 128px;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(28px, -50%);
+  transition: opacity 0.4s var(--transition), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.idx__preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+a.idx__row:hover .idx__preview {
+  opacity: 1;
+  transform: translate(0, -50%);
+}
+
+/* ─── Row without a link (skills, interests) ─── */
+.idx__row--static { cursor: default; }
+
+/* ─── Section lead-in used above an index ─── */
+.idx__lead {
+  font-size: 1.0625rem;
+  color: var(--ink-2);
+  max-width: 52ch;
+  line-height: 1.65;
+}
+
+/* ═══ Coarse pointers get no hover preview at all ═══
+   It cannot be triggered without a cursor, and loading eight images
+   for something a phone can never show is pure waste. */
+@media (hover: none), (pointer: coarse) {
+  .idx__preview { display: none; }
+  a.idx__row:hover .idx__meta { opacity: 1; }
+  a.idx__row:hover .idx__title { transform: none; }
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 860px) {
+  .idx { margin-top: 44px; }
+  .idx__row {
+    grid-template-columns: 2.5rem minmax(0, 1fr) 1.75rem;
+    gap: 0 16px;
+    padding: 22px 0 24px;
+  }
+  /* The detail drops under the name instead of taking its own column. */
+  .idx__meta {
+    grid-column: 2 / 3;
+    grid-row: 2;
+    margin-top: 10px;
+    font-size: 0.68rem;
+  }
+  .idx__num  { grid-row: 1; align-self: start; padding-top: 4px; }
+  .idx__arrow { grid-row: 1; }
+}
+
+/* ─── The lead row ─────────────────────────────────────────────
+   An index makes every row the same width, so the featured project
+   would lose the prominence it had as a full-bleed card. It keeps it
+   here through type instead: a larger name, and one line of copy that
+   no other row carries. */
+.idx__row--lead .idx__title {
+  font-size: clamp(1.7rem, 4.4vw, 3.4rem);
+}
+
+.idx__note {
+  display: block;
+  margin-top: 12px;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  letter-spacing: -0.012em;
+  color: var(--ink-2);
+  max-width: 38ch;
+  transition: color var(--transition);
+}
+
+/* ─── Live marker ─── */
+.idx__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-left: 12px;
+  color: var(--accent);
+}
+.idx__live::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+@media (max-width: 860px) {
+  .idx__body { grid-column: 2 / 3; }
+  .idx__note { font-size: 0.88rem; margin-top: 8px; max-width: none; }
+}

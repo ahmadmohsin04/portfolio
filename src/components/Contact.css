@@ -20,93 +20,37 @@
   max-width: 46ch;
 }
 
-/* ─── Links as full-width editorial rows ─── */
-.contact__links {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  border-top: 1px solid var(--line);
-}
+/* ─── The two ways out ─────────────────────────────────────────
+   Both rows come from the shared index vocabulary and both are set
+   as lead rows, because this is the last thing on the page and the
+   page should close on something the size of an ending. Only the
+   two details below are particular to this section. */
 
-.contact-link {
-  display: flex;
-  align-items: center;
-  gap: 26px;
-  padding: 34px 0;
-  text-decoration: none;
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid var(--line);
-  border-radius: 0;
-  position: relative;
-  transition: padding var(--transition);
-}
-.contact-link:hover {
-  transform: none;
-  background: transparent;
-  border-color: var(--line);
-  padding-left: 20px;
-}
-
-.contact-link::after {
-  content: '↗';
-  margin-left: auto;
-  font-size: 1.4rem;
+/* The icons survive the loss of their tiles as a mark inline with
+   the name, sized off it so it tracks the row's own type scale
+   instead of being pinned to one pixel size. */
+.contact__mark {
+  display: inline-block;
+  margin-right: 0.4em;
+  font-size: 0.5em;
   color: var(--ink-3);
-  transition: color var(--transition), transform var(--transition);
+  transition: color var(--transition);
 }
-.contact-link:hover::after {
-  color: var(--accent);
-  transform: translate(4px, -4px);
-}
+.contact__mark svg { display: block; }
+.contact__index a.idx__row:hover .contact__mark { color: var(--accent); }
 
-.contact-link__icon {
-  width: 46px;
-  height: 46px;
-  border-radius: var(--radius-sm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  border: 1px solid var(--line);
-  color: var(--ink);
-  transition: background var(--transition), color var(--transition), border-color var(--transition);
+/* Elsewhere the right-hand column is a caps label — a stack, a year —
+   and it steps aside on hover to clear the preview. Here it is the
+   address itself: the one thing on the row worth copying down, so it
+   is left in its own case and left on screen. */
+.contact__index .idx__meta {
+  text-transform: none;
+  letter-spacing: 0.01em;
+  overflow-wrap: anywhere;
 }
-.contact-link:hover .contact-link__icon {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--accent-ink);
-}
-
-.contact-link__label {
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-  margin-bottom: 7px;
-}
-
-.contact-link__value {
-  font-family: var(--font-display);
-  font-size: clamp(1.1rem, 2.4vw, 1.9rem);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: var(--track-title);
-  line-height: 1;
-  color: var(--ink);
-  word-break: break-word;
-}
+.contact__index a.idx__row:hover .idx__meta { opacity: 1; }
 
 /* ─── Responsive ─── */
 @media (max-width: 600px) {
   .contact__header { margin-bottom: 44px; }
-  .contact-link {
-    gap: 16px;
-    padding: 24px 0;
-  }
-  .contact-link:hover { padding-left: 0; }
-  .contact-link__icon { width: 38px; height: 38px; }
-  .contact-link__icon svg { width: 18px; height: 18px; }
-  .contact-link::after { font-size: 1.1rem; }
 }

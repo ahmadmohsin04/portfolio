@@ -12,6 +12,8 @@ import ChessDetail from './pages/ChessDetail';
 import StockPipelineDetail from './pages/StockPipelineDetail';
 import CartographerDetail from './pages/CartographerDetail';
 import { useSmoothScroll } from './components/motion/Motion';
+// The shared row vocabulary the home page's sections are built from.
+import './styles/index-rows.css';
 // Imported last so the redesign's flat overrides win on equal specificity.
 import './styles/detail-overrides.css';
 

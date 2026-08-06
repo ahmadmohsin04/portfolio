@@ -1,5 +1,6 @@
 import React from 'react';
-import { FaYoutube, FaPlay, FaExternalLinkAlt } from 'react-icons/fa';
+import { FaYoutube, FaExternalLinkAlt } from 'react-icons/fa';
+import { FiArrowUpRight } from 'react-icons/fi';
 import { Reveal, MaskedText } from './motion/Motion';
 import './YouTube.css';
 
@@ -23,75 +24,71 @@ const YouTube = () => {
         </h2>
 
         <Reveal delay={0.1}>
-          <p className="section-subtitle">
+          <p className="idx__lead">
             Code, campus, and everything in between — documented on YouTube.
           </p>
         </Reveal>
 
-        <Reveal className="youtube__card glass-card" delay={0.06}>
-          <div className="youtube__glow" />
-          <FaPlay className="youtube__watermark" aria-hidden="true" />
+        {/* One channel, so one row — but a lead row: the name at full size
+            with a line of copy under it, the handle and the topics kept in
+            the detail column where every other section puts its detail. */}
+        <Reveal className="idx" delay={0.06}>
+          <a
+            href={CHANNEL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="idx__row idx__row--lead"
+          >
+            <span className="idx__num">01</span>
 
-          <div className="youtube__avatar-wrap">
-            <div className="youtube__avatar-ring">
-              <img
-                src="/images/yt-avatar.jpg"
-                alt="Ahmad Mohsin — YouTube channel"
-                className="youtube__avatar"
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
-            <div className="youtube__avatar-badge">
-              <FaYoutube size={15} />
-            </div>
-          </div>
+            <span className="idx__body">
+              <span className="youtube__id">
+                <img
+                  src="/images/yt-avatar.jpg"
+                  alt="Ahmad Mohsin — YouTube channel"
+                  className="youtube__avatar"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span className="idx__title">Ahmad Mohsin</span>
+              </span>
+              <span className="idx__note">
+                A student sharing coding projects, campus life, and the adventures along
+                the way. The projects on this portfolio have a story behind them — the
+                channel is where I tell it.
+              </span>
+            </span>
 
-          <div className="youtube__body">
-            <div className="youtube__channel-name">Ahmad Mohsin</div>
-            <a
-              href={CHANNEL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="youtube__handle"
-            >
+            <span className="idx__meta">
               @ahmadmohsin7
-            </a>
-            <p className="youtube__desc">
-              A student sharing coding projects, campus life, and the adventures along
-              the way. The projects on this portfolio have a story behind them — the
-              channel is where I tell it.
-            </p>
-            <div className="youtube__topics">
-              {topics.map((t) => (
-                <span key={t} className="youtube__topic">
-                  <span className="youtube__topic-dot" />
-                  {t}
-                </span>
-              ))}
-            </div>
-          </div>
+              <span className="youtube__topics">{topics.join(' · ')}</span>
+            </span>
 
-          <div className="youtube__actions">
-            <a
-              href={CHANNEL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="youtube__btn--subscribe"
-            >
-              <FaYoutube size={17} />
-              Subscribe
-            </a>
-            <a
-              href={CHANNEL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn--ghost"
-            >
-              View Channel
-              <FaExternalLinkAlt size={11} />
-            </a>
-          </div>
+            <span className="idx__arrow">
+              <FiArrowUpRight size={22} />
+            </span>
+          </a>
+        </Reveal>
+
+        <Reveal className="youtube__actions" delay={0.05}>
+          <a
+            href={CHANNEL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="youtube__btn--subscribe"
+          >
+            <FaYoutube size={17} />
+            Subscribe
+          </a>
+          <a
+            href={CHANNEL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn--ghost"
+          >
+            View Channel
+            <FaExternalLinkAlt size={11} />
+          </a>
         </Reveal>
       </div>
     </section>

@@ -1,216 +1,133 @@
 import React from 'react';
-import { FaLinkedin, FaExternalLinkAlt, FaArrowRight, FaFigma, FaGithub } from 'react-icons/fa';
+import { FaLinkedin, FaExternalLinkAlt } from 'react-icons/fa';
+import { FiArrowUpRight } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { Reveal, MaskedText, StaggerGroup, StaggerItem } from './motion/Motion';
 import './Projects.css';
 
+/* `shot` is the hover preview. Al-Mushtaraka has no screenshot in the
+   repo, so it simply renders without one — the row degrades rather than
+   leaving a hole. */
 const projects = [
-  /* The featured project leads. It spans the full width of the grid, and
-     a full-width card sitting second would leave the cell beside the
-     first one empty — so being featured decides the order too. */
   {
     title: 'Al-Mushtaraka',
-    tech: ['React', 'Supabase', 'jsPDF', 'React Router'],
-    desc: 'A production-grade trading operations platform — multi-module system with agreements, remote signing, customer management, admin panel, and PDF generation.',
+    stack: 'React · Supabase · jsPDF',
+    note: 'A production trading platform, running live with real customers.',
     link: '/projects/almushtaraka',
-    live: 'https://www.almushtaraka.com',
-    featured: true,
-    type: 'web',
+    lead: true,
+    live: true,
   },
   {
     title: 'Codebase Cartographer',
-    tech: ['Next.js', 'TypeScript', 'React Flow', 'Anthropic API', 'GitHub API'],
-    desc: 'Paste any public GitHub repo and get an interactive, narrated map of its architecture — a dependency graph, a guided tour, and a plain-English explanation of every file. Handles 1,000+ file repos across 8 languages.',
+    stack: 'Next.js · TypeScript · Anthropic API',
     link: '/projects/codebase-cartographer',
-    live: 'https://codebase-cartographer-mohsin.vercel.app',
-    liveLabel: 'Live Demo',
-    github: 'https://github.com/ahmadmohsin04/codebase_cartographer',
-    featured: false,
-    type: 'tool',
+    shot: '/images/cartographer/overview.webp',
+    live: true,
   },
   {
     title: 'Real-Time Stock Pipeline',
-    tech: ['Python', 'pandas', 'SQLAlchemy', 'Streamlit', 'Docker'],
-    desc: 'An automated data pipeline that ingests live stock prices every 60 seconds, validates and stores them, computes trading metrics, and serves it all on a live auto-refreshing dashboard. Containerized, tested, and deployed.',
+    stack: 'Python · pandas · Docker',
     link: '/projects/stock-pipeline',
-    live: 'https://stock-dashboard-qh6l.onrender.com',
-    github: 'https://github.com/ahmadmohsin04/realtime-stock-pipeline',
-    featured: false,
-    type: 'data',
+    shot: '/images/stock-pipeline/dashboard.png',
+    live: true,
   },
   {
     title: 'Chess Master',
-    tech: ['HTML5', 'CSS3', 'Vanilla JS', 'chess.js', 'Stockfish AI'],
-    desc: 'A fully playable chess game — Stockfish AI at 20 skill levels, dual chess clocks, move history, and sound effects. Built as a single HTML file with zero dependencies.',
+    stack: 'Vanilla JS · chess.js · Stockfish',
     link: '/projects/chess-master',
-    live: 'https://playmasterchess.vercel.app/',
-    linkedin: 'https://www.linkedin.com/posts/ahmad-mohsin01_webdevelopment-javascript-chess-ugcPost-7469432174732210176-TMF8/',
-    featured: false,
-    type: 'web',
+    shot: '/images/chess/first.png',
+    live: true,
   },
   {
     title: 'Habit Tracker',
-    tech: ['Flutter', 'Dart', 'ISAR Database'],
-    desc: 'A fully built Flutter app for tracking daily habits. Features a weekly check-in system, monthly heatmap, local ISAR storage, and full light & dark mode support. Open source on GitHub.',
+    stack: 'Flutter · Dart · ISAR',
     link: '/projects/habit-tracker',
-    live: 'https://github.com/ahmadmohsin04/Habit-Tracker-App',
-    linkedin: null,
-    featured: false,
-    type: 'app',
+    shot: '/images/HabitTracker/hb1.jpeg',
   },
   {
     title: 'Crypto Wallet UI',
-    tech: ['Flutter', 'Dart', 'UI/UX'],
-    desc: 'A dark-themed cryptocurrency wallet interface — onboarding, live balance dashboard with LTV gauge, and a loan management flow. Built to fintech UI standards.',
+    stack: 'Flutter · Dart · UI/UX',
     link: '/projects/crypto-wallet',
-    live: 'https://github.com/ahmadmohsin04/crypto-wallet-ui',
-    linkedin: null,
-    featured: false,
-    type: 'design',
+    shot: '/images/crypto.jpeg',
   },
   {
-    title: 'Komorebi — Student App',
-    tech: ['Flutter', 'Dart', 'UI/UX', 'Mobile Design'],
-    desc: 'A student companion app with 7 screens across academics, productivity, and campus life — schedule, notes, planner, tasks, focus timer, and attendance. Backend in development.',
+    title: 'Komorebi',
+    stack: 'Flutter · Dart · Mobile Design',
     link: '/projects/komorebi',
-    live: null,
-    linkedin: null,
-    featured: false,
-    type: 'design',
+    shot: '/images/Komorebi/kom1.jpeg',
   },
   {
-    title: 'Medium — Landing Page Redesign',
-    tech: ['Figma', 'UI/UX', 'Design Systems'],
-    desc: "A modern redesign of Medium's landing page — cleaner layout, sharper hierarchy, and a high-conversion feel that holds up equally well on desktop and mobile. Designed in Figma as part of a design-before-code workflow.",
+    title: 'Medium — Landing Page',
+    stack: 'Figma · UI/UX · Design Systems',
     link: '/projects/medium-redesign',
-    live: 'https://www.figma.com/design/ZS4BXedDbppIbjpyhyByTU/Medium-Landing-Page?node-id=0-1',
-    linkedin: 'https://www.linkedin.com/posts/ahmad-mohsin01_figma-uiux-flutterdeveloper-share-7434875421629792257-tDfR',
-    featured: false,
-    type: 'design',
+    shot: '/images/medium-redesign.png',
   },
 ];
 
-const Projects = () => {
-  return (
-    <section id="projects" className="section">
-      <div className="section-inner">
-        <Reveal>
-          <span className="section-tag">Work</span>
-        </Reveal>
+const Projects = () => (
+  <section id="projects" className="section">
+    <div className="section-inner">
+      <Reveal>
+        <span className="section-tag">Work</span>
+      </Reveal>
 
-        <h2 className="section-title">
-          <MaskedText
-            text="Things I've built"
-            wordClassName={(w, i) => (i >= 2 ? 'gradient-text' : '')}
-          />
-        </h2>
+      <h2 className="section-title">
+        <MaskedText
+          text="Things I've built"
+          wordClassName={(w, i) => (i >= 2 ? 'gradient-text' : '')}
+        />
+      </h2>
 
-        <Reveal delay={0.1}>
-          <p className="section-subtitle">
-            I focus on web development, working on production-scale applications.
-          </p>
-        </Reveal>
+      <Reveal delay={0.1}>
+        <p className="idx__lead">
+          Eight projects, newest first. Every one opens onto its own page.
+        </p>
+      </Reveal>
 
-        <StaggerGroup className="projects__grid" stagger={0.06}>
-          {projects.map((p) => (
-            <StaggerItem
-              key={p.title}
-              className={`project-card glass-card ${p.featured ? 'project-card--featured' : ''} project-card--${p.type}`}
-            >
-              {p.featured && <div className="project-card__badge">Featured Project</div>}
-              {p.type === 'web' && !p.featured && (
-                <div className="project-card__badge project-card__badge--web">
-                  🌐 Web App
-                </div>
-              )}
-              {p.type === 'design' && (
-                <div className="project-card__badge project-card__badge--design">
-                  <FaFigma size={10} /> UI/UX Design
-                </div>
-              )}
-              {p.type === 'app' && (
-                <div className="project-card__badge project-card__badge--app">
-                  📱 Flutter App
-                </div>
-              )}
-              {p.type === 'data' && (
-                <div className="project-card__badge project-card__badge--data">
-                  📊 Data Engineering
-                </div>
-              )}
-              {p.type === 'tool' && (
-                <div className="project-card__badge project-card__badge--tool">
-                  🧭 Developer Tool
-                </div>
-              )}
-              <div className="project-card__body">
-                <h3 className="project-card__title">{p.title}</h3>
-                <p className="project-card__desc">{p.desc}</p>
-                <div className="project-card__tags">
-                  {p.tech.map((t) => (
-                    <span key={t} className="tag">{t}</span>
-                  ))}
-                </div>
-              </div>
-              <div className="project-card__actions">
-                {p.link && (
-                  <Link to={p.link} className="btn btn--primary project-card__view-btn">
-                    View Project
-                    <FaArrowRight size={13} />
-                  </Link>
-                )}
-                {p.live && (
-                  <a
-                    href={p.live}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`btn ${p.link ? 'btn--ghost' : 'btn--primary'} project-card__live-btn`}
-                  >
-                    {p.type === 'design'
-                      ? <><FaFigma size={13} /> View Design</>
-                      : <>{p.liveLabel || (p.type === 'data' ? 'Live Demo' : 'Live Site')} <FaExternalLinkAlt size={11} /></>}
-                  </a>
-                )}
-                {p.github && (
-                  <a
-                    href={p.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn btn--ghost project-card__live-btn"
-                  >
-                    <FaGithub size={14} /> Code
-                  </a>
-                )}
-                {p.linkedin && (
-                  <a
-                    href={p.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn btn--ghost project-card__live-btn"
-                  >
-                    <FaLinkedin size={14} /> Post
-                  </a>
-                )}
-              </div>
-            </StaggerItem>
-          ))}
-        </StaggerGroup>
+      <StaggerGroup className="idx" stagger={0.05}>
+        {projects.map((p, i) => (
+          <StaggerItem key={p.title}>
+            <Link to={p.link} className={`idx__row ${p.lead ? 'idx__row--lead' : ''}`}>
+              <span className="idx__num">{String(i + 1).padStart(2, '0')}</span>
 
-        <Reveal className="projects__cta" delay={0.05}>
-          <a
-            href="https://www.linkedin.com/in/ahmad-mohsin01"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn--ghost projects__linkedin-btn"
-          >
-            <FaLinkedin size={18} />
-            More on LinkedIn
-            <FaExternalLinkAlt size={11} />
-          </a>
-        </Reveal>
-      </div>
-    </section>
-  );
-};
+              <span className="idx__body">
+                <span className="idx__title">{p.title}</span>
+                {p.note && <span className="idx__note">{p.note}</span>}
+              </span>
+
+              <span className="idx__meta">
+                {p.stack}
+                {p.live && <span className="idx__live">Live</span>}
+              </span>
+
+              <span className="idx__arrow">
+                <FiArrowUpRight size={22} />
+              </span>
+
+              {p.shot && (
+                <span className="idx__preview" aria-hidden="true">
+                  <img src={p.shot} alt="" loading="lazy" decoding="async" />
+                </span>
+              )}
+            </Link>
+          </StaggerItem>
+        ))}
+      </StaggerGroup>
+
+      <Reveal className="projects__cta" delay={0.05}>
+        <a
+          href="https://www.linkedin.com/in/ahmad-mohsin01"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn btn--ghost projects__linkedin-btn"
+        >
+          <FaLinkedin size={18} />
+          More on LinkedIn
+          <FaExternalLinkAlt size={11} />
+        </a>
+      </Reveal>
+    </div>
+  </section>
+);
 
 export default Projects;
