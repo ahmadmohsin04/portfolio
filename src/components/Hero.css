@@ -154,7 +154,14 @@
 
 /* Below 700px the two columns stack, so the block is four rows tall. */
 @media (max-width: 700px) {
-  .hero__display { min-height: 3.6em; }
+  .hero__display {
+    min-height: 3.6em;
+    /* The desktop clamp bottoms out at 2rem, which stops scaling before
+       the screen does: at 320px "NODE.JS ENGINEER" — the longest row any
+       role produces — ran 14px past the gutter. This keeps shrinking
+       below that and tops out where the old floor was. */
+    font-size: clamp(1.5rem, 8.6vw, 2rem);
+  }
 }
 
 @media (max-width: 600px) {

@@ -36,8 +36,31 @@ const PHRASES = words.flatMap((role) => [
   { left: twoRows(role), right: NAME_ROWS },
 ]);
 
+/* Stacked on a phone the two sides are no longer left and right, they are
+   above and below — so trading them would drop the name underneath the
+   job title every other beat, and the block reads "Full Stack Developer
+   Ahmad Mohsin". On a portfolio the name leads. Same roles, same cycle,
+   just no swap. */
+const PHRASES_STACKED = words.map((role) => ({
+  left: NAME_ROWS,
+  right: twoRows(role),
+}));
+
+const STACKED = '(max-width: 700px)';
+
 const Hero = () => {
   const reduced = useReducedMotion();
+
+  const [stacked, setStacked] = React.useState(
+    () => typeof window !== 'undefined' && window.matchMedia(STACKED).matches
+  );
+
+  React.useEffect(() => {
+    const mq = window.matchMedia(STACKED);
+    const onChange = (e) => setStacked(e.matches);
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, []);
 
   const scrollToAbout = () => {
     document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' });
@@ -65,7 +88,7 @@ const Hero = () => {
         </motion.div>
 
         <div className="hero__display" aria-hidden="true">
-          <SwapLines phrases={PHRASES} startDelay={NAME_DELAY} />
+          <SwapLines phrases={stacked ? PHRASES_STACKED : PHRASES} startDelay={NAME_DELAY} />
         </div>
 
         <motion.div className="hero__meta" {...rise(NAME_DELAY + 0.42)}>

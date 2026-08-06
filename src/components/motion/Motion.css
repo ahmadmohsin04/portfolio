@@ -62,12 +62,20 @@
   will-change: transform;
 }
 
-/* Mirrored on narrow screens: the columns stack and swap their
-   alignment, so the block still reads as two opposed edges. */
+/* Stacked on narrow screens. The mirrored alignment the columns use on
+   a wide screen only reads as "two opposed edges" while they are side by
+   side — stacked, one right-aligned block above a left-aligned one just
+   looks ragged. Both go left so it reads as a single column of type. */
 @media (max-width: 700px) {
   .swap { flex-direction: column; gap: 0; }
-  .swap__side--left  { align-items: flex-end;   text-align: right; }
-  .swap__side--right { align-items: flex-start; text-align: left; }
+  .swap__side--left,
+  .swap__side--right {
+    align-items: flex-start;
+    text-align: left;
+  }
+  /* 0.68em is a lot of air at this size, and it was reading as a gap
+     between two separate words rather than as one phrase. */
+  .swap__row { gap: 0.4em; }
 }
 
 @media (prefers-reduced-motion: reduce) {
